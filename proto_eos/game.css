@@ -1,0 +1,25 @@
+canvas
+{
+    position: absolute; 
+    left: calc(50% - 300px); 
+    top : calc(50%-300px);
+    border: 2px solid black;
+}
+body
+{
+    background-color: rgb(42,69,222);
+}
+#logo
+{
+	position: absolute; 
+	left: calc(50% - 270px); 
+	top : calc(50% - 250px);
+}
+#play
+{
+	position: absolute; 
+	left: calc(50% - 50px); 
+	top : calc(50% - 50px);
+	color: white; 
+	font-size: 50px;
+}
