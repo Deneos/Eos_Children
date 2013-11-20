@@ -17,7 +17,11 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.GetBody().SetFixedRotation(true);      // empécher le player de "rouler"
     that.jumpContacts = false;
 
+    that.windForceX = 0;
+    that.windForceY = 0;
+
     that.listener = new Box2D.Dynamics.b2ContactListener;
+    that.speed = 100;
     that.listener.BeginContact = function(contact) 
     {
         //console.log(contact.GetFixtureA().GetBody().GetUserData());
@@ -38,19 +42,19 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.moveLeft = function()
     {
         var vel = that.GetBody().GetLinearVelocity();
-        vel.x = -100 / 30;
+        vel.x = (-that.speed + that.windForceX)/ 30;
     }
     that.moveRight = function()
     {
         var vel = that.GetBody().GetLinearVelocity();
-        vel.x = 100 / 30;
+        vel.x = (that.speed + that.windForceX)/ 30;
     }
     that.jump = function()
     {
         if(that.jumpContacts==true)
         {
             that.GetBody().ApplyImpulse(
-                new b2Vec2(0, -20),                         // vecteur
+                new b2Vec2(0, -20 + that.windForceY),                         // vecteur
                 that.GetBody().GetWorldCenter()
             );    // point d'application de l'impulsion
             that.jumpContacts = false;

@@ -10,7 +10,7 @@ var Game = function()
     this.end = false;
     this.pause = false;
     this.tabjoint = [];
-    this.player ;
+    this.player = null;
     this.windManager = new WindManager();
     this.update = function()
     {

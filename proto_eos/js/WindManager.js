@@ -9,6 +9,7 @@ var WindManager = function()
 	this.update = function()
 	{
 		this.frame++;
+		this.windAction();
 		if(this.windDirection!=null)
 		{
 			if(this.timeUse>0 && this.menuOpen==false && this.frame%10==0)
@@ -33,16 +34,23 @@ var WindManager = function()
 		switch(this.windDirection)
 		{
 			case "haut" :
+				game.player.windForceY = -20;
 				break;
 			case "bas" :
+				game.player.windForceY = 10;
 				break;
 			case "gauche" :
+				game.player.windForceX = -50;
 				break;
 			case "droite" :
-				break;
-			case null :
+				game.player.windForceX = 50;
 				break;
 			default :
+				if(game.player!=null)
+				{
+					game.player.windForceX = 0;
+					game.player.windForceY = 0;
+				}
 				break;
 		}
 	}

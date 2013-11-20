@@ -68,7 +68,7 @@ function init()
 	game.level.levelBlocs.push(b);
 
 	//creer le player
-	game.ball = new Ball(2,5,1);
+	//game.ball = new Ball(2,5,1);
 	//creer les boites dynamiques
 	var b = new Box(15,10,{w : 1, h : 1},true);
 	game.level.tabDynamicBlocs.push(b);
