@@ -6,11 +6,12 @@ var Game = function()
         ,  true                 //allow sleep
     );
     this.ball = null;
-    this.level = null;
+    //this.level = null;
     this.end = false;
     this.pause = false;
     this.tabjoint = [];
     this.player = null;
+    this.camera = null;
     this.windManager = new WindManager();
     this.update = function()
     {

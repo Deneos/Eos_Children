@@ -36,7 +36,7 @@ this.handleInteractions = function()
             game.player.jump();
     }
     // touches "gauche" et "droite"
-    else if (keys[37]) 
+    if (keys[37]) 
     {
         if(game.windManager!=null && game.windManager.menuOpen==true)
         {
@@ -50,7 +50,7 @@ this.handleInteractions = function()
         if(game.player!=null)
             game.player.moveLeft();
     } 
-    else if (keys[39]) 
+    if (keys[39]) 
     {
         if(game.windManager!=null && game.windManager.menuOpen==true)
         {
@@ -64,7 +64,7 @@ this.handleInteractions = function()
         if(game.player!=null)
             game.player.moveRight();
     }
-    else if (keys[40] || keys[83])
+    if (keys[40] || keys[83])
     {
         if(game.windManager!=null && game.windManager.menuOpen==true)
         {
@@ -76,7 +76,7 @@ this.handleInteractions = function()
             return;
         }
     } 
-    else if (keys[16] || keys[17]) 
+    if (keys[16] || keys[17]) 
     {
         if(game.windManager!=null)
         {    

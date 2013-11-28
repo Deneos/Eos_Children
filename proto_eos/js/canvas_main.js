@@ -3,13 +3,12 @@ var canvas, context;
 var canvasBuffer, contextBuffer;
 var canvasWidth = 600, canvasHeight = 400;
 var img = new Image();
-var bg = new Image();
-var blocimg = new Image();
-var ground = new Image();
 var bodyA;
 var revolute_joint;
 var keys = []; 
 var listener;
+
+
 window.onload = function()
 {
 	//declarer le canvas
@@ -24,29 +23,9 @@ window.onload = function()
 	canvasBuffer.height = canvasHeight;
 	//declarer les images
 	img.src = "asset/melofee.png";
-	ground.src = "asset/ground.png";
 	
 }
-function gameloop()
-{
-	if(game.pause==false)
-    {
-	    game.world.Step(
-	       1 / 60   //frame-rate
-	    ,  10       //velocity iterations
-	    ,  10       //position iterations
-	    );
-
-	    game.world.DrawDebugData();
-	    game.world.ClearForces();
-	    
-    
-    	game.update();
-    }
-    handleInteractions();
-    game.render();
-    requestAnimationFrame(gameloop);
-}; 
+ 
 
 function init() 
 {   
@@ -57,32 +36,31 @@ function init()
 	//initialiser le level
 	game.level = new Level(0);
  	//creer les plateformes
-	var b = new Platform(9,13,13,0.5);
+	var b = new Platform(9,13,20,0.5,"ground");
 	game.level.levelBlocs.push(b);
-	var b = new Platform(0,0,0.5,15);
+	/*var b = new Platform(0,0,0.5,15);
 	game.level.levelBlocs.push(b);
 	var b = new Platform(20,0,0.5,15);
 	game.level.levelBlocs.push(b);
-	//game.level.levelBlocs.push(box2DObjects.createStaticBlocs(9,0,13,0.5));
-	var b = new Platform(9,13,1,5);
+	//game.level.levelBlocs.push(box2DObjects.createStaticBlocs(9,0,13,0.5));*/
+
+	var b = new Platform(9,13,1,6,"ground");
 	game.level.levelBlocs.push(b);
+
+	/*var b = new Platform(8.1,11,0.1,3,"wall");
+	game.level.tabWallBlocs.push(b);
+	var b = new Platform(9.9,11,0.1,3,"wall");
+	game.level.tabWallBlocs.push(b);*/
 
 	//creer le player
 	//game.ball = new Ball(2,5,1);
 	//creer les boites dynamiques
-	var b = new Box(15,10,{w : 1, h : 1},true);
-	game.level.tabDynamicBlocs.push(b);
-	var b = new Box(15,8,{w : 1, h : 1},true);
-	game.level.tabDynamicBlocs.push(b);
-	var b = new Box(15,6,{w : 1, h : 1},true);
-	game.level.tabDynamicBlocs.push(b);
-	var b = new Box(15,4,{w : 1, h : 1},true);
-	game.level.tabDynamicBlocs.push(b);
 	var b = new Box(15,2,{w : 1, h : 1},true);
 	game.level.tabDynamicBlocs.push(b);
 
 
-	game.player =  new Player(4,4,{w : 0.5, h : 1});
+	game.player =  new Player(4,10,{w : 0.5, h : 0.8});
+	game.camera = new Camera();
 	//setup debug draw
  	var debugDraw = new b2DebugDraw();
     debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
@@ -102,14 +80,25 @@ function init()
 	document.addEventListener('keydown', handleKeyDown);
 	document.addEventListener('keyup', handleKeyUp);
 
-	//listener = new Box2D.Dynamics.b2ContactListener;
-    /*listener.BeginContact = function(contact) {
-         console.log(contact.GetFixtureA().GetBody().GetUserData());
-    }
-    listener.EndContact = function(contact) {
-         console.log(contact.GetFixtureA().GetBody().GetUserData());
-    }*/
-    //game.world.SetContactListener(listener);
+	addContactListener();
     //game.tabjoint.push(box2DObjects.createJoint(game.level.levelBlocs[4],game.ball.physicalBody));  
 }
+function gameloop()
+{
+	if(game.pause==false)
+    {
+    	context.clearRect(0,0,canvasWidth,canvasHeight);
+	    game.world.Step(
+	       1 / 60   //frame-rate
+	    ,  10       //velocity iterations
+	    ,  10       //position iterations
+	    );
 
+	    game.world.DrawDebugData();
+	    game.world.ClearForces();    
+    	game.update();
+    }
+    handleInteractions();
+    game.render();
+    requestAnimationFrame(gameloop);
+};

@@ -11,7 +11,7 @@ var Ball = function(x,y,r,density,friction,restitution)
     fixDef.shape = new b2CircleShape(r);
     bodyDef.position.x = x;
     bodyDef.position.y = y;
-    bodyDef.userData = 'sphere';
+    fixDef.userData = 'sphere';
     var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);
     
     that.x = that.GetBody().GetPosition().x*30;
@@ -38,19 +38,19 @@ var Ball = function(x,y,r,density,friction,restitution)
     }
     return that;
 }
-var Platform = function(x,y,w,h,density,friction,restitution)
+var Platform = function(x,y,w,h,tag, density,friction,restitution)
 {
     //fixture definition
     var fixDef = new b2FixtureDef;
     fixDef.density = density || 1.0;       //lourd
     fixDef.friction = friction || 0.5;      //lent
-    fixDef.restitution = restitution || 0.2;   //rebond
+    fixDef.restitution = restitution || 0;   //rebond
     var bodyDef = new b2BodyDef;
     //create ground
     bodyDef.type = b2Body.b2_staticBody;
     bodyDef.position.x = x;
     bodyDef.position.y = y;
-    bodyDef.userData = 'box';
+    fixDef.userData = tag;
     fixDef.shape = new b2PolygonShape;
     fixDef.shape.SetAsBox(w,h);
     var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);    //on cree un objet en prenant la definition du body et la fixture, pour le fixer au body
@@ -75,7 +75,7 @@ var Box = function(x,y,dim,density,friction,restitution)
     fixDef.shape.SetAsBox(dim.w,dim.h);
     bodyDef.position.x = x;
     bodyDef.position.y = y;
-    bodyDef.userData = 'box';
+    fixDef.userData = 'box';
     var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);
     
     that.update = function()

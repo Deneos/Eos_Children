@@ -1,13 +1,3 @@
-function initGame()
-{
-    //fonction au clic
-    canvas.addEventListener("click", mouseCoord);
-
-    //creation du jeu
-    game = new Game();
-
-}
-
 function mouseCoord(event)
 {
 	//pour ne pas prendre en compte la taille de la page

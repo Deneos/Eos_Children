@@ -11,28 +11,27 @@ var Player = function(x,y,dim,density,friction,restitution)
     fixDef.shape.SetAsBox(dim.w,dim.h);
     bodyDef.position.x = x;
     bodyDef.position.y = y;
-    bodyDef.userData = 'player';
+    fixDef.userData = 'player';
+
     var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);
     that.GetBody().SetSleepingAllowed(false);   // l'objet player n'est pas autorisé à passer au repos
     that.GetBody().SetFixedRotation(true);      // empécher le player de "rouler"
-    that.jumpContacts = false;
+    that.jumpContacts = 0;
+
+    // Ajouter des "pieds"
+    that.footDef = new b2FixtureDef();
+    that.footDef.friction = 2;
+    that.footDef.userData = 'foot';
+    that.footDef.shape = new b2PolygonShape();
+    that.footDef.shape.SetAsOrientedBox(13 / 30, 3 / 30,
+            new b2Vec2(0, dim.w / 1.8 / 0.35),   // position par rapport centre du body
+            0                                           // angle d'orientation
+    );
+    that.GetBody().CreateFixture(that.footDef);
 
     that.windForceX = 0;
     that.windForceY = 0;
-
-    that.listener = new Box2D.Dynamics.b2ContactListener;
     that.speed = 100;
-    that.listener.BeginContact = function(contact) 
-    {
-        //console.log(contact.GetFixtureA().GetBody().GetUserData());
-        that.jumpContacts = true;
-    }
-    that.listener.EndContact = function(contact) 
-    {
-        //console.log(contact.GetFixtureA().GetBody().GetUserData());
-        that.jumpContacts = false;
-    }
-    game.world.SetContactListener(that.listener);
 
     that.update = function()
     {
@@ -43,21 +42,23 @@ var Player = function(x,y,dim,density,friction,restitution)
     {
         var vel = that.GetBody().GetLinearVelocity();
         vel.x = (-that.speed + that.windForceX)/ 30;
+        //context.translate(1,0);
+ 
     }
     that.moveRight = function()
     {
         var vel = that.GetBody().GetLinearVelocity();
         vel.x = (that.speed + that.windForceX)/ 30;
+        //context.translate(-1,0);
     }
     that.jump = function()
     {
-        if(that.jumpContacts==true)
+        if(that.jumpContacts > 0)//==true)
         {
             that.GetBody().ApplyImpulse(
-                new b2Vec2(0, -20 + that.windForceY),                         // vecteur
+                new b2Vec2(0, -12 + that.windForceY),                         // vecteur
                 that.GetBody().GetWorldCenter()
             );    // point d'application de l'impulsion
-            that.jumpContacts = false;
         }
     }
     that.stopMoving =function()
@@ -72,4 +73,50 @@ var Player = function(x,y,dim,density,friction,restitution)
     }
 
     return that;
+}
+
+this.addContactListener = function() {
+    //Add listeners for contact
+    var listener = new b2Listener;
+     
+    // Entrée en contact
+    listener.BeginContact = function(contact) {
+        var obj1 = contact.GetFixtureA();
+        var obj2 = contact.GetFixtureB();
+        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+            if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {                  
+                game.player.jumpContacts ++; // le joueur entre en contact avec une plate-forme de saut
+            }
+        }
+    }
+     
+    // Fin de contact
+    listener.EndContact = function(contact) {
+        var obj1 = contact.GetFixtureA();
+        var obj2 = contact.GetFixtureB();
+        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+            if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {
+                game.player.jumpContacts --; // le joueur quitte une plate-forme de saut
+            }
+        }
+    }
+    game.world.SetContactListener(listener);
+}
+// Déterminer si l'objet physique est le player
+function isPlayer(object) {
+    if (object != null && object.GetUserData() != null) {
+        return object.GetUserData() == 'player';
+    }
+}
+// Déterminer si l'objet physique est le sol ou une box
+function isGroundOrBox(object) {
+    if (object != null && object.GetUserData() != null) {
+        return (object.GetUserData() == 'box' || object.GetUserData() == 'ground');
+    }
+}
+// Déterminer si l'objet physique est les pieds du player
+function isFootPlayer(object) {
+    if (object != null && object.GetUserData() != null) {
+        return object.GetUserData() == 'foot';
+    }
 }

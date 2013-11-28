@@ -34,7 +34,7 @@ var WindManager = function()
 		switch(this.windDirection)
 		{
 			case "haut" :
-				game.player.windForceY = -20;
+				game.player.windForceY = -10;
 				break;
 			case "bas" :
 				game.player.windForceY = 10;
