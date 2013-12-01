@@ -16,6 +16,8 @@ var Ball = function(x,y,r,density,friction,restitution)
     
     that.x = that.GetBody().GetPosition().x*30;
     that.y = that.GetBody().GetPosition().y*30;
+    that.img = new Image();
+    that.img.src = "asset/melofee.png";
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;
@@ -28,7 +30,7 @@ var Ball = function(x,y,r,density,friction,restitution)
         context.translate(that.x,that.y);
         context.rotate(that.GetBody().GetAngle());
         //le radius negatif permet de recentrer l'image 
-        context.drawImage(img,-radius,-radius,radius*2,radius*2);
+        context.drawImage(that.img,-radius,-radius,radius*2,radius*2);
         context.restore();
     }
     that.destroy = function()

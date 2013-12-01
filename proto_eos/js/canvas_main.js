@@ -1,12 +1,13 @@
 //init
 var canvas, context;
 var canvasBuffer, contextBuffer;
-var canvasWidth = 600, canvasHeight = 400;
-var img = new Image();
+var canvasWidth = 1000, canvasHeight = 1000;
 var bodyA;
 var revolute_joint;
 var keys = []; 
 var listener;
+var wrapper;
+var wrapperWidth = 600, wrapperHeight = 400;  
 
 
 window.onload = function()
@@ -21,9 +22,9 @@ window.onload = function()
 	contextBuffer = canvasBuffer.getContext('2d');
 	canvasBuffer.width = canvasWidth;
 	canvasBuffer.height = canvasHeight;
-	//declarer les images
-	img.src = "asset/melofee.png";
-	
+	wrapper = document.getElementById("wrapper");
+	wrapper.width = 600;
+	wrapper.height = 400; 
 }
  
 
@@ -34,9 +35,9 @@ function init()
 	//instancier le game
 	game = new Game();
 	//initialiser le level
-	game.level = new Level(0);
+	game.level = new Level(0,1000,1000);
  	//creer les plateformes
-	var b = new Platform(9,13,20,0.5,"ground");
+	var b = new Platform(9,11,20,0.5,"ground");
 	game.level.levelBlocs.push(b);
 	/*var b = new Platform(0,0,0.5,15);
 	game.level.levelBlocs.push(b);
@@ -59,8 +60,8 @@ function init()
 	game.level.tabDynamicBlocs.push(b);
 
 
-	game.player =  new Player(4,10,{w : 0.5, h : 0.8});
-	game.camera = new Camera();
+	game.player =  new Player(4,9,{w : 0.5, h : 0.8});
+	game.camera = new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
 	//setup debug draw
  	var debugDraw = new b2DebugDraw();
     debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));

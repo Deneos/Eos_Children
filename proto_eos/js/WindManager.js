@@ -59,17 +59,17 @@ var WindManager = function()
 		if(this.menuOpen==true)
 		{
 			context.beginPath();
-	        context.arc(canvasWidth/2, canvasHeight/2, 50, 0, 2 * Math.PI, false);
+	        context.arc((game.camera.viewWidth + game.camera.viewX)/2, game.camera.viewHeight/2, 50, 0, 2 * Math.PI, false);
 	        context.fillStyle = 'red';
 	        context.fill();
 	        context.closePath();
 		}
 		context.strokeStyle = "black";
 		context.fillStyle = "red";
-		context.strokeRect(20,20,30,this.windJaugeMax*8);
-		context.fillRect(20,(15*8)+20,30,-this.timeUse*8);
+		context.strokeRect(game.camera.viewX+20,game.camera.viewY+20,30,this.windJaugeMax*8);
+		context.fillRect(game.camera.viewX+20,(15*8)+game.camera.viewY+20,30,-this.timeUse*8);
 		context.lineWidth = 1;
 		context.font = '32px "Verdana"';
-		context.strokeText("Vent : "+this.windDirection,60,50);
+		context.strokeText("Vent : "+this.windDirection,game.camera.viewX+60,game.camera.viewY+50);
 	}
 }

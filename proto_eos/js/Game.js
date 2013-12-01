@@ -9,7 +9,6 @@ var Game = function()
     //this.level = null;
     this.end = false;
     this.pause = false;
-    this.tabjoint = [];
     this.player = null;
     this.camera = null;
     this.windManager = new WindManager();
@@ -21,6 +20,14 @@ var Game = function()
         }
         if(this.windManager!=null)
             this.windManager.update();
+        if(this.camera!=null)
+        {
+            this.camera.update();
+        }
+        if(game.player!=null)
+        {
+            game.player.update();
+        }
     }
     this.render = function()
     {

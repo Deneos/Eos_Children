@@ -1,9 +1,16 @@
 canvas
 {
-    position: absolute; 
-    left: calc(50% - 300px); 
+    
+}
+#wrapper
+{
+	position: absolute;
+	left: calc(50% - 300px); 
     top : calc(50% - 300px);
-    border: 2px solid black;
+	overflow: hidden;
+	width: 600px;
+	height: 400px;
+	border: 2px solid black;
 }
 body
 {
