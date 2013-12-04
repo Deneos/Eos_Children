@@ -11,7 +11,7 @@ var Game = function()
     this.pause = false;
     this.player = null;
     this.camera = null;
-    this.windManager = new WindManager();
+    this.windManager = null;
     this.update = function()
     {
         if(this.ball!=null)
@@ -19,24 +19,29 @@ var Game = function()
             this.ball.update();
         }
         if(this.windManager!=null)
+        {    
             this.windManager.update();
+            if(this.windManager.windDirection!=null)
+                this.windManager.ray();
+        }
         if(this.camera!=null)
         {
             this.camera.update();
         }
-        if(game.player!=null)
+        if(this.player!=null)
         {
-            game.player.update();
+            this.player.update();
         }
     }
     this.render = function()
     {
-        if(this.ball!=null)
+        if(this.player!=null)
         {
-            this.ball.draw();
+            this.player.draw();
         }
-        if(this.windManager!=null)
-            this.windManager.draw();
+        if(this.camera!=null)
+            this.camera.drawInterface();
     }
+    return this;
 }
 

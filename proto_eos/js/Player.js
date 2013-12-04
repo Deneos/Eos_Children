@@ -1,5 +1,6 @@
 var Player = function(x,y,dim,density,friction,restitution)
 {
+    //creation de l'objet box2D
     var bodyDef = new b2BodyDef;
     var fixDef = new b2FixtureDef;
     fixDef.density = density || 2.0;       //lourd
@@ -12,12 +13,10 @@ var Player = function(x,y,dim,density,friction,restitution)
     bodyDef.position.x = x;
     bodyDef.position.y = y;
     fixDef.userData = 'player';
-
     var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);
     that.GetBody().SetSleepingAllowed(false);   // l'objet player n'est pas autorisé à passer au repos
     that.GetBody().SetFixedRotation(true);      // empécher le player de "rouler"
     that.jumpContacts = 0;
-
     // Ajouter des "pieds"
     that.footDef = new b2FixtureDef();
     that.footDef.friction = 2;
@@ -28,11 +27,19 @@ var Player = function(x,y,dim,density,friction,restitution)
             0                                           // angle d'orientation
     );
     that.GetBody().CreateFixture(that.footDef);
-
+    //attributs de forces
     that.windForceX = 0;
     that.windForceY = 0;
     that.speed = 100;
+    that.life = 3;
+    //attributs de positions
+    that.x = that.GetBody().GetPosition().x*30;
+    that.y = that.GetBody().GetPosition().y*30;
+    that.chekpoint = { x : x, y : y};
 
+    //attributs de dessin
+    that.img = new Image();
+    that.img.src = "asset/melofee.png";
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;
@@ -40,16 +47,21 @@ var Player = function(x,y,dim,density,friction,restitution)
     }
     that.moveLeft = function()
     {
-        var vel = that.GetBody().GetLinearVelocity();
-        vel.x = (-that.speed + that.windForceX)/ 30;
-        //context.translate(1,0);
- 
+        //colision avec le bord de l'ecran
+        if(that.x > 30)
+        {
+            var vel = that.GetBody().GetLinearVelocity();
+            vel.x = (-that.speed + that.windForceX)/ 30;
+        } 
     }
     that.moveRight = function()
     {
-        var vel = that.GetBody().GetLinearVelocity();
-        vel.x = (that.speed + that.windForceX)/ 30;
-        //context.translate(-1,0);
+        //colision
+        if(that.x < game.level.width)
+        {
+            var vel = that.GetBody().GetLinearVelocity();
+            vel.x = (that.speed + that.windForceX)/ 30;
+        }
     }
     that.jump = function()
     {
@@ -70,6 +82,29 @@ var Player = function(x,y,dim,density,friction,restitution)
     {
         game.player = null;
         game.world.DestroyBody(that.GetBody());
+    }
+    that.returnToCheckPoint = function()
+    {
+        that.GetBody().GetPosition().x = that.chekpoint.x;
+        that.GetBody().GetPosition().y = that.chekpoint.y;
+        console.log("return");
+    }
+    that.draw = function()
+    {
+        context.drawImage(that.img,0,0,40,40,that.x-20,that.y-20,40,40);
+    }
+    that.calculDistance = function(target)
+    {
+        var range = Math.sqrt(Math.pow(that.x-target.x,2) + Math.pow(that.y-target.y,2));
+    }
+    that.receiveDamage = function(points)
+    {
+        that.life -= points;
+        if(that.life <= 0)
+        {
+            that.life = 0;
+            that.destroy();
+        } 
     }
 
     return that;

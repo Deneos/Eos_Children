@@ -13,6 +13,9 @@ var b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
 var b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef;
 var b2RevoluteJointDef = Box2D.Dynamics.Joints.b2RevoluteJointDef;
 var b2Listener = Box2D.Dynamics.b2ContactListener;
+
+var b2RayCastInput = Box2D.Collision.b2RayCastInput;
+var b2RayCastOutput = Box2D.Collision.b2RayCastOutput;
 //variables personnelles
 var world;
 var canvas;

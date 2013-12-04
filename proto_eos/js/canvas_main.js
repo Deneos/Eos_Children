@@ -39,28 +39,14 @@ function init()
  	//creer les plateformes
 	var b = new Platform(9,11,20,0.5,"ground");
 	game.level.levelBlocs.push(b);
-	/*var b = new Platform(0,0,0.5,15);
-	game.level.levelBlocs.push(b);
-	var b = new Platform(20,0,0.5,15);
-	game.level.levelBlocs.push(b);
-	//game.level.levelBlocs.push(box2DObjects.createStaticBlocs(9,0,13,0.5));*/
-
 	var b = new Platform(9,13,1,6,"ground");
 	game.level.levelBlocs.push(b);
-
-	/*var b = new Platform(8.1,11,0.1,3,"wall");
-	game.level.tabWallBlocs.push(b);
-	var b = new Platform(9.9,11,0.1,3,"wall");
-	game.level.tabWallBlocs.push(b);*/
-
-	//creer le player
-	//game.ball = new Ball(2,5,1);
 	//creer les boites dynamiques
 	var b = new Box(15,2,{w : 1, h : 1},true);
 	game.level.tabDynamicBlocs.push(b);
-
-
+    //instanciation des classes du jeu
 	game.player =  new Player(4,9,{w : 0.5, h : 0.8});
+    game.windManager = new WindManager(game.player);
 	game.camera = new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
 	//setup debug draw
  	var debugDraw = new b2DebugDraw();
@@ -76,11 +62,8 @@ function init()
     //ajout des listener
     canvas.addEventListener("mousedown", pointerdown,false);
     canvas.addEventListener("mouseup", pointerUp,false);
-    
-
 	document.addEventListener('keydown', handleKeyDown);
 	document.addEventListener('keyup', handleKeyUp);
-
 	addContactListener();
     //game.tabjoint.push(box2DObjects.createJoint(game.level.levelBlocs[4],game.ball.physicalBody));  
 }

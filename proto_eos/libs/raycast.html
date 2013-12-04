@@ -1,0 +1,325 @@
+<html>
+   <head>
+      <title>Box2dWeb Demo</title>
+   </head>
+   <body>
+      <canvas id="canvas" width="600" height="420" style="background-color:#333333;" ></canvas>
+      <div id="cc" style="position:absolute; right:0; top:100px; width:500px; height:50px; margin:0;"></div>
+   </body>
+   <script type="text/javascript" src="Box2dWeb-2.1.a.3.js"></script>
+   <script type="text/javascript" src="jquery-1.7.min.js"></script>
+   <script type="text/javascript">
+        var    b2Vec2 = Box2D.Common.Math.b2Vec2
+        ,      b2BodyDef = Box2D.Dynamics.b2BodyDef
+        ,      b2Body = Box2D.Dynamics.b2Body
+        ,      b2FixtureDef = Box2D.Dynamics.b2FixtureDef
+        ,      b2World = Box2D.Dynamics.b2World
+        ,      b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape
+        ,      b2CircleShape = Box2D.Collision.Shapes.b2CircleShape    
+        ,      b2ContactFilter = Box2D.Dynamics.b2ContactFilter
+        ,      b2MouseJointDef =  Box2D.Dynamics.Joints.b2MouseJointDef
+        ,      b2DebugDraw = Box2D.Dynamics.b2DebugDraw
+        ,      b2Fixture = Box2D.Dynamics.b2Fixture
+        ,      b2AABB = Box2D.Collision.b2AABB
+        ,      b2WorldManifold = Box2D.Collision.b2WorldManifold
+        ,      b2ManifoldPoint = Box2D.Collision.b2ManifoldPoint
+        ,      b2RayCastInput = Box2D.Collision.b2RayCastInput
+        ,      b2RayCastOutput = Box2D.Collision.b2RayCastOutput
+        ,      b2Color = Box2D.Common.b2Color;
+
+        var world = new b2World(new b2Vec2(0,10), true);
+        var canvas = $('#canvas');
+        var context = canvas.get(0).getContext('2d');
+
+
+        //box
+
+        var bodyDef = new b2BodyDef;
+        bodyDef.type = b2Body.b2_dynamicBody;
+        bodyDef.position.Set(9,7);
+        bodyDef.userData = 'box';
+
+        var fixDef = new b2FixtureDef;
+        fixDef.filter.categoryBits = 1;
+
+        fixDef.density = 10.0;
+        fixDef.friction = 0.5;
+        fixDef.restitution = .5;
+
+        fixDef.shape = new b2PolygonShape;
+        fixDef.shape.SetAsBox(1,5);
+
+        var box1 = world.CreateBody(bodyDef);
+        box1.CreateFixture(fixDef);
+
+        //circle
+
+        var bodyDef2 = new b2BodyDef;
+        bodyDef2.type = b2Body.b2_dynamicBody;
+        bodyDef2.position.Set(4,8);
+        bodyDef2.userData = 'obj';
+
+        var fixDef2 = new b2FixtureDef;
+        fixDef2.filter.categoryBits = 2;
+        fixDef2.filter.maskBits = 13;
+        fixDef2.density = 10.0;
+        fixDef2.friction = 0.5;
+        fixDef2.restitution = .2; 
+        fixDef2.shape = new b2CircleShape(1);
+        //circlesensor
+        var cc = new b2FixtureDef;
+        cc.shape = new b2CircleShape(2);
+        cc.shape.SetLocalPosition(new b2Vec2(0 ,0));
+        cc.density = 0;
+        cc.isSensor = true;
+        cc.filter.categoryBits = 8;
+
+        var wheel = world.CreateBody(bodyDef2);
+        wheel.CreateFixture(fixDef2);
+        wheel.CreateFixture(cc);
+
+         //create a ground
+
+         var holderDef = new b2BodyDef;
+         holderDef.type = b2Body.b2_staticBody;
+         holderDef.userData = "ground";
+         holderDef.position.Set(10, 14);
+
+         var fd = new b2FixtureDef;
+         fd.filter.categoryBits = 4;
+         fd.shape = new b2PolygonShape;
+         fd.shape.SetAsBox(10,1);
+
+         var ground = world.CreateBody(holderDef);
+         ground.CreateFixture(fd);
+
+
+
+         //create another static body
+         var holderDef = new b2BodyDef;
+         holderDef.type = b2Body.b2_staticBody;
+         holderDef.position.Set(10, 20);
+         var temp = world.CreateBody(holderDef);
+         temp.CreateFixture(fd);
+
+         var c=0;
+         $(window).keydown(function(e) {
+             $('#aa').html(++c);
+             code = e.keyCode;
+             if(c==1)   {
+             if(code == 38 && onground)
+                 wheel.SetLinearVelocity(new b2Vec2(0,-10));
+             if(code == 39)
+                wheel.ApplyForce(new b2Vec2(1000,0), box1.GetWorldPoint(new b2Vec2(0,0)));
+             if(code == 37)
+                wheel.ApplyForce(new b2Vec2(-1000,0), box1.GetWorldPoint(new b2Vec2(0,0)));
+             }
+         });
+         $(window).keyup(function(e) {
+            c=0;
+         });
+
+         var listener = new Box2D.Dynamics.b2ContactListener;
+         listener.BeginContact = function(contact) {
+             if(contact.GetFixtureA().GetBody().GetUserData()== 'obj' || contact.GetFixtureB().GetBody().GetUserData()== 'obj' ) // think about why we don't use fixture's userData directly.
+                onground = true;// don't put 'var' here!
+             fxA=contact.GetFixtureA();
+             fxB=contact.GetFixtureB();
+             sA=fxA.IsSensor();
+             sB=fxB.IsSensor();
+             if((sA && !sB) || (sB && !sA)) {
+                 if(sA) {
+                     $('#cc').prepend(contact.GetFixtureB().GetBody().GetUserData() + ' is in the viscinity of body '+contact.GetFixtureA().GetBody().GetUserData()+'<br>');
+                 }
+                 else   {
+                     $('#cc').prepend(contact.GetFixtureA().GetBody().GetUserData() + ' is in the viscinity of body '+contact.GetFixtureB().GetBody().GetUserData()+'<br>');
+                 }
+             }
+         }       
+         listener.EndContact = function(contact) {
+         if (contact.GetFixtureA().GetBody().GetUserData()== 'obj' || contact.GetFixtureB().GetBody().GetUserData()== 'obj' )
+             onground = false;
+         }   
+
+
+        var debugDraw = new b2DebugDraw();
+        debugDraw.SetSprite ( document.getElementById ("canvas").getContext ("2d"));
+        debugDraw.SetDrawScale(30);     //define scale
+        debugDraw.SetAlpha(1);
+        debugDraw.SetFillAlpha(.3);    //define transparency
+        debugDraw.SetLineThickness(1.0);
+        debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+        world.SetDebugDraw(debugDraw);
+
+        window.setInterval(update,1000/60);
+
+        //mouse
+
+        var mouseX, mouseY, mousePVec, isMouseDown, selectedBody, mouseJoint;
+        var canvasPosition = getElementPosition(document.getElementById("canvas"));
+
+        document.addEventListener("mousedown", function(e) {
+           isMouseDown = true;
+           handleMouseMove(e);
+           document.addEventListener("mousemove", handleMouseMove, true);
+        }, true);
+
+        document.addEventListener("mouseup", function() {
+           document.removeEventListener("mousemove", handleMouseMove, true);
+           isMouseDown = false;
+           mouseX = undefined;
+           mouseY = undefined;
+        }, true);
+
+        function handleMouseMove(e) {
+           mouseX = (e.clientX - canvasPosition.x) / 30;
+           mouseY = (e.clientY - canvasPosition.y) / 30;
+        };
+
+        function getBodyAtMouse() {
+           mousePVec = new b2Vec2(mouseX, mouseY);
+           var aabb = new b2AABB();
+           aabb.lowerBound.Set(mouseX - 0.001, mouseY - 0.001);
+           aabb.upperBound.Set(mouseX + 0.001, mouseY + 0.001);
+
+           // Query the world for overlapping shapes.
+
+           selectedBody = null;
+           world.QueryAABB(getBodyCB, aabb);
+           return selectedBody;
+        }
+
+        function getBodyCB(fixture) {
+           if(fixture.GetBody().GetType() != b2Body.b2_staticBody) {
+              if(fixture.GetShape().TestPoint(fixture.GetBody().GetTransform(), mousePVec)) {
+                 selectedBody = fixture.GetBody();
+                 return false;
+              }
+           }
+           return true;
+        }
+
+         //at global scope
+        var currentRayAngle = 0;
+        var input = new b2RayCastInput();
+        var output = new b2RayCastOutput();
+        var b = new b2BodyDef();
+        var f = new b2FixtureDef();
+        var closestFraction = 1;
+        var intersectionNormal = new b2Vec2(0,0);
+        var intersectionPoint = new b2Vec2();
+        rayLength = 25; //long enough to hit the walls
+        var p1 = new b2Vec2( 11, 7 ); //center of scene
+        var p2 = new b2Vec2();
+        var normalEnd = new b2Vec2();
+        function update() {
+
+            if(isMouseDown && (!mouseJoint)) {
+                        var body = getBodyAtMouse();
+                        if(body) {
+                           var md = new b2MouseJointDef();
+                           md.bodyA = world.GetGroundBody();
+                           md.bodyB = body;
+                           md.target.Set(mouseX, mouseY);
+                           md.collideConnected = true;
+                           md.maxForce = 300.0 * body.GetMass();
+                           mouseJoint = world.CreateJoint(md);
+                           body.SetAwake(true);
+                        }
+                     }
+
+                     if(mouseJoint) {
+                        if(isMouseDown) {
+                           mouseJoint.SetTarget(new b2Vec2(mouseX, mouseY));
+                        } else {
+                           world.DestroyJoint(mouseJoint);
+                           mouseJoint = null;
+                        }
+                     }
+
+            world.Step(1 / 60, 10, 10);
+            world.DrawDebugData();
+            world.ClearForces();
+            world.SetContactListener(listener);
+            ray();
+
+        };
+        function ray()  {
+
+            //in Step() function
+            var k = 360/20;
+            var t = k/60;
+            var DEGTORAD = Math.PI/180;
+            currentRayAngle += t * DEGTORAD; //one revolution every 20 seconds
+            //console.log(currentRayAngle*(180/Math.PI));
+
+            //calculate points of ray
+            p2.x = p1.x + rayLength * Math.sin(currentRayAngle);
+            p2.y = p1.y + rayLength * Math.cos(currentRayAngle);
+
+            input.p1 = p1;
+            input.p2 = p2;
+            input.maxFraction = 1;
+            closestFraction = 1;
+
+            var b = new b2BodyDef();
+            var f = new b2FixtureDef();
+            for(b = world.GetBodyList(); b; b = b.GetNext())    {           
+                for(f = b.GetFixtureList(); f; f = f.GetNext()) {
+                    if(!f.RayCast(output, input))
+                        continue;
+                    else if(output.fraction < closestFraction)  {
+                        closestFraction = output.fraction;
+                                    intersectionNormal = output.normal;
+                    }
+                }
+
+            }
+            intersectionPoint.x = p1.x + closestFraction * (p2.x - p1.x);
+            intersectionPoint.y = p1.y + closestFraction * (p2.y - p1.y);
+
+            normalEnd.x = intersectionPoint.x + intersectionNormal.x;
+            normalEnd.y = intersectionPoint.y + intersectionNormal.y;
+
+            context.strokeStyle = "rgb(255, 255, 255)";
+
+            context.beginPath(); // Start the path
+            context.moveTo(p1.x*30,p1.y*30); // Set the path origin
+            context.lineTo(intersectionPoint.x*30, intersectionPoint.y*30); // Set the path destination
+            context.closePath(); // Close the path
+            context.stroke();
+
+            context.beginPath(); // Start the path
+            context.moveTo(intersectionPoint.x*30, intersectionPoint.y*30); // Set the path origin
+            context.lineTo(normalEnd.x*30, normalEnd.y*30); // Set the path destination
+            context.closePath(); // Close the path
+            context.stroke(); // Outline the path
+        }
+        //helpers
+
+         //http://js-tut.aardon.de/js-tut/tutorial/position.html
+         function getElementPosition(element) {
+            var elem=element, tagname="", x=0, y=0;
+
+            while((typeof(elem) == "object") && (typeof(elem.tagName) != "undefined")) {
+               y += elem.offsetTop;
+               x += elem.offsetLeft;
+               tagname = elem.tagName.toUpperCase();
+
+               if(tagname == "BODY")
+                  elem=0;
+
+               if(typeof(elem) == "object") {
+                  if(typeof(elem.offsetParent) == "object")
+                     elem = elem.offsetParent;
+               }
+            }
+
+            return {x: x, y: y};
+         }
+
+
+   </script>
+
+
+</html>

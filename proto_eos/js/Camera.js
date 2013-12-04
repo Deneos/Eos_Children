@@ -71,4 +71,49 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
         context.fillRect(this.viewX,this.viewY,4,4);
         context.fillRect(this.viewWidth-4,this.viewHeight-4,4,4);
     }
+    this.drawInterface = function()
+    {
+        if(game.windManager!=null)
+        {
+            if(game.windManager.menuOpen==true)
+            {
+                context.beginPath();
+                context.arc((this.viewWidth + this.viewX)/2, this.viewHeight/2, 80, 0, 2 * Math.PI, false);
+                context.fillStyle = 'red';
+                context.fill();
+                context.strokeStyle = "black";
+                context.strokeText("Haut",((this.viewWidth + this.viewX)/2)-40, (this.viewHeight/2)-40);
+                context.strokeText("Droite",((this.viewWidth + this.viewX)/2)+20, (this.viewHeight/2)+10);
+                context.strokeText("Bas",((this.viewWidth + this.viewX)/2)-30, (this.viewHeight/2)+60);
+                context.strokeText("Gauche",((this.viewWidth + this.viewX)/2)-120, (this.viewHeight/2)+10);
+    
+                context.closePath();
+            }
+            context.strokeStyle = "black";
+            context.fillStyle = "red";
+            context.strokeRect(this.viewX+20,this.viewY+20,30,game.windManager.windJaugeMax*8);
+            context.fillRect(this.viewX+20,(15*8)+this.viewY+20,30,-game.windManager.timeUse*8);
+            context.lineWidth = 1;
+            context.font = '32px "Verdana"';
+            context.strokeText("Vent : "+game.windManager.windDirection,this.viewX+60,this.viewY+120);
+        }
+        if(game.player!=null)
+        {
+            var distance = 0;
+            for(var i = 0; i < game.player.life; i++)
+            {
+                context.beginPath();
+                context.arc(this.viewX+80+distance,this.viewY+50, 20, 0, 2 * Math.PI, false);
+                context.fillStyle = '#66FF99';
+                //changement de couleur quand on a presque plus de vie
+                if(game.player.life < 2)
+                {
+                    context.fillStyle = "red";
+                }
+                context.fill();
+                context.closePath();
+                distance+=50;
+            }
+        }
+    }
 }
