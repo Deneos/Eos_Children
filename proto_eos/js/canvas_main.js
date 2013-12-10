@@ -60,20 +60,23 @@ function init()
 }
 function gameloop()
 {
-	if(game.pause==false)
-    {
-    	context.clearRect(0,0,canvasWidth,canvasHeight);
-	    game.world.Step(
-	       1 / 60   //frame-rate
-	    ,  10       //velocity iterations
-	    ,  10       //position iterations
-	    );
-
-	    game.world.DrawDebugData();
-	    game.world.ClearForces();    
-    	game.update();
+    if(game.end==false)
+	{
+        if(game.pause==false)
+        {
+            context.clearRect(0,0,canvasWidth,canvasHeight);
+            game.world.Step(
+               1 / 60   //frame-rate
+            ,  10       //velocity iterations
+            ,  10       //position iterations
+            );
+    
+            game.world.DrawDebugData();
+            game.world.ClearForces();    
+            game.update();
+        }
+        handleInteractions();
+        game.render();
     }
-    handleInteractions();
-    game.render();
     requestAnimationFrame(gameloop);
 };

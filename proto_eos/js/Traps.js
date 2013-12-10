@@ -29,18 +29,35 @@ var Spike = function(x,y,w,h)
 }
 //objet correspondant au collider d'un trou
 //qu'on utilise quand on tombe dans un trou, enleve de la vie et remet le player au checkpoint
-var Hole = function(x,y,width)
+var Hole = function(x,y,w,h)
 {
-    this.x = x;
-    this.y = y;
-    this.width = width;
+    //fixture definition
+    var fixDef = new b2FixtureDef;
+    fixDef.density = 1.0;       //lourd
+    fixDef.friction = 0.5;      //lent
+    fixDef.restitution = 0;   //rebond
+    var bodyDef = new b2BodyDef;
+    //create ground
+    bodyDef.type = b2Body.b2_staticBody;
+    bodyDef.position.x = x;
+    bodyDef.position.y = y;
+    fixDef.userData = "hole";
+    fixDef.shape = new b2PolygonShape;
+    fixDef.shape.SetAsBox(w,h);
+    fixDef.isSensor = true;
+    var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);    //on cree un objet en prenant la definition du body et la fixture, pour le fixer au body
+    
+    that.checkX = x;
+    that.checkY = y-1;
+    that.x = that.GetBody().GetPosition().x*30;
+    that.y = that.GetBody().GetPosition().y*30;
 
-    this.fall = function()
+    that.render = function()
     {
-        //fonction de distance
-        //racine de x1 - x2 au carre + racine de y1 - y2 au carre indique la distance entre deux objets
-        var range = Math.sqrt(Math.pow(objetA.x-objetB.x,2) + Math.pow(objetA.y-objetB.y,2));
+        context.fillStyle = "rgba(255,0,0,0.5)";
+        context.fillRect(that.x-w*30,that.y-h*30,w*60,h*60);
     }
+    return that;
 }
 //plaque qui tombe
 var FallingBloc = function(x,y,w,h)

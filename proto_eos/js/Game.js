@@ -12,6 +12,7 @@ var Game = function()
     this.player = null;
     this.camera = null;
     this.windManager = null;
+    this.effectTab = [];
     this.update = function()
     {
         if(this.ball!=null)
@@ -35,6 +36,7 @@ var Game = function()
             {    
                 this.player.returnToCheckPoint();
                 this.player.receiveDamage(1);
+                particleEffect(game.player.x,game.player.y);
             }
             if(this.player.userData=="dead")
             {    
@@ -71,12 +73,23 @@ var Game = function()
             game.level.tabFallingBlocs[i].render();
         }
 
+
         if(this.player!=null)
         {
             this.player.draw();
         }
+        for ( var i = 0 ; i < game.level.tabChekpoint.length ; i++)
+        {
+            game.level.tabChekpoint[i].render();
+        }
+        for(var i in this.effectTab)
+        {
+            this.effectTab[i].effect();
+            this.effectTab[i].draw();
+        }
         if(this.camera!=null)
             this.camera.drawInterface();
+        this.level.end.render();
     }
     return this;
 }

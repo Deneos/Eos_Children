@@ -36,7 +36,7 @@ var Player = function(x,y,dim,density,friction,restitution)
     //attributs de positions
     that.x = that.GetBody().GetPosition().x*30;
     that.y = that.GetBody().GetPosition().y*30;
-    that.chekpoint = { x : x, y : y};
+    that.checkpoint = { x : x, y : y};
 
     //attributs de dessin
     that.img = new Image();
@@ -108,7 +108,7 @@ var Player = function(x,y,dim,density,friction,restitution)
         }
         else
         {
-            that.GetBody().SetPosition(new b2Vec2(that.chekpoint.x,that.chekpoint.y));
+            that.GetBody().SetPosition(new b2Vec2(that.checkpoint.x,that.checkpoint.y));
         }
         that.userData = "player";
         
@@ -154,84 +154,4 @@ var Player = function(x,y,dim,density,friction,restitution)
     }
 
     return that;
-}
-
-this.addContactListener = function() {
-    //Add listeners for contact
-    var listener = new b2Listener;
-     
-    // Entrée en contact
-    listener.BeginContact = function(contact) {
-        var obj1 = contact.GetFixtureA();
-        var obj2 = contact.GetFixtureB();
-        //si on a une collision entre le joueur et le sol
-        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
-            if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {                  
-                game.player.jumpContacts ++; // le joueur entre en contact avec une plate-forme de saut
-            }
-        }
-        //si on a une collision entre le joueur et des piques
-        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
-            if (isSpike(obj1) || isSpike(obj2)) {                  
-                game.player.hurt(); 
-            }
-        }
-        //si on a une collision entre le joueur et des piques
-        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
-            if (isFallingBloc(obj1) || isFallingBloc(obj2)) {                  
-                if(game.windManager.windDirection=="bas")
-                {
-                    if(isFallingBloc(obj1))
-                    {
-                        obj1.moving = true;
-                    }
-                    if(isFallingBloc(obj2))
-                    {
-                        obj2.moving = true;
-                    }  
-                } 
-            }
-        }
-    }
-     
-    // Fin de contact
-    listener.EndContact = function(contact) {
-        var obj1 = contact.GetFixtureA();
-        var obj2 = contact.GetFixtureB();
-        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
-            if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {
-                game.player.jumpContacts --; // le joueur quitte une plate-forme de saut
-            }
-        }
-    }
-    game.world.SetContactListener(listener);
-}
-// Déterminer si l'objet physique est le player
-function isPlayer(object) {
-    if (object != null && object.GetUserData() != null) {
-        return object.GetUserData() == 'player';
-    }
-}
-// Déterminer si l'objet physique est le sol ou une box
-function isGroundOrBox(object) {
-    if (object != null && object.GetUserData() != null) {
-        return (object.GetUserData() == 'box' || object.GetUserData() == 'ground' || object.GetUserData() == 'fallingBloc');
-    }
-}
-// Déterminer si l'objet physique est les pieds du player
-function isFootPlayer(object) {
-    if (object != null && object.GetUserData() != null) {
-        return object.GetUserData() == 'foot';
-    }
-}
-// Déterminer si l'objet physique est un pic
-function isSpike(object) {
-    if (object != null && object.GetUserData() != null) {
-        return object.GetUserData() == 'spike';
-    }
-}
-function isFallingBloc(object) {
-    if (object != null && object.GetUserData() != null) {
-        return object.GetUserData() == 'fallingBloc';
-    }
 }

@@ -39,3 +39,12 @@ body
 	color: red; 
 	font-size: 72px;
 }
+#end
+{
+	display: none;
+	position: absolute; 
+	left: calc(50% - 110px); 
+	top : calc(50% - 180px);
+	color: #00CCFF; 
+	font-size: 72px;
+}
