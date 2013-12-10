@@ -18,7 +18,7 @@ function getLevel()
 	    {
 
 	    },
-	 "tileheight":16,
+	 "tileheight":32,
 	 "tilesets":[
 	        {
 	         "firstgid":1,
@@ -32,10 +32,10 @@ function getLevel()
 
 	            },
 	         "spacing":0,
-	         "tileheight":16,
-	         "tilewidth":16
+	         "tileheight":32,
+	         "tilewidth":32
 	        }],
-	 "tilewidth":16,
+	 "tilewidth":32,
 	 "version":1,
 	 "width":100
 	}

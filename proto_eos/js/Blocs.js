@@ -40,7 +40,7 @@ var Ball = function(x,y,r,density,friction,restitution)
     }
     return that;
 }
-var Platform = function(x,y,w,h,tag, density,friction,restitution)
+var Platform = function(x,y,w,h,tag,nbtile, density,friction,restitution)
 {
     //fixture definition
     var fixDef = new b2FixtureDef;
@@ -57,10 +57,16 @@ var Platform = function(x,y,w,h,tag, density,friction,restitution)
     fixDef.shape.SetAsBox(w,h);
     var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);    //on cree un objet en prenant la definition du body et la fixture, pour le fixer au body
     
+    that.x = that.GetBody().GetPosition().x*30;
+    that.y = that.GetBody().GetPosition().y*30;
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;
         that.y = that.GetBody().GetPosition().y*30;
+    }
+    that.render = function(){
+        context.fillStyle = "#730000";
+        context.fillRect(that.x-w*30,that.y-h*30,w*60,h*60);
     }
     return that;
 }
@@ -85,6 +91,7 @@ var Box = function(x,y,dim,density,friction,restitution)
         that.x = that.GetBody().GetPosition().x*30;
         that.y = that.GetBody().GetPosition().y*30;
     }
+
     return that;
 }
 var Joint = function(bodyA,bodyB)

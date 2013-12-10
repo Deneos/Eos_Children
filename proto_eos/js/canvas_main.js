@@ -31,19 +31,12 @@ window.onload = function()
 function init() 
 {   
 	$("#menu").fadeOut();
-	
+	$("#replay").fadeOut();
 	//instancier le game
 	game = new Game();
 	//initialiser le level
 	game.level = new Level(0,1000,1000);
- 	//creer les plateformes
-	var b = new Platform(9,11,20,0.5,"ground");
-	game.level.levelBlocs.push(b);
-	var b = new Platform(9,13,1,6,"ground");
-	game.level.levelBlocs.push(b);
-	//creer les boites dynamiques
-	var b = new Box(15,2,{w : 1, h : 1},true);
-	game.level.tabDynamicBlocs.push(b);
+    game.level.sample();
     //instanciation des classes du jeu
 	game.player =  new Player(4,9,{w : 0.5, h : 0.8});
     game.windManager = new WindManager(game.player);
@@ -60,8 +53,6 @@ function init()
     //appel de la gameloop
     gameloop();
     //ajout des listener
-    canvas.addEventListener("mousedown", pointerdown,false);
-    canvas.addEventListener("mouseup", pointerUp,false);
 	document.addEventListener('keydown', handleKeyDown);
 	document.addEventListener('keyup', handleKeyUp);
 	addContactListener();

@@ -106,7 +106,7 @@ var WindManager = function(player)
 		switch(this.windDirection)
 		{
 			case "haut" :
-				game.player.windForceY = -10;
+				game.player.windForceY = -5;
 				this.currentRayAngle = 3.143;
 				this.rayLength = 25;
 				break;

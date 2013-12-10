@@ -20,68 +20,68 @@ this.handleKeyUp = function(evt)
 // Gérer les interactions
 this.handleInteractions = function() 
 {
-    // touche "haut"
-    if (keys[38] || keys[32]) 
+    if(game.player!=null)
     {
-        if(game.windManager!=null && game.windManager.menuOpen==true)
+        // touche "haut"
+        if (keys[38] || keys[32]) 
         {
-            game.windManager.windDirection = "haut";
-            game.windManager.menuOpen = false;
-            game.pause = false;
-            keys[16] = false;
-            keys[17] = false;
-            return;
-        }
-        if(game.player!=null)
+            if(game.windManager!=null && game.windManager.menuOpen==true)
+            {
+                game.windManager.windDirection = "haut";
+                game.windManager.menuOpen = false;
+                game.pause = false;
+                keys[16] = false;
+                keys[17] = false;
+                return;
+            }
             game.player.jump();
-    }
-    // touches "gauche" et "droite"
-    if (keys[37]) 
-    {
-        if(game.windManager!=null && game.windManager.menuOpen==true)
-        {
-            game.windManager.windDirection = "gauche";
-            game.windManager.menuOpen = false;
-            game.pause = false;
-            keys[16] = false;
-            keys[17] = false;
-            return;
         }
-        if(game.player!=null)
+        // touches "gauche" et "droite"
+        if (keys[37]) 
+        {
+            if(game.windManager!=null && game.windManager.menuOpen==true)
+            {
+                game.windManager.windDirection = "gauche";
+                game.windManager.menuOpen = false;
+                game.pause = false;
+                keys[16] = false;
+                keys[17] = false;
+                return;
+            }
             game.player.moveLeft();
-    } 
-    if (keys[39]) 
-    {
-        if(game.windManager!=null && game.windManager.menuOpen==true)
+        } 
+        if (keys[39]) 
         {
-            game.windManager.windDirection = "droite";
-            game.windManager.menuOpen = false;
-            game.pause = false;
-            keys[16] = false;
-            keys[17] = false;
-            return;
-        }
-        if(game.player!=null)
+            if(game.windManager!=null && game.windManager.menuOpen==true)
+            {
+                game.windManager.windDirection = "droite";
+                game.windManager.menuOpen = false;
+                game.pause = false;
+                keys[16] = false;
+                keys[17] = false;
+                return;
+            }
             game.player.moveRight();
-    }
-    if (keys[40] || keys[83])
-    {
-        if(game.windManager!=null && game.windManager.menuOpen==true)
+        }
+        if (keys[40] || keys[83])
         {
-            game.windManager.windDirection = "bas";
-            game.pause = false;
-            game.windManager.menuOpen = false;
-            keys[16] = false;
-            keys[17] = false;
-            return;
-        }
-    } 
-    if (keys[16] || keys[17]) 
-    {
-        if(game.windManager!=null)
-        {    
-            game.windManager.menuOpen = true;
-            game.pause = true;
-        }
-    }   
+            if(game.windManager!=null && game.windManager.menuOpen==true)
+            {
+                game.windManager.windDirection = "bas";
+                game.pause = false;
+                game.windManager.menuOpen = false;
+                keys[16] = false;
+                keys[17] = false;
+                return;
+            }
+        } 
+        if (keys[16] || keys[17]) 
+        {
+            if(game.windManager!=null)
+            {    
+                game.windManager.menuOpen = true;
+                game.pause = true;
+            }
+        }   
+    }
 }

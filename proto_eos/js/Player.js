@@ -23,9 +23,10 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.footDef.userData = 'foot';
     that.footDef.shape = new b2PolygonShape();
     that.footDef.shape.SetAsOrientedBox(13 / 30, 3 / 30,
-            new b2Vec2(0, dim.w / 1.8 / 0.35),   // position par rapport centre du body
+            new b2Vec2(0, dim.w / 1.8 / 0.39),   // position par rapport centre du body
             0                                           // angle d'orientation
     );
+    that.footDef.isSensor = true;
     that.GetBody().CreateFixture(that.footDef);
     //attributs de forces
     that.windForceX = 0;
@@ -39,7 +40,14 @@ var Player = function(x,y,dim,density,friction,restitution)
 
     //attributs de dessin
     that.img = new Image();
-    that.img.src = "asset/melofee.png";
+    that.img.src = "asset/chara.png";
+    that.currentFrameX = 0;
+    that.currentFrameY = 0;
+    that.frameWidth = 32;
+    that.frameHeight = 48;
+    that.nb_of_frame = 4;
+    that.iddle = true;
+    that.f = 0;
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;
@@ -48,15 +56,19 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.moveLeft = function()
     {
         //colision avec le bord de l'ecran
+        that.currentFrameY = 96;
+        that.iddle = false;
         if(that.x > 30)
         {
             var vel = that.GetBody().GetLinearVelocity();
             vel.x = (-that.speed + that.windForceX)/ 30;
-        } 
+        }
     }
     that.moveRight = function()
     {
         //colision
+        that.currentFrameY = 0;
+        that.iddle = false;
         if(that.x < game.level.width)
         {
             var vel = that.GetBody().GetLinearVelocity();
@@ -65,6 +77,7 @@ var Player = function(x,y,dim,density,friction,restitution)
     }
     that.jump = function()
     {
+        that.iddle = false;
         if(that.jumpContacts > 0)//==true)
         {
             that.GetBody().ApplyImpulse(
@@ -75,23 +88,51 @@ var Player = function(x,y,dim,density,friction,restitution)
     }
     that.stopMoving =function()
     {
+        that.iddle = true;
         var vel = that.GetBody().GetLinearVelocity();
         vel.x = 0;
     }
     that.destroy = function()
     {
-        game.player = null;
+        $('#replay').fadeIn();
         game.world.DestroyBody(that.GetBody());
+        game.player = null;
     }
-    that.returnToCheckPoint = function()
+    that.returnToCheckPoint = function(x,y)
     {
-        that.GetBody().GetPosition().x = that.chekpoint.x;
-        that.GetBody().GetPosition().y = that.chekpoint.y;
-        console.log("return");
+        //renvoi le player a une position definie lors de l'appel de la fonction, sinon le renvoi au dernier checkpoint 
+        if(x!=undefined)
+        {
+            that.GetBody().SetPosition(new b2Vec2(x,y));
+
+        }
+        else
+        {
+            that.GetBody().SetPosition(new b2Vec2(that.chekpoint.x,that.chekpoint.y));
+        }
+        that.userData = "player";
+        
     }
     that.draw = function()
     {
-        context.drawImage(that.img,0,0,40,40,that.x-20,that.y-20,40,40);
+        //the f is time frame, to fluidify the animation
+        if(that.iddle==false)
+        {
+            that.f++;
+            if(that.f%6==0)
+            {
+                that.currentFrameX+=that.frameWidth;
+                if(that.currentFrameX>=(that.nb_of_frame*that.frameWidth))
+                {
+                    that.currentFrameX = 0;
+                }
+            }
+        }
+        else
+        {
+            that.currentFrameX = 0;
+        }
+        context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-15,that.y-20,that.frameWidth,that.frameHeight);
     }
     that.calculDistance = function(target)
     {
@@ -103,8 +144,13 @@ var Player = function(x,y,dim,density,friction,restitution)
         if(that.life <= 0)
         {
             that.life = 0;
-            that.destroy();
+            that.userData = "dead";
         } 
+    }
+    
+    that.hurt = function()
+    {
+        that.userData = "hurting";
     }
 
     return that;
@@ -118,9 +164,32 @@ this.addContactListener = function() {
     listener.BeginContact = function(contact) {
         var obj1 = contact.GetFixtureA();
         var obj2 = contact.GetFixtureB();
+        //si on a une collision entre le joueur et le sol
         if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
             if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {                  
                 game.player.jumpContacts ++; // le joueur entre en contact avec une plate-forme de saut
+            }
+        }
+        //si on a une collision entre le joueur et des piques
+        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+            if (isSpike(obj1) || isSpike(obj2)) {                  
+                game.player.hurt(); 
+            }
+        }
+        //si on a une collision entre le joueur et des piques
+        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+            if (isFallingBloc(obj1) || isFallingBloc(obj2)) {                  
+                if(game.windManager.windDirection=="bas")
+                {
+                    if(isFallingBloc(obj1))
+                    {
+                        obj1.moving = true;
+                    }
+                    if(isFallingBloc(obj2))
+                    {
+                        obj2.moving = true;
+                    }  
+                } 
             }
         }
     }
@@ -146,12 +215,23 @@ function isPlayer(object) {
 // Déterminer si l'objet physique est le sol ou une box
 function isGroundOrBox(object) {
     if (object != null && object.GetUserData() != null) {
-        return (object.GetUserData() == 'box' || object.GetUserData() == 'ground');
+        return (object.GetUserData() == 'box' || object.GetUserData() == 'ground' || object.GetUserData() == 'fallingBloc');
     }
 }
 // Déterminer si l'objet physique est les pieds du player
 function isFootPlayer(object) {
     if (object != null && object.GetUserData() != null) {
         return object.GetUserData() == 'foot';
+    }
+}
+// Déterminer si l'objet physique est un pic
+function isSpike(object) {
+    if (object != null && object.GetUserData() != null) {
+        return object.GetUserData() == 'spike';
+    }
+}
+function isFallingBloc(object) {
+    if (object != null && object.GetUserData() != null) {
+        return object.GetUserData() == 'fallingBloc';
     }
 }

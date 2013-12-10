@@ -30,3 +30,12 @@ body
 	color: white; 
 	font-size: 50px;
 }
+#replay
+{
+	display: none;
+	position: absolute; 
+	left: calc(50% - 170px); 
+	top : calc(50% - 180px);
+	color: red; 
+	font-size: 72px;
+}

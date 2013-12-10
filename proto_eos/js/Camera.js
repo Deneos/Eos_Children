@@ -78,14 +78,14 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
             if(game.windManager.menuOpen==true)
             {
                 context.beginPath();
-                context.arc((this.viewWidth + this.viewX)/2, this.viewHeight/2, 80, 0, 2 * Math.PI, false);
+                context.arc((this.viewWidth + this.viewX)/2, (this.viewHeight + this.viewY)/2, 80, 0, 2 * Math.PI, false);
                 context.fillStyle = 'red';
                 context.fill();
                 context.strokeStyle = "black";
-                context.strokeText("Haut",((this.viewWidth + this.viewX)/2)-40, (this.viewHeight/2)-40);
-                context.strokeText("Droite",((this.viewWidth + this.viewX)/2)+20, (this.viewHeight/2)+10);
-                context.strokeText("Bas",((this.viewWidth + this.viewX)/2)-30, (this.viewHeight/2)+60);
-                context.strokeText("Gauche",((this.viewWidth + this.viewX)/2)-120, (this.viewHeight/2)+10);
+                context.strokeText("Haut",((this.viewWidth + this.viewX)/2)-40, ((this.viewHeight + this.viewY)/2)-40);
+                context.strokeText("Droite",((this.viewWidth + this.viewX)/2)+20, ((this.viewHeight + this.viewY)/2)+10);
+                context.strokeText("Bas",((this.viewWidth + this.viewX)/2)-30, ((this.viewHeight + this.viewY)/2)+60);
+                context.strokeText("Gauche",((this.viewWidth + this.viewX)/2)-120, ((this.viewHeight + this.viewY)/2)+10);
     
                 context.closePath();
             }
