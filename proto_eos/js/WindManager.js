@@ -1,24 +1,24 @@
 var WindManager = function(player)
 {
-	this.player = player;
-	this.timeUse = 15;
-	this.menuOpen = false;
-	this.windJaugeMax = 15;
-	this.windDirection = null;
-	this.frame = 0;
+	this.player                                     =           player;
+	this.timeUse                                    =           15;
+	this.menuOpen                                   =           false;
+	this.windJaugeMax                               =           15;
+	this.windDirection                              =           null;
+	this.frame                                      =           0;
 
 	//angle du raycast, change avec le vent
-	this.currentRayAngle = 0;
-    this.input = new b2RayCastInput();
-    this.output = new b2RayCastOutput();
-    this.closestFraction = 1;
-    this.intersectionNormal = new b2Vec2(0,0);
-    this.intersectionPoint = new b2Vec2();
-    this.rayLength = 0; //long enough to hit the walls
+	this.currentRayAngle                            =           0;
+    this.input                                      =           new b2RayCastInput();
+    this.output                                     =           new b2RayCastOutput();
+    this.closestFraction                            =           1;
+    this.intersectionNormal                         =           new b2Vec2(0,0);
+    this.intersectionPoint                          =           new b2Vec2();
+    this.rayLength                                  =           0; //long enough to hit the walls
     //debut et fin du ray
-    this.p1 = new b2Vec2( game.player.x/30, game.player.y/30 ); //center of scene
-    this.p2 = new b2Vec2();
-    this.normalEnd = new b2Vec2();
+    this.p1                                         =           new b2Vec2( game.player.x/30, game.player.y/30 ); //center of scene
+    this.p2                                         =           new b2Vec2();
+    this.normalEnd                                  =           new b2Vec2();
 
     this.ray = function()  
     {

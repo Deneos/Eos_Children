@@ -3,22 +3,22 @@
 var Spike = function(x,y,w,h)
 {
     //fixture definition
-    var fixDef = new b2FixtureDef;
-    fixDef.density = 1.0;       //lourd
-    fixDef.friction = 0.5;      //lent
-    fixDef.restitution = 0;   //rebond
-    var bodyDef = new b2BodyDef;
+    var fixDef                      =           new b2FixtureDef;
+    fixDef.density                  =           1.0;       //lourd
+    fixDef.friction                 =           0.5;      //lent
+    fixDef.restitution              =           0;   //rebond
+    var bodyDef                     =           new b2BodyDef;
     //create ground
-    bodyDef.type = b2Body.b2_staticBody;
-    bodyDef.position.x = x;
-    bodyDef.position.y = y;
-    fixDef.userData = "spike";
-    fixDef.shape = new b2PolygonShape;
+    bodyDef.type                    =           b2Body.b2_staticBody;
+    bodyDef.position.x              =           x;
+    bodyDef.position.y              =           y;
+    fixDef.userData                 =           "spike";
+    fixDef.shape                    =           new b2PolygonShape;
     fixDef.shape.SetAsBox(w,h);
-    var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);    //on cree un objet en prenant la definition du body et la fixture, pour le fixer au body
+    var that                        =           game.world.CreateBody(bodyDef).CreateFixture(fixDef);    //on cree un objet en prenant la definition du body et la fixture, pour le fixer au body
     
-    that.x = that.GetBody().GetPosition().x*30;
-    that.y = that.GetBody().GetPosition().y*30;
+    that.x                          =           that.GetBody().GetPosition().x*30;
+    that.y                          =           that.GetBody().GetPosition().y*30;
 
     that.render = function()
     {
@@ -32,25 +32,25 @@ var Spike = function(x,y,w,h)
 var Hole = function(x,y,w,h)
 {
     //fixture definition
-    var fixDef = new b2FixtureDef;
-    fixDef.density = 1.0;       //lourd
-    fixDef.friction = 0.5;      //lent
-    fixDef.restitution = 0;   //rebond
-    var bodyDef = new b2BodyDef;
+    var fixDef                      =           new b2FixtureDef;
+    fixDef.density                  =           1.0;       //lourd
+    fixDef.friction                 =           0.5;      //lent
+    fixDef.restitution              =           0;   //rebond
+    var bodyDef                     =           new b2BodyDef;
     //create ground
-    bodyDef.type = b2Body.b2_staticBody;
-    bodyDef.position.x = x;
-    bodyDef.position.y = y;
-    fixDef.userData = "hole";
-    fixDef.shape = new b2PolygonShape;
+    bodyDef.type                    =           b2Body.b2_staticBody;
+    bodyDef.position.x              =           x;
+    bodyDef.position.y              =           y;
+    fixDef.userData                 =           "hole";
+    fixDef.shape                    =           new b2PolygonShape;
     fixDef.shape.SetAsBox(w,h);
-    fixDef.isSensor = true;
-    var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);    //on cree un objet en prenant la definition du body et la fixture, pour le fixer au body
+    fixDef.isSensor                 =           true;
+    var that                        =           game.world.CreateBody(bodyDef).CreateFixture(fixDef);    //on cree un objet en prenant la definition du body et la fixture, pour le fixer au body
     
-    that.checkX = x;
-    that.checkY = y-1;
-    that.x = that.GetBody().GetPosition().x*30;
-    that.y = that.GetBody().GetPosition().y*30;
+    that.checkX                     =           x;
+    that.checkY                     =           y-1;
+    that.x                          =           that.GetBody().GetPosition().x*30;
+    that.y                          =           that.GetBody().GetPosition().y*30;
 
     that.render = function()
     {
@@ -63,23 +63,23 @@ var Hole = function(x,y,w,h)
 var FallingBloc = function(x,y,w,h)
 {
     //fixture definition
-    var fixDef = new b2FixtureDef;
-    fixDef.density = 1.0;       //lourd
-    fixDef.friction = 0.5;      //lent
-    fixDef.restitution = 0;   //rebond
-    var bodyDef = new b2BodyDef;
+    var fixDef                      =           new b2FixtureDef;
+    fixDef.density                  =           1.0;       //lourd
+    fixDef.friction                 =           0.5;      //lent
+    fixDef.restitution              =           0;   //rebond
+    var bodyDef                     =           new b2BodyDef;
     //create ground
-    bodyDef.type = b2Body.b2_kinematicBody;
-    bodyDef.position.x = x;
-    bodyDef.position.y = y;
-    fixDef.userData = "fallingBloc";
-    fixDef.shape = new b2PolygonShape;
+    bodyDef.type                    =           b2Body.b2_kinematicBody;
+    bodyDef.position.x              =           x;
+    bodyDef.position.y              =           y;
+    fixDef.userData                 =           "fallingBloc";
+    fixDef.shape                    =           new b2PolygonShape;
     fixDef.shape.SetAsBox(w,h);
-    var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);    
+    var that                        =           game.world.CreateBody(bodyDef).CreateFixture(fixDef);    
     
-    that.x = that.GetBody().GetPosition().x*30;
-    that.y = that.GetBody().GetPosition().y*30;
-    that.moving = false;
+    that.x                          =           that.GetBody().GetPosition().x*30;
+    that.y                          =           that.GetBody().GetPosition().y*30;
+    that.moving                     =           false;
 
     that.render = function()
     {

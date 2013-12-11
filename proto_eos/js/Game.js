@@ -1,18 +1,18 @@
 //Objet global game qui gere tout les objets d'une session de jeu.
 var Game = function()
 {
-    this.world = new b2World(
+    this.world          =       new b2World(
            new b2Vec2(0, 10)    //gravity
         ,  true                 //allow sleep
     );
-    this.ball = null;
+    this.ball           =       null;
     //this.level = null;
-    this.end = false;
-    this.pause = false;
-    this.player = null;
-    this.camera = null;
-    this.windManager = null;
-    this.effectTab = [];
+    this.end            =       false;
+    this.pause          =       false;
+    this.player         =       null;
+    this.camera         =       null;
+    this.windManager    =       null;
+    this.effectTab      =       [];
     this.update = function()
     {
         if(this.ball!=null)
@@ -89,7 +89,8 @@ var Game = function()
         }
         if(this.camera!=null)
             this.camera.drawInterface();
-        this.level.end.render();
+        if(this.level.end!=null)
+            this.level.end.render();
     }
     return this;
 }

@@ -13,18 +13,18 @@ var wrapperWidth = 600, wrapperHeight = 400;
 window.onload = function()
 {
 	//declarer le canvas
-	canvas = document.getElementById("canvas");
-	context = canvas.getContext('2d');
-	canvas.width = canvasWidth;
-	canvas.height = canvasHeight;
+	canvas                     =       document.getElementById("canvas");
+	context                    =       canvas.getContext('2d');
+	canvas.width               =       canvasWidth;
+	canvas.height              =       canvasHeight;
 	//buffer
-	canvasBuffer = document.createElement("canvas");
-	contextBuffer = canvasBuffer.getContext('2d');
-	canvasBuffer.width = canvasWidth;
-	canvasBuffer.height = canvasHeight;
-	wrapper = document.getElementById("wrapper");
-	wrapper.width = 600;
-	wrapper.height = 400; 
+	canvasBuffer               =       document.createElement("canvas");
+	contextBuffer              =       canvasBuffer.getContext('2d');
+	canvasBuffer.width         =       canvasWidth;
+	canvasBuffer.height        =       canvasHeight;
+	wrapper                    =       document.getElementById("wrapper");
+	wrapper.width              =       600;
+	wrapper.height             =       400; 
 }
  
 
@@ -33,16 +33,16 @@ function init()
 	$("#menu").fadeOut();
 	$("#replay").fadeOut();
 	//instancier le game
-	game = new Game();
+	game                   =           new Game();
 	//initialiser le level
-	game.level = new Level(0,1000,1000);
+	game.level             =           new Level(0,1000,1000);
     game.level.sample();
     //instanciation des classes du jeu
-	game.player =  new Player(4,9,{w : 0.5, h : 0.8});
-    game.windManager = new WindManager(game.player);
-	game.camera = new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
+	game.player            =           new Player(4,9,{w : 0.5, h : 0.8});
+    game.windManager       =           new WindManager(game.player);
+	game.camera            =           new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
 	//setup debug draw
- 	var debugDraw = new b2DebugDraw();
+ 	var debugDraw          =           new b2DebugDraw();
     debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
     //echelle de representation
     debugDraw.SetDrawScale(30.0);

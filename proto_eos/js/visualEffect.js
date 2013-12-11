@@ -1,11 +1,11 @@
 var TextEffect = function(x,y,value)
 {
-    this.x = x;
-    this.y = y;
-    this.value = value;
-    this.speed = 1;
-    this.alive = true;
-    this.clicOpacity = 1;
+    this.x              =       x;
+    this.y              =       y;
+    this.value          =       value;
+    this.speed          =       1;
+    this.alive          =       true;
+    this.clicOpacity    =       1;
     this.effect = function()
     {
 
@@ -56,14 +56,14 @@ function particleEffect(x,y)
 }
 var Particles = function(x,y)
 {
-    this.x = x;
-    this.y = y;
-    this.radius = 3;
-    this.speed = 4;
-    this.angle = Math.random() * Math.PI * 2;
-    this.alive = true;
-    this.opacity = 1;
-    this.color = "rgba(255,0,0,"+this.opacity+")";//"#" + Math.random().toString(16).slice(2, 8);
+    this.x          =       x;
+    this.y          =       y;
+    this.radius     =       3;
+    this.speed      =       4;
+    this.angle      =       Math.random() * Math.PI * 2;
+    this.alive      =       true;
+    this.opacity    =       1;
+    this.color      =       "rgba(255,0,0,"+this.opacity+")";//"#" + Math.random().toString(16).slice(2, 8);
     this.effect = function()
     {
         this.opacity-=0.02;

@@ -1,53 +1,53 @@
 var Player = function(x,y,dim,density,friction,restitution)
 {
     //creation de l'objet box2D
-    var bodyDef = new b2BodyDef;
-    var fixDef = new b2FixtureDef;
-    fixDef.density = density || 2.0;       //lourd
-    fixDef.friction = friction || 0;      //lent
-    fixDef.restitution = restitution || 0.2;   //rebond
+    var bodyDef                             =           new b2BodyDef;
+    var fixDef                              =           new b2FixtureDef;
+    fixDef.density                          =           density || 2.0;       //lourd
+    fixDef.friction                         =           friction || 0;      //lent
+    fixDef.restitution                      =           restitution || 0.2;   //rebond
     //create some objects
-    bodyDef.type = b2Body.b2_dynamicBody;
-    fixDef.shape = new b2PolygonShape;
+    bodyDef.type                            =           b2Body.b2_dynamicBody;
+    fixDef.shape                            =           new b2PolygonShape;
     fixDef.shape.SetAsBox(dim.w,dim.h);
     bodyDef.position.x = x;
     bodyDef.position.y = y;
     fixDef.userData = 'player';
-    var that = game.world.CreateBody(bodyDef).CreateFixture(fixDef);
+    var that                                =           game.world.CreateBody(bodyDef).CreateFixture(fixDef);
     that.GetBody().SetSleepingAllowed(false);   // l'objet player n'est pas autorisé à passer au repos
     that.GetBody().SetFixedRotation(true);      // empécher le player de "rouler"
-    that.jumpContacts = 0;
+    that.jumpContacts                       =           0;
     // Ajouter des "pieds"
-    that.footDef = new b2FixtureDef();
-    that.footDef.friction = 2;
-    that.footDef.userData = 'foot';
-    that.footDef.shape = new b2PolygonShape();
+    that.footDef                            =           new b2FixtureDef();
+    that.footDef.friction                   =           2;
+    that.footDef.userData                   =           'foot';
+    that.footDef.shape                      =           new b2PolygonShape();
     that.footDef.shape.SetAsOrientedBox(13 / 30, 3 / 30,
             new b2Vec2(0, dim.w / 1.8 / 0.39),   // position par rapport centre du body
             0                                           // angle d'orientation
     );
-    that.footDef.isSensor = true;
+    that.footDef.isSensor                   =           true;
     that.GetBody().CreateFixture(that.footDef);
     //attributs de forces
-    that.windForceX = 0;
-    that.windForceY = 0;
-    that.speed = 100;
-    that.life = 3;
+    that.windForceX                         =           0;
+    that.windForceY                         =           0;
+    that.speed                              =           100;
+    that.life                               =           3;
     //attributs de positions
-    that.x = that.GetBody().GetPosition().x*30;
-    that.y = that.GetBody().GetPosition().y*30;
-    that.checkpoint = { x : x, y : y};
+    that.x                                  =           that.GetBody().GetPosition().x*30;
+    that.y                                  =           that.GetBody().GetPosition().y*30;
+    that.checkpoint                         =           { x : x, y : y};
 
     //attributs de dessin
-    that.img = new Image();
-    that.img.src = "asset/chara.png";
-    that.currentFrameX = 0;
-    that.currentFrameY = 0;
-    that.frameWidth = 32;
-    that.frameHeight = 48;
-    that.nb_of_frame = 4;
-    that.iddle = true;
-    that.f = 0;
+    that.img                                =           new Image();
+    that.img.src                            =           "asset/chara.png";
+    that.currentFrameX                      =           0;
+    that.currentFrameY                      =           0;
+    that.frameWidth                         =           32;
+    that.frameHeight                        =           48;
+    that.nb_of_frame                        =           4;
+    that.iddle                              =           true;
+    that.f                                  =           0;
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;

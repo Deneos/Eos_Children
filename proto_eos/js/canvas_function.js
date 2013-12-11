@@ -1,18 +1,18 @@
 function mouseCoord(event)
 {
 	//pour ne pas prendre en compte la taille de la page
-	var totalOffsetX = 0;
-    var totalOffsetY = 0;
+	var totalOffsetX            =           0;
+    var totalOffsetY            =           0;
     //la position dans le canvas
-    var canvasX = 0;
-    var canvasY = 0;
-    var currentElement = this;
-    var e = event || window.event;
-    totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
-    totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+    var canvasX                 =           0;
+    var canvasY                 =           0;
+    var currentElement          =           this;
+    var e                       =           event || window.event;
+    totalOffsetX                +=          currentElement.offsetLeft - currentElement.scrollLeft;
+    totalOffsetY                +=          currentElement.offsetTop - currentElement.scrollTop;
     //enregistrer la position du clic
-    canvasX = e.pageX - totalOffsetX;
-    canvasY = e.pageY - totalOffsetY;
+    canvasX                     =           e.pageX - totalOffsetX;
+    canvasY                     =           e.pageY - totalOffsetY;
     //y mettre l'action en jeu
     if(game!=null)
     {
