@@ -16,91 +16,91 @@ var Level = function(id,width,height)
     this.sample = function()
     {
         //creer les plateformes
-        var b = new Platform(9,11,20,0.5,"ground");
+        var b = new Platform(18,22,40,1,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(9,10,1,1,"ground");
+        var b = new Platform(18,20,2,2,"ground");
         this.levelBlocs.push(b);
         //murs
-        var b = new Platform(0,0,0.5,35,"ground");
+        var b = new Platform(0,0,1,70,"ground");
         this.levelBlocs.push(b)
-        var b = new Platform(33,0,0.5,35,"ground");
+        var b = new Platform(66,0,1,70,"ground");
         this.levelBlocs.push(b)
-        var b = new Platform(16,8.5,1,2.5,"ground");
+        var b = new Platform(32,17,2,5,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(23,8.5,1,2.5,"ground");
+        var b = new Platform(46,17,2,5,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(25,16,8,0.5,"ground");
+        var b = new Platform(50,32,16,1,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(10,16,3,0.5,"ground");
+        var b = new Platform(20,32,6,1,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(9,28,20,0.5,"ground");
+        var b = new Platform(18,56,40,1,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(6,33,6,0.5,"ground");
+        var b = new Platform(12,66,12,1,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(24,33,9,0.5,"ground");
+        var b = new Platform(48,66,18,1,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(8,20,0.5,4,"ground");
+        var b = new Platform(16,40,1,8,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(29.5,25.5,0.5,3,"ground");
+        var b = new Platform(59,51,1,6,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(12,26.5,1,1,"ground");
+        var b = new Platform(24,53,2,2,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(13,25,1,1,"ground");
+        var b = new Platform(26,50,2,2,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(14,26.5,1,1,"ground");
+        var b = new Platform(28,53,2,2,"ground");
         this.levelBlocs.push(b);
-        var b = new Platform(21,25,1,2.5,"ground");
+        var b = new Platform(42,50,2,5,"ground");
         this.levelBlocs.push(b);
         
         //creer les boites dynamiques
-        var b = new Box(14,2,{w : 1, h : 1},true);
+        var b = new Box(28,4,{w : 2, h : 2},true);
         this.tabDynamicBlocs.push(b);
         //elements de gameplay
-        var s = new Spike(2,10,0.5,0.5);
+        var s = new Spike(4,20,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(18,10,0.5,0.5);
+        var s = new Spike(36,20,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(19,10,0.5,0.5);
+        var s = new Spike(38,20,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(22,10,0.5,0.5);
+        var s = new Spike(44,20,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(25,15,0.5,0.5);
+        var s = new Spike(50,30,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(2,27,0.5,0.5);
+        var s = new Spike(4,54,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(16,27,0.5,0.5);
+        var s = new Spike(32,54,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(17,27,0.5,0.5);
+        var s = new Spike(34,54,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(18,27,0.5,0.5);
+        var s = new Spike(36,54,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(19,27,0.5,0.5);
+        var s = new Spike(38,54,1,1);
         this.tabTraps.push(s);
-        var s = new Spike(20,27,0.5,0.5);
+        var s = new Spike(40,54,1,1);
         this.tabTraps.push(s);
 
-        var h = new Hole(15,17,2,0.1);
+        var h = new Hole(30,34,4,0.2);
         this.tabFallingBlocs.push(h);
-        var h = new Hole(13.5,33,1.5,0.1);
+        var h = new Hole(27,66,3,0.2);
         this.tabFallingBlocs.push(h);
 
-        var f = new FallingBloc(32,11,3,0.5);
+        var f = new FallingBloc(64,22,6,1);
         this.tabFallingBlocs.push(f);
-        var f = new FallingBloc(3.5,16,3.5,0.5);
+        var f = new FallingBloc(7,32,7,1);
         this.tabFallingBlocs.push(f);
-        var f = new FallingBloc(3.5,20,3.5,0.5);
+        var f = new FallingBloc(7,40,7,1);
         this.tabFallingBlocs.push(f);
-        var f = new FallingBloc(3.5,25,3.5,0.5);
+        var f = new FallingBloc(7,50,7,1);
         this.tabFallingBlocs.push(f);
 
-        var c = new Checkpoint(26,10,1,1);
+        var c = new Checkpoint(52,20,2,2);
         this.tabChekpoint.push(c);
-        var c = new Checkpoint(10,15,1,1);
+        var c = new Checkpoint(20,30,2,2);
         this.tabChekpoint.push(c);
-        var c = new Checkpoint(25,26.5,1,1);
+        var c = new Checkpoint(50,53,2,2);
         this.tabChekpoint.push(c);
 
-        this.end = new EndPoint(5,32.5,2,0.1);
+        this.end = new EndPoint(10,65,4,0.2);
     }
     this.init = function()
     {

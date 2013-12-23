@@ -106,22 +106,22 @@ var WindManager = function(player)
 		switch(this.windDirection)
 		{
 			case "haut" :
-				game.player.windForceY = -5;
+				game.player.windForceY = -20;
 				this.currentRayAngle = 3.143;
 				this.rayLength = 25;
 				break;
 			case "bas" :
-				game.player.windForceY = 10;
+				game.player.windForceY = 20;
 				this.currentRayAngle = 0;
 				this.rayLength = 25;
 				break;
 			case "gauche" :
-				game.player.windForceX = -50;
+				game.player.windForceX = -100;
 				this.currentRayAngle = 4.7;
 				this.rayLength = 25;
 				break;
 			case "droite" :
-				game.player.windForceX = 50;
+				game.player.windForceX = 100;
 				this.currentRayAngle = 1.55;
 				this.rayLength = 25;
 				break;

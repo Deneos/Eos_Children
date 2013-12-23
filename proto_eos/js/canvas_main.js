@@ -1,13 +1,13 @@
 //init
 var canvas, context;
 var canvasBuffer, contextBuffer;
-var canvasWidth = 1000, canvasHeight = 1000;
+var canvasWidth = 2000, canvasHeight = 2000;
 var bodyA;
 var revolute_joint;
 var keys = []; 
 var listener;
 var wrapper;
-var wrapperWidth = 600, wrapperHeight = 400;  
+var wrapperWidth = 1000, wrapperHeight = 500;  
 
 
 window.onload = function()
@@ -23,8 +23,8 @@ window.onload = function()
 	canvasBuffer.width         =       canvasWidth;
 	canvasBuffer.height        =       canvasHeight;
 	wrapper                    =       document.getElementById("wrapper");
-	wrapper.width              =       600;
-	wrapper.height             =       400; 
+	wrapper.width              =       wrapperWidth;
+	wrapper.height             =       wrapperHeight; 
 }
  
 
@@ -35,10 +35,10 @@ function init()
 	//instancier le game
 	game                   =           new Game();
 	//initialiser le level
-	game.level             =           new Level(0,1000,1000);
+	game.level             =           new Level(0,2000,2000);
     game.level.sample();
     //instanciation des classes du jeu
-	game.player            =           new Player(4,9,{w : 0.5, h : 0.8});
+	game.player            =           new Player(8,18,{w : 1, h : 1.5});
     game.windManager       =           new WindManager(game.player);
 	game.camera            =           new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
 	//setup debug draw

@@ -4,13 +4,12 @@ canvas
 }
 #wrapper
 {
-	position: absolute;
-	left: calc(50% - 300px); 
-    top : calc(50% - 300px);
+	margin:0 auto;
 	overflow: hidden;
-	width: 600px;
-	height: 400px;
+	width: 1000px;
+	height: 500px;
 	border: 2px solid black;
+	background: url(asset/fond.jpg);
 }
 body
 {

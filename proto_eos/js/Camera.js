@@ -4,7 +4,7 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
     this.viewX          =       viewX || 0;
     this.viewY          =       viewY || 0;
     // distance entre l'objet suivit et le bord avant le mouvement
-    this.deadZoneX      =       100;
+    this.deadZoneX      =       200;
     this.deadZoneY      =       100;
     // dimension de la vue
     this.viewWidth      =       canvasWidth;

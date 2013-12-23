@@ -23,7 +23,7 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.footDef.userData                   =           'foot';
     that.footDef.shape                      =           new b2PolygonShape();
     that.footDef.shape.SetAsOrientedBox(13 / 30, 3 / 30,
-            new b2Vec2(0, dim.w / 1.8 / 0.39),   // position par rapport centre du body
+            new b2Vec2(0, dim.w / 1.8 / 0.37),   // position par rapport centre du body
             0                                           // angle d'orientation
     );
     that.footDef.isSensor                   =           true;
@@ -31,7 +31,7 @@ var Player = function(x,y,dim,density,friction,restitution)
     //attributs de forces
     that.windForceX                         =           0;
     that.windForceY                         =           0;
-    that.speed                              =           100;
+    that.speed                              =           150;
     that.life                               =           3;
     //attributs de positions
     that.x                                  =           that.GetBody().GetPosition().x*30;
@@ -81,7 +81,7 @@ var Player = function(x,y,dim,density,friction,restitution)
         if(that.jumpContacts > 0)//==true)
         {
             that.GetBody().ApplyImpulse(
-                new b2Vec2(0, -12 + that.windForceY),                         // vecteur
+                new b2Vec2(0, -50 + that.windForceY),                         // vecteur
                 that.GetBody().GetWorldCenter()
             );    // point d'application de l'impulsion
         }
