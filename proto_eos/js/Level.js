@@ -11,6 +11,7 @@ var Level = function(id,width,height)
     this.tabFallingBlocs        =       [];
     this.tabChekpoint           =       [];
     this.tabjoint               =       [];
+    this.tabItem                =       [];
     this.end                    =       null;
 
     this.sample = function()
@@ -99,6 +100,8 @@ var Level = function(id,width,height)
         this.tabChekpoint.push(c);
         var c = new Checkpoint(50,53,2,2);
         this.tabChekpoint.push(c);
+        var i = new LifeUp(10,15,1);
+        this.tabItem.push(i);
 
         this.end = new EndPoint(10,65,4,0.2);
     }

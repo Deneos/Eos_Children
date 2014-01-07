@@ -6,7 +6,7 @@ var LifeUp = function(x,y,r,density,friction,restitution)
     fixDef.friction         =       friction || 0.5;      //lent
     fixDef.restitution      =       restitution || 0.2;   //rebond
     //create some objects
-    bodyDef.type            =       b2Body.b2_dynamicBody;
+    bodyDef.type            =       b2Body.b2_kinematicBody;
     fixDef.shape            =       new b2CircleShape(r);
     bodyDef.position.x      =       x;
     bodyDef.position.y      =       y;
@@ -17,6 +17,25 @@ var LifeUp = function(x,y,r,density,friction,restitution)
     
     that.x                  =       that.GetBody().GetPosition().x*30;
     that.y                  =       that.GetBody().GetPosition().y*30;
+    that.use                =       false;
 
+    that.obtain = function()
+    {
+        game.player.life+=1;
+        this.use = true;
+    }
+    that.render = function()
+    {
+        context.beginPath();
+        context.fillStyle = "#99FF66";
+        context.arc(that.x*30, that.y*30, that.r*60, 0, 2 * Math.PI, false);
+        context.fill();
+        context.closePath();
+    }
+    that.destroy = function()
+    {
+        game.world.DestroyBody(that.GetBody());
+        this.use = true;
+    }
     return that;
 }

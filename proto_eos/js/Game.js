@@ -50,6 +50,14 @@ var Game = function()
                 game.level.tabFallingBlocs[i].fall();
             }
         }
+        for ( var i = 0 ; i < game.level.tabItem.length ; i++)
+        {
+            if(game.level.tabItem[i].use==true)
+            {
+                game.level.tabItem[i].destroy();
+                game.level.tabItem.splice(i,0);
+            }
+        }
     }
     this.render = function()
     {
@@ -72,8 +80,10 @@ var Game = function()
         {
             game.level.tabFallingBlocs[i].render();
         }
-
-
+        for ( var i = 0 ; i < game.level.tabItem.length ; i++)
+        {
+            game.level.tabItem[i].render();
+        }
         if(this.player!=null)
         {
             this.player.draw();

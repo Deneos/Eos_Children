@@ -56,10 +56,42 @@ this.addContactListener = function() {
                 }  
             }
         }
+        //objets
+        if (isPlayer(obj1) || isPlayer(obj2)) {
+            if (isItem(obj1) || isItem(obj2)) {                  
+                if(isItem(obj1))
+                {    
+                    obj1.obtain();
+                }
+                if(isItem(obj2))
+                {    
+                    obj2.obtain();
+                }
+            }
+        }
+        //capter la fin du niveau
         if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
             if (isEnding(obj1) || isEnding(obj2)) {                  
                 $("#end").fadeIn();
                 game.end = true;
+            }
+        }
+        //capter si on touche un mur
+        if (isCollider(obj1)=="colliderLeft" || isCollider(obj2)=="colliderLeft") {
+            if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {                  
+                if(game.windDirection=="gauche")
+                {
+                    alert("climb");
+                }
+            }
+        }
+        //capter si on touche un mur
+        if (isCollider(obj1)=="colliderRight" || isCollider(obj2)=="colliderRight") {
+            if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {                  
+                if(game.windDirection=="droite")
+                {
+                    alert("climb");
+                }
             }
         }
     }
@@ -135,5 +167,19 @@ function isEnding(object)
     if (object != null && object.GetUserData() != null) 
     {
         return object.GetUserData() == 'victory';
+    }
+}
+function isCollider(object) 
+{
+    if (object != null && object.GetUserData() != null) 
+    {
+        return object.GetUserData() == 'colliderRight' || object.GetUserData() == 'colliderLeft';
+    }
+}
+function isItem(object) 
+{
+    if (object != null && object.GetUserData() != null) 
+    {
+        return object.GetUserData() == 'bonus';
     }
 }
