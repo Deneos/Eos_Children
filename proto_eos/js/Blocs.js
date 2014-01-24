@@ -69,26 +69,47 @@ var Platform = function(x,y,w,h,tag,nbtile, density,friction,restitution)
     }
     return that;
 }
-var Box = function(x,y,dim,density,friction,restitution)
+var Box = function(x,y,dim,density,friction,restitution,userData)
 {
     var bodyDef             =       new b2BodyDef;
     var fixDef              =       new b2FixtureDef;
     fixDef.density          =       density || 1.0;       //lourd
     fixDef.friction         =       friction || 0.5;      //lent
-    fixDef.restitution      =       restitution || 0.2;   //rebond
+    fixDef.restitution      =       restitution || 0.00000001;   //rebond
     //create some objects
     bodyDef.type            =       b2Body.b2_dynamicBody;
     fixDef.shape            =       new b2PolygonShape;
     fixDef.shape.SetAsBox(dim.w,dim.h);
     bodyDef.position.x      =       x;
     bodyDef.position.y      =       y;
-    fixDef.userData         =       'box';
+    fixDef.userData         =       userData || 'box';
     var that                =       game.world.CreateBody(bodyDef).CreateFixture(fixDef);
+    that.GetBody().SetSleepingAllowed(false);
+
+    that.density            = density || 1.0;
+
+    that.x                  = that.GetBody().GetPosition().x*30;
+    that.y                  = that.GetBody().GetPosition().y*30;
+    that.alive              = true;
+    that.vel                = that.GetBody().GetLinearVelocity();
     
+    that.hurt = function()
+    {
+        that.userData = "hurting";
+    }
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;
         that.y = that.GetBody().GetPosition().y*30;
+    }
+    that.destroy = function()
+    {
+        game.world.DestroyBody(that.GetBody());
+        that.alive = false;
+    }
+    that.stopMoving =function()
+    {
+        that.vel.x = 0;
     }
 
     return that;

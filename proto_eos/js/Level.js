@@ -12,6 +12,7 @@ var Level = function(id,width,height)
     this.tabChekpoint           =       [];
     this.tabjoint               =       [];
     this.tabItem                =       [];
+    this.tabEnnemi              =       [];
     this.end                    =       null;
 
     this.sample = function()
@@ -54,8 +55,10 @@ var Level = function(id,width,height)
         this.levelBlocs.push(b);
         
         //creer les boites dynamiques
-        var b = new Box(28,4,{w : 2, h : 2},true);
+        var b = new Box(25,19,{w : 2, h : 2},50);
         this.tabDynamicBlocs.push(b);
+
+
         //elements de gameplay
         var s = new Spike(4,20,1,1);
         this.tabTraps.push(s);
@@ -100,9 +103,80 @@ var Level = function(id,width,height)
         this.tabChekpoint.push(c);
         var c = new Checkpoint(50,53,2,2);
         this.tabChekpoint.push(c);
-        var i = new LifeUp(10,15,1);
+
+        var i = new LifeUp(55,15,1);
+        this.tabItem.push(i);
+        this.end = new EndPoint(10,65,4,0.2);
+    }
+    this.sample2 = function()
+    {
+        //creer les plateformes
+        var b = new Platform(18,22,50,1,"ground");
+        this.levelBlocs.push(b);
+        var b = new Platform(0,0,1,70,"ground");
+        this.levelBlocs.push(b)
+        var b = new Platform(0,0,1,70,"ground");
+        this.levelBlocs.push(b)
+        //murs
+        var s = new Platform(15,20,2,1,"ground");
+        this.levelBlocs.push(s);
+        var s = new Platform(21,19,4,2,"ground");
+        this.levelBlocs.push(s);
+        var s = new Platform(28,17,3,4,"ground");
+        this.levelBlocs.push(s);
+        var s = new Platform(32,19,4,2,"ground");
+        this.levelBlocs.push(s);
+        var s = new Platform(38,17,3,4,"ground");
+        this.levelBlocs.push(s);
+        var s = new Platform(42,19,3,2,"ground");
+        this.levelBlocs.push(s);
+        var s = new Platform(65,19,3,2,"ground");
+        this.levelBlocs.push(s);
+        var s = new Platform(81,19,5,30,"ground");
+        this.levelBlocs.push(s);
+        var c = new Checkpoint(38,11,2,2);
+        this.tabChekpoint.push(c);
+        var i = new LifeUp(43,11.5,1);
+        this.tabItem.push(i);
+        var b = new Box(48,19,{w : 0.5, h : 0.5},5);
+        this.tabDynamicBlocs.push(b);
+        var f = new FallingBloc(72,22,4,1);
+        this.tabFallingBlocs.push(f);
+        var b = new Box(66,14,{w : 0.5, h : 0.5},5);
+        this.tabDynamicBlocs.push(b);
+
+        var c = new Checkpoint(60,31,2,2);
+        this.tabChekpoint.push(c);
+        var i = new LifeUp(73,26,1);
         this.tabItem.push(i);
 
+        var b = new Platform(40,34,50,1,"ground");
+        this.levelBlocs.push(b);
+        //creer les boites dynamiques
+        /*var b = new Box(15,12,{w : 0.5, h : 0.5},5,10,0);
+        this.tabDynamicBlocs.push(b);
+        var b = new Box(15,12,{w : 0.5, h : 0.5},5,10,0);
+        this.tabDynamicBlocs.push(b);
+        var b = new Box(15,12,{w : 0.5, h : 0.5},5,10,0);
+        this.tabDynamicBlocs.push(b);
+        var b = new Box(15,12,{w : 0.5, h : 0.5},5,10,0);
+        this.tabDynamicBlocs.push(b);*/
+
+
+        var s = new Spike(33,16.5,2,0.5);
+        this.tabTraps.push(s);
+
+        //ennemis
+        var e = new Ennemi(60,18,{w : 1, h : 1.5},"l-shield");
+        this.tabEnnemi.push(e);
+
+        var e = new Ennemi(28,15,{w : 1, h : 1.5},"column");
+        this.tabEnnemi.push(e);
+
+        var e = new FlyingEnnemi(18,12,{w : 1, h : 1},"weak");
+        this.tabEnnemi.push(e);
+        var e = new FlyingEnnemi(72,12,{w : 1, h : 1},"weak");
+        this.tabEnnemi.push(e);
         this.end = new EndPoint(10,65,4,0.2);
     }
     this.init = function()

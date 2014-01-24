@@ -6,7 +6,7 @@ var Game = function()
         ,  true                 //allow sleep
     );
     this.ball           =       null;
-    //this.level = null;
+    this.level          =       null;
     this.end            =       false;
     this.pause          =       false;
     this.player         =       null;
@@ -50,6 +50,29 @@ var Game = function()
                 game.level.tabFallingBlocs[i].fall();
             }
         }
+        for ( var i = 0 ; i < game.level.tabDynamicBlocs.length ; i++)
+        {
+            game.level.tabDynamicBlocs[i].update();
+            if(game.level.tabDynamicBlocs[i].userData=="hurting")
+            {    
+                game.level.tabDynamicBlocs[i].destroy();
+            }
+            if(game.level.tabDynamicBlocs[i].alive==false)
+                game.level.tabDynamicBlocs.splice(i,1);
+        }
+        for ( var i = 0 ; i < game.level.tabEnnemi.length ; i++)
+        {
+            game.level.tabEnnemi[i].update();
+            if(game.level.tabEnnemi[i].userData=="hurting")
+            {    
+                particleEffect(game.level.tabEnnemi[i].x,game.level.tabEnnemi[i].y);
+                game.level.tabEnnemi[i].destroy();
+            }
+            if(game.level.tabEnnemi[i].alive==false)
+            {
+                game.level.tabEnnemi.splice(i,1);
+            }
+        }
         for ( var i = 0 ; i < game.level.tabItem.length ; i++)
         {
             if(game.level.tabItem[i].use==true)
@@ -83,6 +106,10 @@ var Game = function()
         for ( var i = 0 ; i < game.level.tabItem.length ; i++)
         {
             game.level.tabItem[i].render();
+        }
+        for ( var i = 0 ; i < game.level.tabEnnemi.length ; i++)
+        {
+            game.level.tabEnnemi[i].render();
         }
         if(this.player!=null)
         {

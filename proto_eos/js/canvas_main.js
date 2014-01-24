@@ -7,7 +7,7 @@ var revolute_joint;
 var keys = []; 
 var listener;
 var wrapper;
-var wrapperWidth = 1000, wrapperHeight = 500;  
+var wrapperWidth = 1024, wrapperHeight = 576;  
 
 
 window.onload = function()
@@ -28,17 +28,30 @@ window.onload = function()
 }
  
 
-function init() 
+function init(id) 
 {   
 	$("#menu").fadeOut();
 	$("#replay").fadeOut();
 	//instancier le game
 	game                   =           new Game();
 	//initialiser le level
-	game.level             =           new Level(0,2000,2000);
-    game.level.sample();
+	
+    if(id==0)
+    {   
+        game.level             =           new Level(0,2000,2000);
+        game.level.sample();
+    }
+    if(id==1)
+    {    
+        canvasWidth = 2500;
+        canvasHeight = 1024; 
+        canvas.width               =       canvasWidth;
+        canvas.height              =       canvasHeight;
+        game.level             =           new Level(0,2500,1024);
+        game.level.sample2();
+    }
     //instanciation des classes du jeu
-	game.player            =           new Player(8,18,{w : 1, h : 1.5});
+	game.player            =           new Player(6,18,{w : 1, h : 1.5},10,0,0);
     game.windManager       =           new WindManager(game.player);
 	game.camera            =           new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
 	//setup debug draw

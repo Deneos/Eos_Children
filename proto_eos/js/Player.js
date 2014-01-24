@@ -5,14 +5,14 @@ var Player = function(x,y,dim,density,friction,restitution)
     var fixDef                              =           new b2FixtureDef;
     fixDef.density                          =           density || 2.0;       //lourd
     fixDef.friction                         =           friction || 0;      //lent
-    fixDef.restitution                      =           restitution || 0.2;   //rebond
+    fixDef.restitution                      =           restitution || 0.00000000000000001;   //rebond
     //create some objects
     bodyDef.type                            =           b2Body.b2_dynamicBody;
     fixDef.shape                            =           new b2PolygonShape;
     fixDef.shape.SetAsBox(dim.w,dim.h);
-    bodyDef.position.x = x;
-    bodyDef.position.y = y;
-    fixDef.userData = 'player';
+    bodyDef.position.x                      =           x;
+    bodyDef.position.y                      =           y;
+    fixDef.userData                         =           'player';
     var that                                =           game.world.CreateBody(bodyDef).CreateFixture(fixDef);
     that.GetBody().SetSleepingAllowed(false);   // l'objet player n'est pas autorisé à passer au repos
     that.GetBody().SetFixedRotation(true);      // empécher le player de "rouler"
@@ -22,14 +22,14 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.footDef.friction                   =           2;
     that.footDef.userData                   =           'foot';
     that.footDef.shape                      =           new b2PolygonShape();
-    that.footDef.shape.SetAsOrientedBox(13 / 30, 3 / 30,
+    that.footDef.shape.SetAsOrientedBox(29 / 30, 3 / 30,
             new b2Vec2(0, dim.w / 1.8 / 0.37),   // position par rapport centre du body
             0                                           // angle d'orientation
     );
     that.footDef.isSensor                   =           true;
     that.GetBody().CreateFixture(that.footDef);
     // Ajouter des "collider"
-    that.coliderRight                            =           new b2FixtureDef();
+    /*that.coliderRight                            =           new b2FixtureDef();
     that.coliderRight.friction                   =           2;
     that.coliderRight.userData                   =           'colliderRight';
     that.coliderRight.shape                      =           new b2PolygonShape();
@@ -49,7 +49,7 @@ var Player = function(x,y,dim,density,friction,restitution)
             0                                           // angle d'orientation
     );
     that.colliderLeft.isSensor                   =           true;
-    that.GetBody().CreateFixture(that.colliderLeft);
+    that.GetBody().CreateFixture(that.colliderLeft);*/
     //attributs de forces
     that.windForceX                         =           0;
     that.windForceY                         =           0;
@@ -70,6 +70,8 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.nb_of_frame                        =           4;
     that.iddle                              =           true;
     that.f                                  =           0;
+    that.vel                                =           that.GetBody().GetLinearVelocity();
+
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;
@@ -82,8 +84,7 @@ var Player = function(x,y,dim,density,friction,restitution)
         that.iddle = false;
         if(that.x > 30)
         {
-            var vel = that.GetBody().GetLinearVelocity();
-            vel.x = (-that.speed + that.windForceX)/ 30;
+            that.vel.x = (-that.speed + that.windForceX)/ 30;
         }
     }
     that.moveRight = function()
@@ -93,8 +94,7 @@ var Player = function(x,y,dim,density,friction,restitution)
         that.iddle = false;
         if(that.x < game.level.width)
         {
-            var vel = that.GetBody().GetLinearVelocity();
-            vel.x = (that.speed + that.windForceX)/ 30;
+            that.vel.x = (that.speed + that.windForceX)/ 30;
         }
     }
     that.jump = function()
@@ -103,7 +103,7 @@ var Player = function(x,y,dim,density,friction,restitution)
         if(that.jumpContacts > 0)//==true)
         {
             that.GetBody().ApplyImpulse(
-                new b2Vec2(0, -50 + that.windForceY),                         // vecteur
+                new b2Vec2(0, -210 + that.windForceY),                         // vecteur
                 that.GetBody().GetWorldCenter()
             );    // point d'application de l'impulsion
         }
@@ -111,8 +111,7 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.stopMoving =function()
     {
         that.iddle = true;
-        var vel = that.GetBody().GetLinearVelocity();
-        vel.x = 0;
+        that.vel.x = 0;
     }
     that.destroy = function()
     {
@@ -159,6 +158,7 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.calculDistance = function(target)
     {
         var range = Math.sqrt(Math.pow(that.x-target.x,2) + Math.pow(that.y-target.y,2));
+        return range;
     }
     that.receiveDamage = function(points)
     {

@@ -11,21 +11,15 @@ this.addContactListener = function() {
             if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {                  
                 game.player.jumpContacts ++; // le joueur entre en contact avec une plate-forme de saut
             }
-        }
-        //si on a une collision entre le joueur et des piques
-        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+            //marche sur des pics
             if (isSpike(obj1) || isSpike(obj2)) {                  
                 game.player.hurt(); 
             }
-        }
-        //si on tombe dans un trou
-        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+            //tombe dans un trou
             if (isHole(obj1) || isHole(obj2)) {                  
                 game.player.hurt(); 
             }
-        }
-        //plateforme tombantes
-        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+            //platforme tombante
             if (isFallingBloc(obj1) || isFallingBloc(obj2)) {                  
                 if(game.windManager.windDirection=="bas")
                 {
@@ -39,9 +33,7 @@ this.addContactListener = function() {
                     }  
                 } 
             }
-        }
-        //partie checkpoint
-        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+            //checkpoint
             if (isCheckPoint(obj1) || isCheckPoint(obj2)) 
             {   
                 if(isCheckPoint(obj1))
@@ -55,7 +47,13 @@ this.addContactListener = function() {
                     game.player.checkpoint.y = obj2.checkY;
                 }  
             }
+            //fin de niveau
+            if (isEnding(obj1) || isEnding(obj2)) {                  
+                $("#end").fadeIn();
+                game.end = true;
+            }
         }
+
         //objets
         if (isPlayer(obj1) || isPlayer(obj2)) {
             if (isItem(obj1) || isItem(obj2)) {                  
@@ -68,12 +66,35 @@ this.addContactListener = function() {
                     obj2.obtain();
                 }
             }
+            if(isShield(obj1) || isShield(obj2))
+            {
+                if(isPlayer(obj1))
+                    obj1.hurt();
+                if(isPlayer(obj2))
+                    obj2.hurt();
+            }
         }
-        //capter la fin du niveau
-        if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
-            if (isEnding(obj1) || isEnding(obj2)) {                  
-                $("#end").fadeIn();
-                game.end = true;
+        //si on a une collision entre un ennemi et des piques
+        if (isEnnemi(obj1) || isEnnemi(obj2)) {
+            if (isSpike(obj1) || isSpike(obj2)) {                  
+                if(isEnnemi(obj1))
+                {    
+                    obj1.hurt();
+                }
+                if(isEnnemi(obj2))
+                {    
+                    obj2.hurt();
+                } 
+            }
+            if (isBox(obj1) || isBox(obj2)) {                  
+                obj1.hurt();
+                obj2.hurt();
+            }
+            if(isPlayer(obj1) || isPlayer(obj2)){
+                if(isPlayer(obj1))
+                    obj1.hurt();
+                if(isPlayer(obj2))
+                    obj2.hurt();
             }
         }
         //capter si on touche un mur
@@ -94,6 +115,8 @@ this.addContactListener = function() {
                 }
             }
         }
+
+
     }
      
     // Fin de contact
@@ -105,6 +128,47 @@ this.addContactListener = function() {
                 game.player.jumpContacts --; // le joueur quitte une plate-forme de saut
             }
         }
+    }
+    listener.PostSolve = function(contact, impulse) {
+        // PostSolve
+        var obj1 = contact.GetFixtureA();
+        var obj2 = contact.GetFixtureB();
+
+
+    }
+    listener.PreSolve = function(contact, oldManifold) {
+        var obj1 = contact.GetFixtureA();
+        var obj2 = contact.GetFixtureB();
+
+        if(isPlayer(obj1) || isPlayer(obj2))
+        {
+            if(isBox(obj1) || isBox(obj2))
+            {
+                if(isBox(obj1))
+                    obj1.stopMoving();
+                if(isBox(obj2))
+                    obj2.stopMoving();
+            }
+            /*if(isEnnemi(obj1) || isEnnemi(obj2))
+            {
+                if(isEnnemi(obj1) && isEnnemi(obj1).type!="weak")
+                    obj1.stopMoving();
+                if(isEnnemi(obj2) && isEnnemi(obj1).type!="weak")
+                    obj2.stopMoving();
+            }*/
+        }
+        if(isShield(obj1) || isShield(obj2))
+        {
+            if(isBox(obj1) || isBox(obj2))
+            {
+                if(isBox(obj1))
+                    obj1.stopMoving();
+                if(isBox(obj2))
+                    obj2.stopMoving();
+            }
+        }
+
+        
     }
     game.world.SetContactListener(listener);
 }
@@ -181,5 +245,33 @@ function isItem(object)
     if (object != null && object.GetUserData() != null) 
     {
         return object.GetUserData() == 'bonus';
+    }
+}
+function isEnnemi(object) 
+{
+    if (object != null && object.GetUserData() != null) 
+    {
+        return object.GetUserData() == 'ennemi';
+    }
+}
+function isProjectile(object) 
+{
+    if (object != null && object.GetUserData() != null) 
+    {
+        return object.GetUserData() == 'projectile';
+    }
+}
+function isBox(object) 
+{
+    if (object != null && object.GetUserData() != null) 
+    {
+        return object.GetUserData() == 'box';
+    }
+}
+function isShield(object) 
+{
+    if (object != null && object.GetUserData() != null) 
+    {
+        return object.GetUserData() == 'shield';
     }
 }

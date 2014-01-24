@@ -4,7 +4,7 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
     this.viewX          =       viewX || 0;
     this.viewY          =       viewY || 0;
     // distance entre l'objet suivit et le bord avant le mouvement
-    this.deadZoneX      =       200;
+    this.deadZoneX      =       300;
     this.deadZoneY      =       100;
     // dimension de la vue
     this.viewWidth      =       canvasWidth;
@@ -27,10 +27,10 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
         {
             if(this.viewX>0)
             {    
-                wrapper.scrollLeft-=2;;
-                this.viewX -=2;;    
-                this.viewWidth-=2;;
-                this.deadZoneX-=2;;
+                wrapper.scrollLeft-=5;
+                this.viewX -=5;    
+                this.viewWidth-=5;
+                this.deadZoneX-=5;
             }
         }
         //droite
@@ -38,10 +38,10 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
         {
             if(this.viewWidth<this.mapSizeX)
             {    
-                wrapper.scrollLeft+=2;;
-                this.viewX+=2;;
-                this.viewWidth+=2;;
-                this.deadZoneX+=2;;
+                wrapper.scrollLeft+=5;
+                this.viewX+=5;
+                this.viewWidth+=5;
+                this.deadZoneX+=5;
             }
             
         }
@@ -50,10 +50,10 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
         {
             if(this.viewY>0)
             {
-                this.viewY-=2;;
-                this.viewHeight-=2;;
-                wrapper.scrollTop-=2;;
-                this.deadZoneY-=2;;
+                this.viewY-=5;
+                this.viewHeight-=5;
+                wrapper.scrollTop-=5;
+                this.deadZoneY-=5;
             }
         }
         //bas
@@ -61,10 +61,10 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
         {
             if(this.viewHeight<this.mapSizeY)
             {
-                wrapper.scrollTop+=2;;
-                this.viewY+=2;;
-                this.viewHeight+=2;;
-                this.deadZoneY+=2;;
+                wrapper.scrollTop+=5;
+                this.viewY+=5;
+                this.viewHeight+=5;
+                this.deadZoneY+=5;
             }
         }
         context.fillStyle = 'red';

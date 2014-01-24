@@ -23,7 +23,7 @@ this.handleInteractions = function()
     if(game.player!=null)
     {
         // touche "haut"
-        if (keys[38] || keys[32]) 
+        if (keys[38] || keys[32] || keys[122] || keys[90] || keys[87]) 
         {
             if(game.windManager!=null && game.windManager.menuOpen==true)
             {
@@ -32,12 +32,18 @@ this.handleInteractions = function()
                 game.pause = false;
                 keys[16] = false;
                 keys[17] = false;
+                keys[38] = false;
+                keys[32] = false;
+                keys[122] = false;
+                keys[90] = false;
+                keys[87] = false;
                 return;
             }
-            game.player.jump();
+            else
+                game.player.jump();
         }
         // touches "gauche" et "droite"
-        if (keys[37]) 
+        if (keys[37] || keys[113] || keys[97] || keys[81] || keys[65]) 
         {
             if(game.windManager!=null && game.windManager.menuOpen==true)
             {
@@ -46,11 +52,16 @@ this.handleInteractions = function()
                 game.pause = false;
                 keys[16] = false;
                 keys[17] = false;
+                /*keys[37] = false;
+                keys[113] = false;
+                keys[97] = false;
+                keys[81] = false;
+                keys[65] = false;*/
                 return;
             }
             game.player.moveLeft();
         } 
-        if (keys[39]) 
+        if (keys[39] || keys[100] || keys[68]) 
         {
             if(game.windManager!=null && game.windManager.menuOpen==true)
             {
@@ -59,11 +70,14 @@ this.handleInteractions = function()
                 game.pause = false;
                 keys[16] = false;
                 keys[17] = false;
+                /*keys[39] = false;
+                keys[100] = false;
+                keys[68] = false;*/
                 return;
             }
             game.player.moveRight();
         }
-        if (keys[40] || keys[83])
+        if (keys[40] || keys[83] || keys[115])
         {
             if(game.windManager!=null && game.windManager.menuOpen==true)
             {

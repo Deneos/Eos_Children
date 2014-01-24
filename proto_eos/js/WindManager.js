@@ -106,12 +106,22 @@ var WindManager = function(player)
 		switch(this.windDirection)
 		{
 			case "haut" :
-				game.player.windForceY = -20;
+				game.player.windForceY = -50;
 				this.currentRayAngle = 3.143;
 				this.rayLength = 25;
+
+                for(var i = 0; i < game.level.tabDynamicBlocs.length; i++)
+                {
+                    var distance = game.player.calculDistance(game.level.tabDynamicBlocs[i]);
+                    if(distance < 500 && game.level.tabDynamicBlocs[i].density<=10)
+                    {
+                        //var vel = game.level.tabDynamicBlocs[i].GetBody().GetLinearVelocity();
+                        game.level.tabDynamicBlocs[i].vel.y = -150 / 30;
+                    }
+                }
 				break;
 			case "bas" :
-				game.player.windForceY = 20;
+				game.player.windForceY = 180;
 				this.currentRayAngle = 0;
 				this.rayLength = 25;
 				break;
@@ -119,11 +129,53 @@ var WindManager = function(player)
 				game.player.windForceX = -100;
 				this.currentRayAngle = 4.7;
 				this.rayLength = 25;
+
+                for(var i = 0; i < game.level.tabDynamicBlocs.length; i++)
+                {
+                    var distance = game.player.calculDistance(game.level.tabDynamicBlocs[i]);
+                    if(distance < 500)
+                    {
+                        //var vel = game.level.tabDynamicBlocs[i].GetBody().GetLinearVelocity();
+                        game.level.tabDynamicBlocs[i].vel.x = -150 / 30;
+                    }
+                }
+                for(var i = 0; i < game.level.tabEnnemi.length; i++)
+                {
+                    if(game.level.tabEnnemi[i].type==="column")
+                    {
+                        var distance = game.player.calculDistance(game.level.tabEnnemi[i]);
+                        if(distance < 500)
+                        {
+                            game.level.tabEnnemi[i].vel.x = -50 / 30;
+                        }
+                    }
+                }
 				break;
 			case "droite" :
 				game.player.windForceX = 100;
 				this.currentRayAngle = 1.55;
 				this.rayLength = 25;
+
+                for(var i = 0; i < game.level.tabDynamicBlocs.length; i++)
+                {
+                    var distance = game.player.calculDistance(game.level.tabDynamicBlocs[i]);
+                    if(distance < 500)
+                    {
+                        //var vel = game.level.tabDynamicBlocs[i].GetBody().GetLinearVelocity();
+                        game.level.tabDynamicBlocs[i].vel.x = 150 / 30;
+                    }
+                }
+                for(var i = 0; i < game.level.tabEnnemi.length; i++)
+                {
+                    if(game.level.tabEnnemi[i].type==="column")
+                    {
+                        var distance = game.player.calculDistance(game.level.tabEnnemi[i]);
+                        if(distance < 500)
+                        {
+                            game.level.tabEnnemi[i].vel.x = 50 / 30;
+                        }
+                    }
+                }
 				break;
 			default :
 				if(game.player!=null)

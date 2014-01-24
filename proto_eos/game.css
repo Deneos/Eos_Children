@@ -6,10 +6,11 @@ canvas
 {
 	margin:0 auto;
 	overflow: hidden;
-	width: 1000px;
-	height: 500px;
+	width: 1024px;
+	height: 576px;
 	border: 2px solid black;
 	background: url(asset/fond.jpg);
+	background-size: 100% 100%;
 }
 body
 {
@@ -26,6 +27,14 @@ body
 	position: absolute; 
 	left: calc(50% - 50px); 
 	top : calc(50% - 50px);
+	color: white; 
+	font-size: 50px;
+}
+#play2
+{
+	position: absolute; 
+	left: calc(50% - 50px); 
+	top : calc(50%);
 	color: white; 
 	font-size: 50px;
 }
