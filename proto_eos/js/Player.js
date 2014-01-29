@@ -32,8 +32,9 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.windForceX                         =           0;
     that.windForceY                         =           0;
     that.speed                              =           150;
-    that.life                               =           3;
-    that.imgLife                            =           config.images[2];
+    that.life                               =           [2,2,2];
+    console.log(that.life);
+    that.currentPoint                       =           that.life.length-1;
     //attributs de positions
     that.x                                  =           that.GetBody().GetPosition().x*30;
     that.y                                  =           that.GetBody().GetPosition().y*30;
@@ -141,10 +142,16 @@ var Player = function(x,y,dim,density,friction,restitution)
     }
     that.receiveDamage = function(points)
     {
-        that.life -= points;
-        if(that.life <= 0)
+        //that.life -= points;
+        that.life[that.currentPoint] -= points;
+        console.log(that.life);
+        if(that.life[that.currentPoint]===0)
         {
-            that.life = 0;
+            that.currentPoint--;
+        }
+        if(that.life[0] <= 0)
+        {
+            that.life[0] = 0;
             that.userData = "dead";
         } 
     }

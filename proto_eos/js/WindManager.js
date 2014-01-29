@@ -1,7 +1,7 @@
 var WindManager = function(player)
 {
 	this.player                                     =           player;
-	this.timeUse                                    =           15;
+	this.timeUse                                    =           0;
 	this.menuOpen                                   =           false;
 	this.windJaugeMax                               =           15;
 	this.windDirection                              =           null;
@@ -108,20 +108,20 @@ var WindManager = function(player)
         }
 		if(this.windDirection!=null)
 		{
-			if(this.timeUse>0 && this.menuOpen==false && this.frame%10==0)
+			if(this.timeUse<15 && this.menuOpen==false && this.frame%10==0)
 			{
-				this.timeUse--;
+				this.timeUse++;
 			}
-			if(this.timeUse==0)
+			if(this.timeUse==15)
 			{
 				this.windDirection = null;
 			}
 		}
 		else
 		{
-			if(this.timeUse<this.windJaugeMax && this.frame%10==0)
+			if(this.timeUse>0 && this.frame%10==0)
 			{
-				this.timeUse++;
+				this.timeUse--;
 			}
 		}
 	}

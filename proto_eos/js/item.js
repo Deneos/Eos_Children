@@ -27,7 +27,16 @@ var LifeUp = function(x,y,r,density,friction,restitution)
 
     that.obtain = function()
     {
-        game.player.life+=1;
+        if(game.player.life[game.player.life.length-1]<2)
+        {
+            game.player.life[game.player.currentPoint] += 1;
+            if(game.player.life[game.player.currentPoint] > 2)
+            {
+                game.player.life[game.player.currentPoint] = 2;
+                game.player.currentPoint++;
+                game.player.life[game.player.currentPoint] += 1;
+            }
+        }
         this.use = true;
     }
     that.render = function()

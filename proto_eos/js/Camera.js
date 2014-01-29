@@ -19,6 +19,14 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
     //faire un champ de camera ou le mouvement du player ne la fait pas bouger
     //si on est dans le champs, le player bouge
     //si on est pas dans le champs, la camera bouge
+    this.imgLifeFull                            =           config.images[2];
+    this.imgLifeHalf                            =           config.images[1];
+    this.imgLifeEmpty                           =           config.images[0];
+    this.lifef                  =       0;
+    this.lifecurrentFrameX      =       0;
+    this.lifecurrentFrameY      =       0;
+    this.lifeframeWidth         =       32;
+    this.lifenb_of_frame        =       6;
 
     this.update = function()
     {
@@ -77,16 +85,6 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
         {
             if(game.windManager.menuOpen==true)
             {
-                /*context.beginPath();
-                context.arc((this.viewWidth + this.viewX)/2, (this.viewHeight + this.viewY)/2, 80, 0, 2 * Math.PI, false);
-                context.fillStyle = 'red';
-                context.fill();
-                context.strokeStyle = "black";
-                context.strokeText("Haut",((this.viewWidth + this.viewX)/2)-40, ((this.viewHeight + this.viewY)/2)-40);
-                context.strokeText("Droite",((this.viewWidth + this.viewX)/2)+20, ((this.viewHeight + this.viewY)/2)+10);
-                context.strokeText("Bas",((this.viewWidth + this.viewX)/2)-30, ((this.viewHeight + this.viewY)/2)+60);
-                context.strokeText("Gauche",((this.viewWidth + this.viewX)/2)-120, ((this.viewHeight + this.viewY)/2)+10);
-                context.closePath();*/
                 context.globalAlpha = game.windManager.opacity;
                 if(game.windManager.windDirection === "bas")
                     context.drawImage(game.windManager.imgSouth,0,0,192,192,(this.viewWidth + this.viewX - 192)/2,(this.viewHeight + this.viewY - 192)/2,192,192);
@@ -100,14 +98,10 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
                     context.drawImage(game.windManager.img,0,0,192,192,(this.viewWidth + this.viewX - 192)/2,(this.viewHeight + this.viewY - 192)/2,192,192);
                 context.globalAlpha = 1;
             }
-            context.strokeStyle = "black";
-            context.fillStyle = "red";
-            context.strokeRect(this.viewX+20,this.viewY+20,30,game.windManager.windJaugeMax*8);
-
-            context.drawImage(game.windManager.imgJauge,0,0,48,240/*+(game.windManager.timeUse*8)*/,this.viewX+10,this.viewY,48,240);
+            //dessin de la jauge de vent
+            context.drawImage(game.windManager.imgJauge,0,-game.windManager.timeUse*12,48,240,this.viewX+10,this.viewY-10+game.windManager.timeUse*12,48,240-game.windManager.timeUse*12);
             context.drawImage(game.windManager.imgStroke,0,0,48,240,this.viewX+10,this.viewY,48,240);
 
-            context.fillRect(this.viewX+20,(15*8)+this.viewY+70,30,-game.windManager.timeUse*8);
             /*context.lineWidth = 1;
             context.font = '32px "Verdana"';
             context.strokeText("Vent : "+game.windManager.windDirection,this.viewX+60,this.viewY+120);*/
@@ -121,23 +115,28 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
                 context.drawImage(game.windManager.selectLeft,0,0,16,16,this.viewX+60,this.viewY+120,16,16);
 
         }
+        //dessin des points de vies
         if(game.player!=null)
         {
             var distance = 0;
-            for(var i = 0; i < game.player.life; i++)
+            for(var i = 0; i < game.player.life.length; i++)
             {
-                context.beginPath();
-                context.arc(this.viewX+80+distance,this.viewY+50, 20, 0, 2 * Math.PI, false);
-                context.fillStyle = '#66FF99';
-                //changement de couleur quand on a presque plus de vie
-                if(game.player.life < 2)
-                {
-                    context.fillStyle = "red";
-                }
-                context.fill();
-                context.closePath();
-                context.drawImage(game.player.imgLife,0,0,32,32,this.viewX+80+distance-16,this.viewY+50-16,32,32);
+                if(game.player.life[i]==2)
+                    context.drawImage(this.imgLifeFull,this.lifecurrentFrameX,this.lifecurrentFrameY,32,32,this.viewX+80+distance-16,this.viewY+50-16,32,32);
+                if(game.player.life[i]==1)
+                    context.drawImage(this.imgLifeHalf,this.lifecurrentFrameX,this.lifecurrentFrameY,32,32,this.viewX+80+distance-16,this.viewY+50-16,32,32);
+                if(game.player.life[i]==0)
+                    context.drawImage(this.imgLifeEmpty,this.lifecurrentFrameX,this.lifecurrentFrameY,32,32,this.viewX+80+distance-16,this.viewY+50-16,32,32);
                 distance+=50;
+            }
+            this.lifef++;
+            if(this.lifef%12==0)
+            {
+                this.lifecurrentFrameX+=this.lifeframeWidth;
+                if(this.lifecurrentFrameX>=(this.lifenb_of_frame*this.lifeframeWidth))
+                {
+                    this.lifecurrentFrameX = 0;
+                }
             }
         }
     }

@@ -54,6 +54,7 @@ function init(id)
     }
     //instanciation des classes du jeu
 	game.player            =           new Player(6,18,{w : 1, h : 1.5},10,0,0);
+    
     game.windManager       =           new WindManager(game.player);
 	game.camera            =           new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
 	//setup debug draw

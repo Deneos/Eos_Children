@@ -103,10 +103,6 @@ var Level = function(id,width,height)
         this.tabChekpoint.push(c);
         var c = new Checkpoint(50,53,2,2);
         this.tabChekpoint.push(c);
-
-        var i = new LifeUp(55,15,1);
-        this.tabItem.push(i);
-        this.end = new EndPoint(10,65,4,0.2);
     }
     this.sample2 = function()
     {
