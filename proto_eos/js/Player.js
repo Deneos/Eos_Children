@@ -28,33 +28,12 @@ var Player = function(x,y,dim,density,friction,restitution)
     );
     that.footDef.isSensor                   =           true;
     that.GetBody().CreateFixture(that.footDef);
-    // Ajouter des "collider"
-    /*that.coliderRight                            =           new b2FixtureDef();
-    that.coliderRight.friction                   =           2;
-    that.coliderRight.userData                   =           'colliderRight';
-    that.coliderRight.shape                      =           new b2PolygonShape();
-    that.coliderRight.shape.SetAsOrientedBox(3 / 30, 20 / 30,
-            new b2Vec2(1, dim.w / 2 / 1),   // position par rapport centre du body
-            0                                           // angle d'orientation
-    );
-    that.coliderRight.isSensor                   =           true;
-    that.GetBody().CreateFixture(that.coliderRight);
-    // Ajouter des "collider"
-    that.colliderLeft                            =           new b2FixtureDef();
-    that.colliderLeft.friction                   =           2;
-    that.colliderLeft.userData                   =           'colliderLeft';
-    that.colliderLeft.shape                      =           new b2PolygonShape();
-    that.colliderLeft.shape.SetAsOrientedBox(3 / 30, 20 / 30,
-            new b2Vec2(-1, dim.w / 2 / 1),   // position par rapport centre du body
-            0                                           // angle d'orientation
-    );
-    that.colliderLeft.isSensor                   =           true;
-    that.GetBody().CreateFixture(that.colliderLeft);*/
     //attributs de forces
     that.windForceX                         =           0;
     that.windForceY                         =           0;
     that.speed                              =           150;
     that.life                               =           3;
+    that.imgLife                            =           config.images[2];
     //attributs de positions
     that.x                                  =           that.GetBody().GetPosition().x*30;
     that.y                                  =           that.GetBody().GetPosition().y*30;

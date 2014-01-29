@@ -78,7 +78,7 @@ var Game = function()
             if(game.level.tabItem[i].use==true)
             {
                 game.level.tabItem[i].destroy();
-                game.level.tabItem.splice(i,0);
+                game.level.tabItem.splice(i,1);
             }
         }
     }
@@ -105,6 +105,7 @@ var Game = function()
         }
         for ( var i = 0 ; i < game.level.tabItem.length ; i++)
         {
+            game.level.tabItem[i].animate();
             game.level.tabItem[i].render();
         }
         for ( var i = 0 ; i < game.level.tabEnnemi.length ; i++)

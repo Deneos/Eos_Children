@@ -8,6 +8,7 @@ var keys = [];
 var listener;
 var wrapper;
 var wrapperWidth = 1024, wrapperHeight = 576;  
+var imageLoadedNb = 0 , readyToPlay = false;
 
 
 window.onload = function()
@@ -32,6 +33,7 @@ function init(id)
 {   
 	$("#menu").fadeOut();
 	$("#replay").fadeOut();
+    imageLoader();
 	//instancier le game
 	game                   =           new Game();
 	//initialiser le level
@@ -93,3 +95,23 @@ function gameloop()
     }
     requestAnimationFrame(gameloop);
 };
+
+function imageLoader()
+{
+    //$("#loading").fadeIn();
+    for(var i = 0; i < config.images.length; i++)
+    {
+        var img = new Image();
+        img.src = config.images[i];
+        config.images[i] = img;
+        img.onload = function()
+        {
+            imageLoadedNb++;
+            if(imageLoadedNb === config.images.length)
+            {
+                //$("#loading").fadeOut();
+                readyToPlay = true;
+            }
+        }
+    }
+}

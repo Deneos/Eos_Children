@@ -18,6 +18,12 @@ var LifeUp = function(x,y,r,density,friction,restitution)
     that.x                  =       that.GetBody().GetPosition().x*30;
     that.y                  =       that.GetBody().GetPosition().y*30;
     that.use                =       false;
+    that.img                =       config.images[15];
+    that.f                  =       0;
+    that.currentFrameX      =       0;
+    that.currentFrameY      =       0;
+    that.frameWidth         =       32;
+    that.nb_of_frame        =       6;
 
     that.obtain = function()
     {
@@ -26,11 +32,26 @@ var LifeUp = function(x,y,r,density,friction,restitution)
     }
     that.render = function()
     {
-        context.beginPath();
+        /*context.beginPath();
         context.fillStyle = "#99FF66";
         context.arc(that.x*30, that.y*30, that.r*60, 0, 2 * Math.PI, false);
         context.fill();
-        context.closePath();
+        context.closePath();*/
+        if(that.use===false)
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,32,that.x-16,that.y-16,32,32);
+    }
+    that.animate = function ()
+    {
+        //the f is time frame, to fluidify the animation
+        this.f++;
+        if(this.f%6==0)
+        {
+            this.currentFrameX+=this.frameWidth;
+            if(this.currentFrameX>=(this.nb_of_frame*this.frameWidth))
+            {
+                this.currentFrameX = 0;
+            }
+        }
     }
     that.destroy = function()
     {

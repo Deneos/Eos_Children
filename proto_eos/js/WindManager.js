@@ -7,6 +7,22 @@ var WindManager = function(player)
 	this.windDirection                              =           null;
 	this.frame                                      =           0;
 
+    this.img                                        =           config.images[3];
+    this.imgEast                                    =           config.images[4];
+    this.imgNorth                                   =           config.images[5];
+    this.imgSouth                                   =           config.images[6];
+    this.imgWest                                    =           config.images[7];
+    this.opacity                                    =           1;
+
+    this.selectRight                                =           config.images[8];
+    this.selectUp                                       =           config.images[9];
+    this.selectDown                                        =           config.images[10];
+    this.selectLeft                                       =           config.images[11];
+
+    this.imgStroke                                       =           config.images[14];
+    this.imgJauge                                       =           config.images[13];
+    this.imgGlass                                        =           config.images[12];
+
 	//angle du raycast, change avec le vent
 	this.currentRayAngle                            =           0;
     this.input                                      =           new b2RayCastInput();
@@ -82,6 +98,14 @@ var WindManager = function(player)
 	{
 		this.frame++;
 		this.windAction();
+        if(this.menuOpen===true && this.opacity!=1)
+        {
+            this.fadeIn();
+        }
+        if(this.menuOpen===false && this.opacity > 0)
+        {
+            this.fadeOut();
+        }
 		if(this.windDirection!=null)
 		{
 			if(this.timeUse>0 && this.menuOpen==false && this.frame%10==0)
@@ -188,8 +212,18 @@ var WindManager = function(player)
 				break;
 		}
 	}
-	this.draw = function()
+	this.fadeIn = function()
 	{
-
+        if(this.frame%10===0 && this.opacity < 1)
+        {    
+            this.opacity+=0.1;
+        }
 	}
+    this.fadeOut = function()
+    {
+        if(this.frame%10===0 && this.opacity > 0)
+        {    
+            this.opacity-=0.1;
+        }
+    }
 }
