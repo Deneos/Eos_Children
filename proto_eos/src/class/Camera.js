@@ -1,4 +1,4 @@
-var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
+var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
 {
     //position de la camera
     this.viewX          =       viewX || 0;
@@ -83,8 +83,8 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
     {
         if(game.windManager!=null)
         {
-            if(game.windManager.menuOpen==true)
-            {
+           /* if(game.windManager.menuOpen==true)
+            {*/
                 context.globalAlpha = game.windManager.opacity;
                 if(game.windManager.windDirection === "bas")
                     context.drawImage(game.windManager.imgSouth,0,0,192,192,(this.viewWidth + this.viewX - 192)/2,(this.viewHeight + this.viewY - 192)/2,192,192);
@@ -97,9 +97,9 @@ var Camera = function(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSizeY)
                 if(game.windManager.windDirection === null)
                     context.drawImage(game.windManager.img,0,0,192,192,(this.viewWidth + this.viewX - 192)/2,(this.viewHeight + this.viewY - 192)/2,192,192);
                 context.globalAlpha = 1;
-            }
+            //}
             //dessin de la jauge de vent
-            context.drawImage(game.windManager.imgJauge,0,-game.windManager.timeUse*12,48,240,this.viewX+10,this.viewY-10+game.windManager.timeUse*12,48,240-game.windManager.timeUse*12);
+            context.drawImage(game.windManager.imgJauge,0,0,48,240,this.viewX+10,this.viewY-10+game.windManager.timeUse*16,48,240-game.windManager.timeUse*16);
             context.drawImage(game.windManager.imgStroke,0,0,48,240,this.viewX+10,this.viewY,48,240);
 
             /*context.lineWidth = 1;

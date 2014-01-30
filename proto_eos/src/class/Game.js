@@ -1,5 +1,5 @@
 //Objet global game qui gere tout les objets d'une session de jeu.
-var Game = function()
+var Game = function Game()
 {
     this.world          =       new b2World(
            new b2Vec2(0, 15)    //gravity
@@ -69,9 +69,7 @@ var Game = function()
                 game.level.tabEnnemi[i].destroy();
             }
             if(game.level.tabEnnemi[i].alive==false)
-            {
                 game.level.tabEnnemi.splice(i,1);
-            }
         }
         for ( var i = 0 ; i < game.level.tabItem.length ; i++)
         {
@@ -118,6 +116,7 @@ var Game = function()
         }
         for ( var i = 0 ; i < game.level.tabChekpoint.length ; i++)
         {
+            game.level.tabChekpoint[i].update();
             game.level.tabChekpoint[i].render();
         }
         for(var i in this.effectTab)

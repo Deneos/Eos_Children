@@ -97,23 +97,23 @@ this.addContactListener = function() {
                     obj2.hurt();
             }
         }
-        //capter si on touche un mur
-        if (isCollider(obj1)=="colliderLeft" || isCollider(obj2)=="colliderLeft") {
-            if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {                  
-                if(game.windDirection=="gauche")
-                {
-                    alert("climb");
-                }
+
+        if(isSwitch(obj1) || isSwitch(obj2)){
+            if(isFootPlayer(obj1) || isFootPlayer(obj2))
+            {
+                if(isSwitch(obj1))
+                    obj1.active = true;
+                else
+                    obj2.active = true;
             }
-        }
-        //capter si on touche un mur
-        if (isCollider(obj1)=="colliderRight" || isCollider(obj2)=="colliderRight") {
-            if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {                  
-                if(game.windDirection=="droite")
-                {
-                    alert("climb");
-                }
+            if(isBox(obj1) || isBox(obj2))
+            {
+                if(isSwitch(obj1))
+                    obj1.active = true;
+                else
+                    obj2.active = true;
             }
+
         }
 
 
@@ -127,6 +127,24 @@ this.addContactListener = function() {
             if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {
                 game.player.jumpContacts --; // le joueur quitte une plate-forme de saut
             }
+        }
+
+        if(isSwitch(obj1) || isSwitch(obj2)){
+            if(isFootPlayer(obj1) || isFootPlayer(obj2))
+            {
+                if(isSwitch(obj1))
+                    obj1.active = false;
+                else
+                    obj2.active = false;
+            }
+            if(isBox(obj1) || isBox(obj2))
+            {
+                if(isSwitch(obj1))
+                    obj1.active = false;
+                else
+                    obj2.active = false;
+            }
+
         }
     }
     listener.PostSolve = function(contact, impulse) {
@@ -273,5 +291,13 @@ function isShield(object)
     if (object != null && object.GetUserData() != null) 
     {
         return object.GetUserData() == 'shield';
+    }
+}
+// Déterminer si l'objet physique est un bouton
+function isSwitch(object) 
+{
+    if (object != null && object.GetUserData() != null) 
+    {
+        return object.GetUserData() == 'button';
     }
 }

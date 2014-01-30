@@ -1,5 +1,5 @@
 //Objet qui contient tout les blocs
-var Level = function(id,width,height)
+var Level = function Level(id,width,height)
 {
     this.id                     =       id;
     this.width                  =       width;
@@ -148,6 +148,11 @@ var Level = function(id,width,height)
 
         var b = new Platform(40,34,50,1,"ground");
         this.levelBlocs.push(b);
+
+        var b = new SwitchButton(10,21);
+        this.tabChekpoint.push(b);
+        var b = new Box(4,19,{w : 0.5, h : 0.5},5);
+        this.tabDynamicBlocs.push(b);
         //creer les boites dynamiques
         /*var b = new Box(15,12,{w : 0.5, h : 0.5},5,10,0);
         this.tabDynamicBlocs.push(b);

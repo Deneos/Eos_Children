@@ -26,6 +26,8 @@ window.onload = function()
 	wrapper                    =       document.getElementById("wrapper");
 	wrapper.width              =       wrapperWidth;
 	wrapper.height             =       wrapperHeight; 
+    wrapper.scrollLeft = 0;
+    wrapper.scrollTop = 0;
 }
  
 

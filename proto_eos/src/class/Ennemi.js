@@ -1,4 +1,4 @@
-var Ennemi = function(x,y,dim,type)
+var Ennemi = function Ennemi(x,y,dim,type)
 {
     //creation de l'objet box2D
     var bodyDef                             =           new b2BodyDef;
@@ -134,7 +134,7 @@ var Ennemi = function(x,y,dim,type)
     return that;
 }
 
-var FlyingEnnemi = function(x,y,dim,type)
+var FlyingEnnemi = function FlyingEnnemi(x,y,dim,type)
 {
     //creation de l'objet box2D
     var bodyDef                             =           new b2BodyDef;

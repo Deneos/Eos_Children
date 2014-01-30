@@ -1,6 +1,6 @@
 //objet des piques
 //blessent le joueurs
-var Spike = function(x,y,w,h)
+var Spike = function Spike(x,y,w,h)
 {
     //fixture definition
     var fixDef                      =           new b2FixtureDef;
@@ -29,7 +29,7 @@ var Spike = function(x,y,w,h)
 }
 //objet correspondant au collider d'un trou
 //qu'on utilise quand on tombe dans un trou, enleve de la vie et remet le player au checkpoint
-var Hole = function(x,y,w,h)
+var Hole = function Hole(x,y,w,h)
 {
     //fixture definition
     var fixDef                      =           new b2FixtureDef;
@@ -60,7 +60,7 @@ var Hole = function(x,y,w,h)
     return that;
 }
 //plaque qui tombe
-var FallingBloc = function(x,y,w,h)
+var FallingBloc = function FallingBloc(x,y,w,h)
 {
     //fixture definition
     var fixDef                      =           new b2FixtureDef;

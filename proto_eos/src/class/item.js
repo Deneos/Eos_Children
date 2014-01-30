@@ -1,4 +1,4 @@
-var LifeUp = function(x,y,r,density,friction,restitution)
+var LifeUp = function LifeUp(x,y,r,density,friction,restitution)
 {
     var bodyDef             =       new b2BodyDef;
     var fixDef              =       new b2FixtureDef;
@@ -41,11 +41,6 @@ var LifeUp = function(x,y,r,density,friction,restitution)
     }
     that.render = function()
     {
-        /*context.beginPath();
-        context.fillStyle = "#99FF66";
-        context.arc(that.x*30, that.y*30, that.r*60, 0, 2 * Math.PI, false);
-        context.fill();
-        context.closePath();*/
         if(that.use===false)
             context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,32,that.x-16,that.y-16,32,32);
     }

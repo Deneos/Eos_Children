@@ -1,4 +1,4 @@
-var Player = function(x,y,dim,density,friction,restitution)
+var Player = function Player(x,y,dim,density,friction,restitution)
 {
     //creation de l'objet box2D
     var bodyDef                             =           new b2BodyDef;
@@ -33,7 +33,6 @@ var Player = function(x,y,dim,density,friction,restitution)
     that.windForceY                         =           0;
     that.speed                              =           150;
     that.life                               =           [2,2,2];
-    console.log(that.life);
     that.currentPoint                       =           that.life.length-1;
     //attributs de positions
     that.x                                  =           that.GetBody().GetPosition().x*30;
@@ -144,7 +143,6 @@ var Player = function(x,y,dim,density,friction,restitution)
     {
         //that.life -= points;
         that.life[that.currentPoint] -= points;
-        console.log(that.life);
         if(that.life[that.currentPoint]===0)
         {
             that.currentPoint--;

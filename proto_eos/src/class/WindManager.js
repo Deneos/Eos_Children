@@ -1,4 +1,4 @@
-var WindManager = function(player)
+var WindManager = function WindManager(player)
 {
 	this.player                                     =           player;
 	this.timeUse                                    =           0;
@@ -12,16 +12,16 @@ var WindManager = function(player)
     this.imgNorth                                   =           config.images[5];
     this.imgSouth                                   =           config.images[6];
     this.imgWest                                    =           config.images[7];
-    this.opacity                                    =           1;
+    this.opacity                                    =           0;
 
     this.selectRight                                =           config.images[8];
-    this.selectUp                                       =           config.images[9];
-    this.selectDown                                        =           config.images[10];
-    this.selectLeft                                       =           config.images[11];
+    this.selectUp                                   =           config.images[9];
+    this.selectDown                                 =           config.images[10];
+    this.selectLeft                                 =           config.images[11];
 
-    this.imgStroke                                       =           config.images[14];
-    this.imgJauge                                       =           config.images[13];
-    this.imgGlass                                        =           config.images[12];
+    this.imgStroke                                  =           config.images[14];
+    this.imgJauge                                   =           config.images[13];
+    this.imgGlass                                   =           config.images[12];
 
 	//angle du raycast, change avec le vent
 	this.currentRayAngle                            =           0;
@@ -98,10 +98,10 @@ var WindManager = function(player)
 	{
 		this.frame++;
 		this.windAction();
-        if(this.menuOpen===true && this.opacity!=1)
+        /*if(this.menuOpen===true && this.opacity!=1)
         {
             this.fadeIn();
-        }
+        }*/
         if(this.menuOpen===false && this.opacity > 0)
         {
             this.fadeOut();
@@ -124,6 +124,7 @@ var WindManager = function(player)
 				this.timeUse--;
 			}
 		}
+
 	}
 	this.windAction = function()
 	{
@@ -223,7 +224,9 @@ var WindManager = function(player)
     {
         if(this.frame%10===0 && this.opacity > 0)
         {    
-            this.opacity-=0.1;
+            this.opacity-=0.2;
         }
+        if(this.opacity<0)
+            this.opacity = 0;
     }
 }

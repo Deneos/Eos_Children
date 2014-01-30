@@ -94,6 +94,7 @@ this.handleInteractions = function()
             if(game.windManager!=null)
             {    
                 game.windManager.menuOpen = true;
+                game.windManager.opacity = 1;
                 game.pause = true;
             }
         }   

@@ -1,4 +1,4 @@
-var Ball = function(x,y,r,density,friction,restitution)
+var Ball = function Ball(x,y,r,density,friction,restitution)
 {
     var bodyDef             =       new b2BodyDef;
     var fixDef              =       new b2FixtureDef;
@@ -39,7 +39,7 @@ var Ball = function(x,y,r,density,friction,restitution)
     }
     return that;
 }
-var Platform = function(x,y,w,h,tag,nbtile, density,friction,restitution)
+var Platform = function Platform(x,y,w,h,tag,nbtile, density,friction,restitution)
 {
     //fixture definition
     var fixDef              =       new b2FixtureDef;
@@ -69,7 +69,7 @@ var Platform = function(x,y,w,h,tag,nbtile, density,friction,restitution)
     }
     return that;
 }
-var Box = function(x,y,dim,density,friction,restitution,userData)
+var Box = function Box(x,y,dim,density,friction,restitution,userData)
 {
     var bodyDef             =       new b2BodyDef;
     var fixDef              =       new b2FixtureDef;
@@ -114,7 +114,7 @@ var Box = function(x,y,dim,density,friction,restitution,userData)
 
     return that;
 }
-var Joint = function(bodyA,bodyB)
+var Joint = function Joint(bodyA,bodyB)
 {
     revolute_joint          =       new b2RevoluteJointDef();
     revolute_joint.bodyA    =       bodyA.GetBody();
