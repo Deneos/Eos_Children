@@ -14,6 +14,8 @@ var config = {
                 "asset/HUD/wind_jauge_back.png",
                 "asset/HUD/wind_jauge_middle.png",
                 "asset/HUD/wind_jauge_up.png",
-                "asset/items.png"                   //15
+                "asset/items.png",                   //15
+                "asset/volant.png",
+                "asset/Ennemy_sprite_sheet.png"
     ]
 };

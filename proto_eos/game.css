@@ -38,6 +38,14 @@ body
 	color: white; 
 	font-size: 50px;
 }
+#play3
+{
+	position: absolute; 
+	left: calc(50% - 50px); 
+	top : calc(60%);
+	color: white; 
+	font-size: 50px;
+}
 #replay
 {
 	display: none;

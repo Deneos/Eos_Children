@@ -108,6 +108,7 @@ var Game = function Game()
         }
         for ( var i = 0 ; i < game.level.tabEnnemi.length ; i++)
         {
+            game.level.tabEnnemi[i].animate();
             game.level.tabEnnemi[i].render();
         }
         if(this.player!=null)

@@ -65,6 +65,14 @@ var Ennemi = function Ennemi(x,y,dim,type)
 
     that.vel                                =           that.GetBody().GetLinearVelocity();
 
+    that.img                =       config.images[17];
+    that.f                  =       0;
+    that.currentFrameX      =       0;
+    that.currentFrameY      =       0;
+    that.frameWidth         =       144;
+    that.frameHeight        =       160;
+    that.nb_of_frame        =       21;
+
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;
@@ -108,8 +116,20 @@ var Ennemi = function Ennemi(x,y,dim,type)
     }
     that.render = function()
     {
-        context.fillStyle = "red";
-        context.fillRect(that.x-dim.w*30,that.y-dim.h*30,dim.w*60,dim.h*60);
+        context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/3),that.y-(that.frameHeight/3),that.frameWidth/1.5,that.frameHeight/1.5);
+    }
+    that.animate = function()
+    {
+        //the f is time frame, to fluidify the animation
+        this.f++;
+        if(this.f%6==0)
+        {
+            this.currentFrameX+=this.frameWidth;
+            if(this.currentFrameX>=(this.nb_of_frame*this.frameWidth))
+            {
+                this.currentFrameX = 0;
+            }
+        }
     }
     that.calculDistance = function(target)
     {
@@ -166,6 +186,14 @@ var FlyingEnnemi = function FlyingEnnemi(x,y,dim,type)
 
     that.vel                                =           that.GetBody().GetLinearVelocity();
 
+    that.img                =       config.images[16];
+    that.f                  =       0;
+    that.currentFrameX      =       0;
+    that.currentFrameY      =       0;
+    that.frameWidth         =       128;
+    that.frameHeight        =       96;
+    that.nb_of_frame        =       5;
+
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;
@@ -197,6 +225,23 @@ var FlyingEnnemi = function FlyingEnnemi(x,y,dim,type)
                 break;
         }
     }
+    that.render = function()
+    {
+        context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/2),that.y-(that.frameHeight/2),that.frameWidth,that.frameHeight);
+    }
+    that.animate = function ()
+    {
+        //the f is time frame, to fluidify the animation
+        this.f++;
+        if(this.f%6==0)
+        {
+            this.currentFrameX+=this.frameWidth;
+            if(this.currentFrameX>=(this.nb_of_frame*this.frameWidth))
+            {
+                this.currentFrameX = 0;
+            }
+        }
+    }
     that.moveLeft = function()
     {
         //colision avec le bord de l'ecran
@@ -222,11 +267,6 @@ var FlyingEnnemi = function FlyingEnnemi(x,y,dim,type)
     {
         game.world.DestroyBody(that.GetBody());
         that.alive = false;
-    }
-    that.render = function()
-    {
-        context.fillStyle = "red";
-        context.fillRect(that.x-dim.w*30,that.y-dim.h*30,dim.w*60,dim.h*60);
     }
     that.calculDistance = function(target)
     {

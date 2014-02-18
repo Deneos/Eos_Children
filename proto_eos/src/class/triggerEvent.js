@@ -63,7 +63,7 @@ var EndPoint = function EndPoint(x,y,w,h)
     }
     return that;
 }
-var SwitchButton = function SwitchButton(x,y,mechanism)
+var SwitchButton = function SwitchButton(x,y,mechanism,door)
 {
     //fixture definition
     var fixDef                          =           new b2FixtureDef;
@@ -87,6 +87,8 @@ var SwitchButton = function SwitchButton(x,y,mechanism)
     that.y                              =           that.GetBody().GetPosition().y*30;
     that.active                         =           false;
     that.mechanism                      =           mechanism || null;
+    that.door                           =           door || null;
+
 
     that.render = function()
     {
@@ -101,6 +103,7 @@ var SwitchButton = function SwitchButton(x,y,mechanism)
         that.y = that.GetBody().GetPosition().y*30;
 
         console.log(that.active);
+        
     }
     return that;
 }

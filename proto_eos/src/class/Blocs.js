@@ -67,6 +67,11 @@ var Platform = function Platform(x,y,w,h,tag,nbtile, density,friction,restitutio
         context.fillStyle = "#730000";
         context.fillRect(that.x-w*30,that.y-h*30,w*60,h*60);
     }
+    that.destroy = function()
+    {
+        game.world.DestroyBody(that.GetBody());
+        that.alive = false;
+    }
     return that;
 }
 var Box = function Box(x,y,dim,density,friction,restitution,userData)

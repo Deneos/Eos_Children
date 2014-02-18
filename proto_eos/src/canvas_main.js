@@ -54,6 +54,14 @@ function init(id)
         game.level             =           new Level(0,2500,1024);
         game.level.sample2();
     }
+    if(id==2)
+    {    
+        canvasWidth = 2500;
+        canvasHeight = 1024; 
+        canvas.width               =       canvasWidth;
+        canvas.height              =       canvasHeight;
+        game.level                 =           new Level(0,2500,1024);
+    }
     //instanciation des classes du jeu
 	game.player            =           new Player(6,18,{w : 1, h : 1.5},10,0,0);
     
