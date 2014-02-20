@@ -167,13 +167,7 @@ this.addContactListener = function() {
                 if(isBox(obj2))
                     obj2.stopMoving();
             }
-            /*if(isEnnemi(obj1) || isEnnemi(obj2))
-            {
-                if(isEnnemi(obj1) && isEnnemi(obj1).type!="weak")
-                    obj1.stopMoving();
-                if(isEnnemi(obj2) && isEnnemi(obj1).type!="weak")
-                    obj2.stopMoving();
-            }*/
+
         }
         if(isShield(obj1) || isShield(obj2))
         {

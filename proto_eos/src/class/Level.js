@@ -15,6 +15,9 @@ var Level = function Level(id,width,height)
     this.tabEnnemi              =       [];
     this.end                    =       null;
 
+    this.caseTable              =       [];
+    this.mapCase                =       [];
+
     this.sample = function()
     {
         //creer les plateformes
@@ -182,42 +185,150 @@ var Level = function Level(id,width,height)
     }
     this.init = function()
     {
-        this.file = getLevel();
-        this.blocs = [];
-        //on recupere le level, sa hauteur et sa largeur
+        var id = 0;
+        this.file = GetLevel(); 
+        this.mapCase = [];      
         var levelData = this.file.layers[0].data , 
             height = this.file.layers[0].height, 
-            width = this.file.layers[0].width;
-        //on parcourt le level une premiere fois pour ensuite construire les blocs servant aux colliders
-        for (var i = 0; i < levelData.length ; i++){
-            if (levelData[i] != 0){
-                //ceux ci sont des blocs temporaires
-                this.blocs.push(new Platform( i % width, Math.floor(i / width),1.6,1.6,"blocs", levelData[i]));
-            }
-        }
+            width = this.file.layers[0].width,
+            layer2 = this.file.layers[1].data,
+            layer3 = this.file.layers[2].data,
+            sizeCase = this.file.tileheight;
 
-        //on parcourt les blocks temporaires pour voir si les blocs adjacents sont de même type
-        //dans ce cas là il feront parti du même collider
-        for (var i = 0; i < this.blocs.length ; i++){
-            //tableau servant a savoir le bloc a ete ajoute a un collider
-            var blocksAdded = [];
-            //on verifie que le bloc n'a pas ete ajoute a un collider
-            if (blocksAdded.indexOf(this.blocs[i].id) == -1)
-                blocksAdded.push(this.blocs[i].id)
-            //taille par defaut d'un collider
-            var width = 16;
-            var height = 16;
-            //on compare l'élément de la première boucle avec tous les autres blocs
-            //NB: on est sur que l'on est sur la même ligne, et on regarde les blocs qui sont a droite
-            for (var j = i + 1; j < this.blocs.length ; j++){
-                //si le bloc est de même type alors on ajoute de la largeur
-                if (this.blocs[i].type == this.blocs[j].type ){
-                    width += 16;
-                    //on ajoute aussi le bloc dans une liste de bloc a ne plus traiter
-                    //pour ne pas avoir plusieurs blocs qui se chevauchent
-                    blocksAdded.push(this.blocs[j].id);
-                }
+        this.sizeX = width * this.file.tileheight;
+        this.sizeY = height * this.file.tileheight;
+
+        canvasWidth = this.sizeX;
+        canvasHeight = this.sizeY;
+        canvas.width  =  canvasWidth;
+        canvas.height  = canvasHeight;
+        canvasBuffer.width  =  canvasWidth;
+        canvasBuffer.height  = canvasHeight;
+        this.width = canvasWidth;
+        this.height = canvasHeight;
+        game.camera  =  new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
+
+
+        for (var i = 0; i < levelData.length ; i++)
+        {
+
+            this.caseTable.push(new Case(id, i % width, Math.floor(i / width), sizeCase, levelData[i], layer2[i]));
+            id++;
+
+            switch(layer3[i])
+            {
+                // spawn
+                case 2705:
+                    game.player = new Player(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1, h : 1.5},10,0,0);
+                    break;
+                // collider
+                case 2706:
+                    var p = new Platform(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,1.6,1.6,"ground");
+                    this.levelBlocs.push(p);
+                    break;
+                // checkpoint
+                case 2707:
+                    var c = new Checkpoint(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,2,2);
+                    this.tabChekpoint.push(c);
+                    break;
+                // end point
+                case 2708:
+                    this.end = new EndPoint(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.4,1,0.2);
+                    break;
+                //potion
+                case 2709:
+                    var o = new LifeUp(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,1);
+                    this.tabItem.push(o);
+                    break;
+                //collectible
+                case 2710:
+                    
+                    break;
+                 //box
+                case 2711:
+                    var b = new Box(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1.6, h : 1.6},50);
+                    this.tabDynamicBlocs.push(b);
+                    break;
+                //falling bloc
+                case 2712:
+                    var f = new FallingBloc(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.2,1.6,1);
+                    this.tabFallingBlocs.push(f);
+                    break;
+                //switch
+                case 2713:
+                    var b = new SwitchButton(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.7);
+                    this.tabChekpoint.push(b);
+                    break;
+                //spike
+                case 2714:
+                    var s = new Spike(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.4,1.6,0.8,"ground");
+                    this.tabTraps.push(s);
+                    break;
+                //hole
+                case 2715:
+                    var h = new Hole(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.8,1.6,0.2);
+                    this.tabFallingBlocs.push(h);
+                    break;
+                //ennemi bouclier
+                case 2717:
+                    var e = new Ennemi(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1, h : 1.5},"l-shield");
+                    this.tabEnnemi.push(e);
+                    break;
+                //ennemi volant
+                case 2718:
+                    var e = new FlyingEnnemi(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1, h : 1},"weak");
+                    this.tabEnnemi.push(e);
+                    break;
+                //projectile
+                case 2722:
+                    var b = new Box(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 0.5, h : 0.5},5);
+                    this.tabDynamicBlocs.push(b);
+                    break;
             }
+            
+        }
+        this.mapCase = this.caseTable;
+    }
+    this.draw = function()
+    {
+        for(var i in this.mapCase)
+        {
+            this.mapCase[i].draw();
         }
     }
 }
+var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
+{
+    this.id = id;
+    this.x = x * size;
+    this.y = y * size;
+    this.width = size;
+    this.height = size;
+    this.toprightAngle = this.x + this.width;
+    this.bottomleftAngle = this.y + this.height;
+    this.firstType = firstType;
+    this.secondType = secondType;
+    this.colide = false;
+    this.containPlayer = false;
+    this.tile = config.images[18];
+
+    this.draw = function()
+    {
+        contextBuffer.strokeStyle = "green";
+        contextBuffer.lineWidth = 2;
+        contextBuffer.strokeRect(this.x,this.y,size,size);
+        if(this.secondType!=0)
+        {
+            var drawnb = this.secondType-7;
+            if(drawnb < 0)
+                drawnb = 0;
+        }
+        contextBuffer.drawImage(this.tile, size*this.firstType, 0, size, size, this.x, this.y, this.width, this.height);
+        if(this.secondeType!=0)
+            contextBuffer.drawImage(this.tile, size*drawnb, size, size, size, this.x, this.y, this.width, this.height);
+    }
+}
+
+
+
+

@@ -22,8 +22,6 @@ var Game = function Game()
         if(this.windManager!=null)
         {    
             this.windManager.update();
-            if(this.windManager.windDirection!=null)
-                this.windManager.ray();
         }
         if(this.camera!=null)
         {

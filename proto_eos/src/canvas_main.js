@@ -44,6 +44,9 @@ function init(id)
     {   
         game.level             =           new Level(0,2000,2000);
         game.level.sample();
+        game.player            =           new Player(6,18,{w : 1, h : 1.5},10,0,0);
+        game.camera            =           new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
+
     }
     if(id==1)
     {    
@@ -53,6 +56,9 @@ function init(id)
         canvas.height              =       canvasHeight;
         game.level             =           new Level(0,2500,1024);
         game.level.sample2();
+        game.player            =           new Player(6,18,{w : 1, h : 1.5},10,0,0);
+        game.camera            =           new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
+
     }
     if(id==2)
     {    
@@ -60,13 +66,14 @@ function init(id)
         canvasHeight = 1024; 
         canvas.width               =       canvasWidth;
         canvas.height              =       canvasHeight;
-        game.level                 =           new Level(0,2500,1024);
+        game.level                 =       new Level(0,2500,1024);
+        game.level.init();
+        game.level.draw();
     }
     //instanciation des classes du jeu
-	game.player            =           new Player(6,18,{w : 1, h : 1.5},10,0,0);
+	
     
     game.windManager       =           new WindManager(game.player);
-	game.camera            =           new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
 	//setup debug draw
  	var debugDraw          =           new b2DebugDraw();
     debugDraw.SetSprite(document.getElementById("canvas").getContext("2d"));
@@ -102,6 +109,7 @@ function gameloop()
             game.update();
         }
         handleInteractions();
+        context.drawImage(canvasBuffer,0,0);
         game.render();
     }
     requestAnimationFrame(gameloop);
