@@ -86,7 +86,6 @@ var WindManager = function WindManager(player)
                     var distance = game.player.calculDistance(game.level.tabDynamicBlocs[i]);
                     if(distance < 500)
                     {
-                        //var vel = game.level.tabDynamicBlocs[i].GetBody().GetLinearVelocity();
                         game.level.tabDynamicBlocs[i].vel.x = -150 / 30;
                     }
                 }
@@ -110,7 +109,6 @@ var WindManager = function WindManager(player)
                     var distance = game.player.calculDistance(game.level.tabDynamicBlocs[i]);
                     if(distance < 500)
                     {
-                        //var vel = game.level.tabDynamicBlocs[i].GetBody().GetLinearVelocity();
                         game.level.tabDynamicBlocs[i].vel.x = 150 / 30;
                     }
                 }

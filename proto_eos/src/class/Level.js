@@ -279,6 +279,11 @@ var Level = function Level(id,width,height)
                     var e = new FlyingEnnemi(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1, h : 1},"weak");
                     this.tabEnnemi.push(e);
                     break;
+                //ennemi colone
+                case 2719:
+                    var e = new Ennemi(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1, h : 1.5},"column");
+                    this.tabEnnemi.push(e);
+                    break;
                 //projectile
                 case 2722:
                     var b = new Box(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 0.5, h : 0.5},5);

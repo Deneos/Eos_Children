@@ -40,16 +40,16 @@ var Player = function Player(x,y,dim,density,friction,restitution)
     that.checkpoint                         =           { x : x, y : y};
 
     //attributs de dessin
-    that.img                                =           new Image();
-    that.img.src                            =           "asset/chara.png";
-    that.currentFrameX                      =           0;
-    that.currentFrameY                      =           0;
-    that.frameWidth                         =           32;
-    that.frameHeight                        =           48;
-    that.nb_of_frame                        =           4;
-    that.iddle                              =           true;
-    that.f                                  =           0;
+    that.img                =       config.images[21];
+    that.f                  =       0;
+    that.currentFrameX      =       0;
+    that.currentFrameY      =       576;
+    that.frameWidth         =       96;
+    that.frameHeight        =       96;
+    that.nb_of_frame        =       6;
     that.vel                                =           that.GetBody().GetLinearVelocity();
+    that.currentAnim        =       "iddle";
+    that.dir                =       "right";
 
     that.update = function()
     {
@@ -59,22 +59,35 @@ var Player = function Player(x,y,dim,density,friction,restitution)
     that.moveLeft = function()
     {
         //colision avec le bord de l'ecran
-        that.currentFrameY = 96;
         that.iddle = false;
         if(that.x > 30)
         {
             that.vel.x = (-that.speed + that.windForceX)/ 30;
         }
+        if(that.currentAnim != "death")
+        {
+            that.dir = "left";
+            that.nb_of_frame = 26;
+            that.currentFrameY = 0;
+            that.currentAnim = "move";
+        }
     }
     that.moveRight = function()
     {
         //colision
-        that.currentFrameY = 0;
         that.iddle = false;
         if(that.x < game.level.width)
         {
             that.vel.x = (that.speed + that.windForceX)/ 30;
         }
+        if(that.currentAnim != "death")
+        {
+            that.dir = "right";
+            that.nb_of_frame = 26;
+            that.currentFrameY = 0;
+            that.currentAnim = "move";
+        }
+        
     }
     that.jump = function()
     {
@@ -86,17 +99,29 @@ var Player = function Player(x,y,dim,density,friction,restitution)
                 that.GetBody().GetWorldCenter()
             );    // point d'application de l'impulsion
         }
+        if(that.currentAnim != "death")
+        {
+            that.nb_of_frame = 26;
+            that.currentFrameY = 192;
+            that.currentAnim = "jump";
+        }
     }
     that.stopMoving =function()
     {
         that.iddle = true;
         that.vel.x = 0;
+        if(that.currentAnim != "death")
+        {
+            that.nb_of_frame = 6;
+            that.currentFrameY = 576;
+            that.currentAnim = "iddle";
+        }
     }
     that.destroy = function()
     {
         $('#replay').fadeIn();
         game.world.DestroyBody(that.GetBody());
-        game.player = null;
+        //game.player = null;
     }
     that.returnToCheckPoint = function(x,y)
     {
@@ -114,25 +139,30 @@ var Player = function Player(x,y,dim,density,friction,restitution)
         
     }
     that.draw = function()
+    {       
+        if(that.dir=="right")
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/2),that.y-(that.frameHeight/2),that.frameWidth,that.frameHeight);
+        if(that.dir=="left")
+        {
+            context.save();
+            context.translate(that.x+(that.frameWidth/2),that.y-(that.frameHeight/2));
+            context.scale(-1,1);
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,0,0,that.frameWidth,that.frameHeight);
+            context.restore();
+        }
+    }
+    that.animate = function()
     {
-        //the f is time frame, to fluidify the animation
-        if(that.iddle==false)
+        that.f++;
+        if(that.f%6==0)
         {
-            that.f++;
-            if(that.f%6==0)
+            that.currentFrameX+=that.frameWidth;
+            if(that.currentFrameX>=(that.nb_of_frame*that.frameWidth) && that.currentAnim!="death")
             {
-                that.currentFrameX+=that.frameWidth;
-                if(that.currentFrameX>=(that.nb_of_frame*that.frameWidth))
-                {
-                    that.currentFrameX = 0;
-                }
+                that.currentFrameX = 0;
+
             }
-        }
-        else
-        {
-            that.currentFrameX = 0;
-        }
-        context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-15,that.y-20,that.frameWidth,that.frameHeight);
+        } 
     }
     that.calculDistance = function(target)
     {
@@ -151,6 +181,11 @@ var Player = function Player(x,y,dim,density,friction,restitution)
         {
             that.life[0] = 0;
             that.userData = "dead";
+            that.nb_of_frame = 26;
+            that.currentAnim = "death";
+            that.currentFrameY = 384;
+            that.currentFrameX = 0;
+            
         } 
     }
     

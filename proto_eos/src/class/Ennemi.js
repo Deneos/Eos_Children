@@ -29,6 +29,14 @@ var Ennemi = function Ennemi(x,y,dim,type)
                 0                                           // angle d'orientation
         );
         that.GetBody().CreateFixture(that.shield);
+        that.img                =       config.images[19];
+        that.f                  =       0;
+        that.currentFrameX      =       0;
+        that.currentFrameY      =       0;
+        that.frameWidth         =       192;
+        that.frameHeight        =       192;
+        that.nb_of_frame        =       7;
+        that.dir                =       "left";
     }
     if(that.type==="r-shield")
     {
@@ -41,6 +49,15 @@ var Ennemi = function Ennemi(x,y,dim,type)
                 0                                           // angle d'orientation
         );
         that.GetBody().CreateFixture(that.shield);
+
+        that.img                =       config.images[19];
+        that.f                  =       0;
+        that.currentFrameX      =       0;
+        that.currentFrameY      =       0;
+        that.frameWidth         =       192;
+        that.frameHeight        =       192;
+        that.nb_of_frame        =       7;
+        that.dir                =       "right";
     }
     if(that.type==="column")
     {
@@ -53,6 +70,15 @@ var Ennemi = function Ennemi(x,y,dim,type)
                 0                                           // angle d'orientation
         );
         that.GetBody().CreateFixture(that.hat);
+
+        that.img                =       config.images[17];
+        that.f                  =       0;
+        that.currentFrameX      =       0;
+        that.currentFrameY      =       0;
+        that.frameWidth         =       144;
+        that.frameHeight        =       160;
+        that.nb_of_frame        =       21;
+        that.dir                =       "left";
     }
 
     //attributs de forces
@@ -65,13 +91,7 @@ var Ennemi = function Ennemi(x,y,dim,type)
 
     that.vel                                =           that.GetBody().GetLinearVelocity();
 
-    that.img                =       config.images[17];
-    that.f                  =       0;
-    that.currentFrameX      =       0;
-    that.currentFrameY      =       0;
-    that.frameWidth         =       144;
-    that.frameHeight        =       160;
-    that.nb_of_frame        =       21;
+    
 
     that.update = function()
     {
@@ -80,6 +100,8 @@ var Ennemi = function Ennemi(x,y,dim,type)
         switch(that.type)
         {
             case "column" :
+            if(game.windManager.windDirection == null)
+                this.stopMoving();
                 break;
             case "guardian" :
                 break;
@@ -116,7 +138,16 @@ var Ennemi = function Ennemi(x,y,dim,type)
     }
     that.render = function()
     {
-        context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/3),that.y-(that.frameHeight/3),that.frameWidth/1.5,that.frameHeight/1.5);
+        if(that.dir=="right")
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/3),that.y-(that.frameHeight/3),that.frameWidth/1.5,that.frameHeight/1.5);
+        if(that.dir=="left")
+        {
+            context.save();
+            context.translate(that.x+(that.frameWidth/3),that.y-(that.frameHeight/3));
+            context.scale(-1,1);
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,0,0,that.frameWidth/1.5,that.frameHeight/1.5);
+            context.restore();
+        }
     }
     that.animate = function()
     {
@@ -227,7 +258,18 @@ var FlyingEnnemi = function FlyingEnnemi(x,y,dim,type)
     }
     that.render = function()
     {
-        context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/2),that.y-(that.frameHeight/2),that.frameWidth,that.frameHeight);
+        if(that.dir=="right")
+        {
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/2),that.y-(that.frameHeight/2),that.frameWidth,that.frameHeight);
+        }
+        if(that.dir=="left")
+        {
+            context.save();
+            context.translate(that.x+(that.frameWidth/2),that.y-(that.frameHeight/2));
+            context.scale(-1,1);
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,0,0,that.frameWidth,that.frameHeight);
+            context.restore();
+        }
     }
     that.animate = function ()
     {

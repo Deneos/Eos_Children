@@ -32,9 +32,10 @@ var Game = function Game()
             this.player.update();
             if(this.player.userData=="hurting")
             {    
-                this.player.returnToCheckPoint();
                 this.player.receiveDamage(1);
                 particleEffect(game.player.x,game.player.y);
+                if(this.player.userData!="dead")
+                    this.player.returnToCheckPoint();
             }
             if(this.player.userData=="dead")
             {    
@@ -111,7 +112,13 @@ var Game = function Game()
         }
         if(this.player!=null)
         {
+            this.player.animate();
             this.player.draw();
+        }
+        for ( var i = 0 ; i < game.level.tabDynamicBlocs.length ; i++)
+        {
+            game.level.tabDynamicBlocs[i].animate();
+            game.level.tabDynamicBlocs[i].render();
         }
         for ( var i = 0 ; i < game.level.tabChekpoint.length ; i++)
         {

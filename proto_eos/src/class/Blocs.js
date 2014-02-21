@@ -97,6 +97,19 @@ var Box = function Box(x,y,dim,density,friction,restitution,userData)
     that.y                  = that.GetBody().GetPosition().y*30;
     that.alive              = true;
     that.vel                = that.GetBody().GetLinearVelocity();
+    that.w = dim.w;
+
+    if(that.w == 0.5)
+    {
+         //attributs de dessin
+        that.img                =       config.images[24];
+        that.f                  =       0;
+        that.currentFrameX      =       0;
+        that.currentFrameY      =       0;
+        that.frameWidth         =       48;
+        that.frameHeight        =       48;
+        that.nb_of_frame        =       60;
+    }
     
     that.hurt = function()
     {
@@ -115,6 +128,27 @@ var Box = function Box(x,y,dim,density,friction,restitution,userData)
     that.stopMoving =function()
     {
         that.vel.x = 0;
+    }
+    that.render = function()
+    {
+        if(that.w == 0.5)
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/2),that.y-(that.frameHeight/2),that.frameWidth,that.frameHeight);
+    }
+    that.animate = function()
+    {
+        if(that.w == 0.5)
+        {
+            that.f++;
+            if(that.f%6==0)
+            {
+                that.currentFrameX+=that.frameWidth;
+                if(that.currentFrameX>=(that.nb_of_frame*that.frameWidth))
+                {
+                    that.currentFrameX = 0;
+
+                }
+            } 
+        }
     }
 
     return that;
