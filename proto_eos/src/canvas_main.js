@@ -95,16 +95,16 @@ function gameloop()
 {
     if(game.end==false)
 	{
+        context.clearRect(0,0,canvasWidth,canvasHeight);
+        game.world.DrawDebugData();
         if(game.pause==false)
         {
-            context.clearRect(0,0,canvasWidth,canvasHeight);
             game.world.Step(
                1 / 60   //frame-rate
             ,  10       //velocity iterations
             ,  10       //position iterations
             );
     
-            game.world.DrawDebugData();
             game.world.ClearForces();    
             game.update();
         }

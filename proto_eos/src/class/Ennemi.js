@@ -30,6 +30,7 @@ var Ennemi = function Ennemi(x,y,dim,type)
         );
         that.GetBody().CreateFixture(that.shield);
         that.img                =       config.images[19];
+        that.deathImg           =       config.images[23];
         that.f                  =       0;
         that.currentFrameX      =       0;
         that.currentFrameY      =       0;
@@ -51,6 +52,7 @@ var Ennemi = function Ennemi(x,y,dim,type)
         that.GetBody().CreateFixture(that.shield);
 
         that.img                =       config.images[19];
+        that.deathImg           =       config.images[23];
         that.f                  =       0;
         that.currentFrameX      =       0;
         that.currentFrameY      =       0;
@@ -72,6 +74,7 @@ var Ennemi = function Ennemi(x,y,dim,type)
         that.GetBody().CreateFixture(that.hat);
 
         that.img                =       config.images[17];
+        that.deathImg           =       config.images[25];
         that.f                  =       0;
         that.currentFrameX      =       0;
         that.currentFrameY      =       0;
@@ -85,6 +88,7 @@ var Ennemi = function Ennemi(x,y,dim,type)
     that.speed                              =           150;
     that.life                               =           3;
     that.alive                              =           true;
+    that.deadAnim                           =           false;
     //attributs de positions
     that.x                                  =           that.GetBody().GetPosition().x*30;
     that.y                                  =           that.GetBody().GetPosition().y*30;
@@ -134,7 +138,13 @@ var Ennemi = function Ennemi(x,y,dim,type)
     that.destroy = function()
     {
         game.world.DestroyBody(that.GetBody());
-        that.alive = false;
+        if(that.deadAnim==false)
+        {
+            that.currentFrameX = 0;
+            that.currentFrameY = 0;
+        }
+        that.deadAnim = true;
+        that.img = that.deathImg;
     }
     that.render = function()
     {
@@ -152,15 +162,36 @@ var Ennemi = function Ennemi(x,y,dim,type)
     that.animate = function()
     {
         //the f is time frame, to fluidify the animation
-        this.f++;
-        if(this.f%6==0)
+        if(that.deadAnim==false)
         {
-            this.currentFrameX+=this.frameWidth;
-            if(this.currentFrameX>=(this.nb_of_frame*this.frameWidth))
+            this.f++;
+            if(this.f%6==0)
             {
-                this.currentFrameX = 0;
+                this.currentFrameX+=this.frameWidth;
+                if(this.currentFrameX>=(this.nb_of_frame*this.frameWidth))
+                {
+                    this.currentFrameX = 0;
+                }
             }
         }
+        else
+        {
+            this.f++;
+            if(this.f%3==0)
+            {
+                this.currentFrameX+=this.frameWidth;
+                if(this.currentFrameX>=(10*this.frameWidth))
+                {
+                    this.currentFrameX = 0;
+                    this.currentFrameY += that.frameHeight;
+                }
+            }
+            if(that.currentFrameY >= (that.frameHeight*4))
+            {
+                that.alive = false;
+            }
+        }
+        
     }
     that.calculDistance = function(target)
     {

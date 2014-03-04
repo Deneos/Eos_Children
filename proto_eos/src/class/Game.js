@@ -64,7 +64,6 @@ var Game = function Game()
             game.level.tabEnnemi[i].update();
             if(game.level.tabEnnemi[i].userData=="hurting")
             {    
-                particleEffect(game.level.tabEnnemi[i].x,game.level.tabEnnemi[i].y);
                 game.level.tabEnnemi[i].destroy();
             }
             if(game.level.tabEnnemi[i].alive==false)
@@ -90,7 +89,7 @@ var Game = function Game()
         }
         for ( var i = 0 ; i < game.level.levelBlocs.length ; i++)
         {
-            game.level.levelBlocs[i].render();
+            //game.level.levelBlocs[i].render();
         }
         for ( var i = 0 ; i < game.level.tabTraps.length ; i++)
         {

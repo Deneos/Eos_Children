@@ -37,6 +37,11 @@ this.handleInteractions = function()
                 keys[122] = false;
                 keys[90] = false;
                 keys[87] = false;
+                game.player.nb_of_frame = 22;
+                game.player.currentFrameX = 0;
+                game.player.currentFrameY = 768;
+                game.player.currentAnim = "spell";
+                game.player.animSpeed = 3;
                 return;
             }
             else
@@ -52,11 +57,17 @@ this.handleInteractions = function()
                 game.pause = false;
                 keys[16] = false;
                 keys[17] = false;
-                /*keys[37] = false;
+                keys[37] = false;
                 keys[113] = false;
                 keys[97] = false;
                 keys[81] = false;
-                keys[65] = false;*/
+                keys[65] = false;
+                game.player.nb_of_frame = 22;
+                game.player.currentFrameX = 0;
+                game.player.currentFrameY = 768;
+                game.player.currentAnim = "spell";
+                game.player.dir = "left";
+                game.player.animSpeed = 3;
                 return;
             }
             game.player.moveLeft();
@@ -70,9 +81,15 @@ this.handleInteractions = function()
                 game.pause = false;
                 keys[16] = false;
                 keys[17] = false;
-                /*keys[39] = false;
+                keys[39] = false;
                 keys[100] = false;
-                keys[68] = false;*/
+                keys[68] = false;
+                game.player.nb_of_frame = 22;
+                game.player.currentFrameX = 0;
+                game.player.currentFrameY = 768;
+                game.player.currentAnim = "spell";
+                game.player.dir = "right";
+                game.player.animSpeed = 3;
                 return;
             }
             game.player.moveRight();
@@ -86,6 +103,11 @@ this.handleInteractions = function()
                 game.windManager.menuOpen = false;
                 keys[16] = false;
                 keys[17] = false;
+                game.player.nb_of_frame = 22;
+                game.player.currentFrameX = 0;
+                game.player.currentFrameY = 768;
+                game.player.currentAnim = "spell";
+                game.player.animSpeed = 3;
                 return;
             }
         } 

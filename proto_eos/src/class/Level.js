@@ -218,74 +218,74 @@ var Level = function Level(id,width,height)
             switch(layer3[i])
             {
                 // spawn
-                case 2705:
+                case 1:
                     game.player = new Player(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1, h : 1.5},10,0,0);
                     break;
                 // collider
-                case 2706:
+                case 2:
                     var p = new Platform(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,1.6,1.6,"ground");
                     this.levelBlocs.push(p);
                     break;
                 // checkpoint
-                case 2707:
+                case 3:
                     var c = new Checkpoint(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,2,2);
                     this.tabChekpoint.push(c);
                     break;
                 // end point
-                case 2708:
+                case 4:
                     this.end = new EndPoint(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.4,1,0.2);
                     break;
                 //potion
-                case 2709:
+                case 5:
                     var o = new LifeUp(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,1);
                     this.tabItem.push(o);
                     break;
                 //collectible
-                case 2710:
+                case 6:
                     
                     break;
                  //box
-                case 2711:
+                case 7:
                     var b = new Box(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1.6, h : 1.6},50);
                     this.tabDynamicBlocs.push(b);
                     break;
                 //falling bloc
-                case 2712:
+                case 8:
                     var f = new FallingBloc(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.2,1.6,1);
                     this.tabFallingBlocs.push(f);
                     break;
                 //switch
-                case 2713:
+                case 9:
                     var b = new SwitchButton(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.7);
                     this.tabChekpoint.push(b);
                     break;
                 //spike
-                case 2714:
+                case 10:
                     var s = new Spike(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.4,1.6,0.8,"ground");
                     this.tabTraps.push(s);
                     break;
                 //hole
-                case 2715:
+                case 11:
                     var h = new Hole(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+2.8,1.6,0.2);
                     this.tabFallingBlocs.push(h);
                     break;
                 //ennemi bouclier
-                case 2717:
+                case 13:
                     var e = new Ennemi(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1, h : 1.5},"l-shield");
                     this.tabEnnemi.push(e);
                     break;
                 //ennemi volant
-                case 2718:
+                case 14:
                     var e = new FlyingEnnemi(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1, h : 1},"weak");
                     this.tabEnnemi.push(e);
                     break;
                 //ennemi colone
-                case 2719:
+                case 15:
                     var e = new Ennemi(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 1, h : 1.5},"column");
                     this.tabEnnemi.push(e);
                     break;
                 //projectile
-                case 2722:
+                case 18:
                     var b = new Box(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 0.5, h : 0.5},5);
                     this.tabDynamicBlocs.push(b);
                     break;
@@ -330,7 +330,7 @@ var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
         }
         contextBuffer.drawImage(this.tile, size*this.firstType, 0, size, size, this.x, this.y, this.width, this.height);
         if(this.secondeType!=0)
-            contextBuffer.drawImage(this.tile, size*drawnb, size, size, size, this.x, this.y, this.width, this.height);
+            contextBuffer.drawImage(this.tile, size*10, 0, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 }
 

@@ -101,8 +101,6 @@ var SwitchButton = function SwitchButton(x,y,mechanism,door)
     {
         that.x = that.GetBody().GetPosition().x*30;
         that.y = that.GetBody().GetPosition().y*30;
-
-        console.log(that.active);
         
     }
     return that;

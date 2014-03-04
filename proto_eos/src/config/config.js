@@ -2,11 +2,11 @@ var config = {
     'images' : ["asset/HUD/life_empty.png",             //0
                 "asset/HUD/life_half.png",
                 "asset/HUD/life_full.png",
-                "asset/HUD/windmanager.png",
-                "asset/HUD/windmanager_east.png",
-                "asset/HUD/windmanager_north.png",      //5
-                "asset/HUD/windmanager_south.png",
-                "asset/HUD/windmanager_west.png",
+                "asset/HUD/windmanager_v2.png",
+                "asset/HUD/windmanager_east_v2.png",
+                "asset/HUD/windmanager_north_v2.png",      //5
+                "asset/HUD/windmanager_south_v2.png",
+                "asset/HUD/windmanager_west_v2.png",
                 "asset/HUD/selectgod_right.png",
                 "asset/HUD/selectgod_up.png",
                 "asset/HUD/selectgod_down.png",         //10

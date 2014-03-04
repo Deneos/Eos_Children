@@ -88,3 +88,36 @@ Particles.prototype.draw = function()
     
     context.closePath();
 }
+
+var FootParticles = function FootParticles(x,y)
+{
+    this.x          =       x;
+    this.y          =       y;
+    this.alive      =       true;
+    this.img                =       config.images[22];
+    this.f                  =       0;
+    this.currentFrameX      =       0;
+    this.currentFrameY      =       0;
+    this.frameWidth         =       48;
+    this.frameHeight        =       48;
+    this.nb_of_frame        =       60;
+    
+}
+
+FootParticles.prototype.effect = function()
+{
+    this.f++;
+    if(this.f%3==0)
+    {
+        this.currentFrameX+=this.frameWidth;
+        if(this.currentFrameX>=(this.nb_of_frame*this.frameWidth))
+        {
+            this.alive = false;
+
+        }
+    } 
+}
+FootParticles.prototype.draw = function()
+{
+    context.drawImage(this.img,this.currentFrameX,this.currentFrameY,this.frameWidth,this.frameHeight,this.x-(this.frameWidth/2),this.y-(this.frameHeight/2),this.frameWidth,this.frameHeight);
+}

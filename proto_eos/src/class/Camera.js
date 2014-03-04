@@ -27,6 +27,7 @@ var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSi
     this.lifecurrentFrameY      =       0;
     this.lifeframeWidth         =       32;
     this.lifenb_of_frame        =       6;
+    this.scrollSpeed            =       3;
 
     this.update = function()
     {
@@ -35,10 +36,10 @@ var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSi
         {
             if(this.viewX>0)
             {    
-                wrapper.scrollLeft-=5;
-                this.viewX -=5;    
-                this.viewWidth-=5;
-                this.deadZoneX-=5;
+                wrapper.scrollLeft-=this.scrollSpeed;
+                this.viewX -=this.scrollSpeed;    
+                this.viewWidth-=this.scrollSpeed;
+                this.deadZoneX-=this.scrollSpeed;
             }
         }
         //droite
@@ -46,10 +47,10 @@ var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSi
         {
             if(this.viewWidth<this.mapSizeX)
             {    
-                wrapper.scrollLeft+=5;
-                this.viewX+=5;
-                this.viewWidth+=5;
-                this.deadZoneX+=5;
+                wrapper.scrollLeft+=this.scrollSpeed;
+                this.viewX+=this.scrollSpeed;
+                this.viewWidth+=this.scrollSpeed;
+                this.deadZoneX+=this.scrollSpeed;
             }
             
         }
@@ -58,10 +59,10 @@ var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSi
         {
             if(this.viewY>0)
             {
-                this.viewY-=5;
-                this.viewHeight-=5;
-                wrapper.scrollTop-=5;
-                this.deadZoneY-=5;
+                this.viewY-=this.scrollSpeed;
+                this.viewHeight-=this.scrollSpeed;
+                wrapper.scrollTop-=this.scrollSpeed;
+                this.deadZoneY-=this.scrollSpeed;
             }
         }
         //bas
@@ -69,10 +70,10 @@ var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSi
         {
             if(this.viewHeight<this.mapSizeY)
             {
-                wrapper.scrollTop+=5;
-                this.viewY+=5;
-                this.viewHeight+=5;
-                this.deadZoneY+=5;
+                wrapper.scrollTop+=this.scrollSpeed;
+                this.viewY+=this.scrollSpeed;
+                this.viewHeight+=this.scrollSpeed;
+                this.deadZoneY+=this.scrollSpeed;
             }
         }
         context.fillStyle = 'red';

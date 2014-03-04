@@ -50,11 +50,19 @@ var Player = function Player(x,y,dim,density,friction,restitution)
     that.vel                                =           that.GetBody().GetLinearVelocity();
     that.currentAnim        =       "iddle";
     that.dir                =       "right";
+    that.animSpeed          =       6;
+    that.countParticles     =       0;
 
     that.update = function()
     {
+        if(that.countParticles%15==0 && that.iddle==false)
+        {
+            var f = new FootParticles(that.x,that.y+(that.frameHeight/4));
+            game.effectTab.push(f);
+        }
         that.x = that.GetBody().GetPosition().x*30;
         that.y = that.GetBody().GetPosition().y*30;
+        that.countParticles++;
     }
     that.moveLeft = function()
     {
@@ -70,6 +78,7 @@ var Player = function Player(x,y,dim,density,friction,restitution)
             that.nb_of_frame = 26;
             that.currentFrameY = 0;
             that.currentAnim = "move";
+            that.animSpeed = 3;
         }
     }
     that.moveRight = function()
@@ -86,6 +95,7 @@ var Player = function Player(x,y,dim,density,friction,restitution)
             that.nb_of_frame = 26;
             that.currentFrameY = 0;
             that.currentAnim = "move";
+            that.animSpeed = 3;
         }
         
     }
@@ -104,17 +114,20 @@ var Player = function Player(x,y,dim,density,friction,restitution)
             that.nb_of_frame = 26;
             that.currentFrameY = 192;
             that.currentAnim = "jump";
+            that.animSpeed = 6;
         }
     }
     that.stopMoving =function()
     {
         that.iddle = true;
         that.vel.x = 0;
-        if(that.currentAnim != "death")
+        if(that.currentAnim != "death" && that.currentAnim != "spell")
         {
             that.nb_of_frame = 6;
             that.currentFrameY = 576;
+            that.currentFrameX = 0;
             that.currentAnim = "iddle";
+            that.animSpeed = 6;
         }
     }
     that.destroy = function()
@@ -154,12 +167,21 @@ var Player = function Player(x,y,dim,density,friction,restitution)
     that.animate = function()
     {
         that.f++;
-        if(that.f%6==0)
+        if(that.f%that.animSpeed==0)
         {
             that.currentFrameX+=that.frameWidth;
             if(that.currentFrameX>=(that.nb_of_frame*that.frameWidth) && that.currentAnim!="death")
             {
-                that.currentFrameX = 0;
+                if(that.currentAnim=="spell")
+                {
+                    that.nb_of_frame = 6;
+                    that.currentFrameX = 0;
+                    that.currentFrameY = 576;
+                    that.currentAnim = "iddle";
+                    that.animSpeed = 6;
+                }
+                else
+                    that.currentFrameX = 0;
 
             }
         } 
@@ -181,10 +203,11 @@ var Player = function Player(x,y,dim,density,friction,restitution)
         {
             that.life[0] = 0;
             that.userData = "dead";
-            that.nb_of_frame = 26;
+            that.nb_of_frame = 20;
             that.currentAnim = "death";
             that.currentFrameY = 384;
             that.currentFrameX = 0;
+            that.animSpeed = 6;
             
         } 
     }
