@@ -20,7 +20,7 @@ this.handleKeyUp = function(evt)
 // Gérer les interactions
 this.handleInteractions = function() 
 {
-    if(game.player!=null)
+    if(game.player!=null && game.player.currentAnim!="death")
     {
         // touche "haut"
         if (keys[38] || keys[32] || keys[122] || keys[90] || keys[87]) 

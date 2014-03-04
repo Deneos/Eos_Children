@@ -17,6 +17,8 @@ var Level = function Level(id,width,height)
 
     this.caseTable              =       [];
     this.mapCase                =       [];
+    this.nb_of_case             =       0;
+    this.readyToDraw            =       false;
 
     this.sample = function()
     {
@@ -304,6 +306,7 @@ var Level = function Level(id,width,height)
 }
 var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
 {
+    var origin = 18;
     this.id = id;
     this.x = x * size;
     this.y = y * size;
@@ -311,27 +314,48 @@ var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
     this.height = size;
     this.toprightAngle = this.x + this.width;
     this.bottomleftAngle = this.y + this.height;
-    this.firstType = firstType;
-    this.secondType = secondType;
+    this.firstType = firstType - origin;
+    this.secondType = secondType- origin;
     this.colide = false;
     this.containPlayer = false;
     this.tile = config.images[18];
 
+    this.currentFrameX  = 0;
+    this.currentFrameY  = 0;
+
+    this.currentFrameX2 = 0;
+    this.currentFrameY2 = 0;
+
+    //assigner les coordonnees de l'image
+
+    for(var i = 1; i < this.firstType; i++)
+    {
+        this.currentFrameX += this.width;
+        if(i % 52 == 0)
+        {
+            this.currentFrameX = 0;
+            this.currentFrameY += this.width;
+        }
+    }
+
+    for(var i = 1; i < this.secondType; i++)
+    {
+        this.currentFrameX2 += this.width;
+        if(i % 52 == 0)
+        {
+            this.currentFrameX2 = 0;
+            this.currentFrameY2 += this.width;
+        }
+    }
+
+
     this.draw = function()
     {
-        contextBuffer.strokeStyle = "green";
-        contextBuffer.lineWidth = 2;
-        contextBuffer.strokeRect(this.x,this.y,size,size);
-        if(this.secondType!=0)
-        {
-            var drawnb = this.secondType-7;
-            if(drawnb < 0)
-                drawnb = 0;
-        }
-        contextBuffer.drawImage(this.tile, size*this.firstType, 0, size, size, this.x, this.y, this.width, this.height);
-        if(this.secondeType!=0)
-            contextBuffer.drawImage(this.tile, size*10, 0, this.width, this.height, this.x, this.y, this.width, this.height);
+        if(this.secondType > 0)
+            contextBuffer.drawImage(this.tile, this.currentFrameX2, this.currentFrameY2, this.width, this.height, this.x, this.y, this.width, this.height);
+        contextBuffer.drawImage(this.tile, this.currentFrameX, this.currentFrameY, this.width, this.height, this.x, this.y, this.width, this.height);
     }
+    return this;
 }
 
 

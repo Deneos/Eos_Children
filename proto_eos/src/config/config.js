@@ -17,7 +17,7 @@ var config = {
                 "asset/items.png",                   //15
                 "asset/volant.png",
                 "asset/Ennemy_sprite_sheet.png",
-                "asset/Tileset_Decor_A_Updater.png",
+                "asset/Tileset_Decor.png",
                 "asset/SPR_CH_Guardian.png",
                 "asset/selene_idle.png",             //20
                 "asset/CH_SPR_MainCharacter.png",

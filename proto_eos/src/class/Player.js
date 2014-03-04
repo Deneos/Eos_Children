@@ -72,9 +72,10 @@ var Player = function Player(x,y,dim,density,friction,restitution)
         {
             that.vel.x = (-that.speed + that.windForceX)/ 30;
         }
-        if(that.currentAnim != "death")
+        that.dir = "left";
+        if(that.currentAnim != "death" && that.jumpContacts > 0)
         {
-            that.dir = "left";
+            
             that.nb_of_frame = 26;
             that.currentFrameY = 0;
             that.currentAnim = "move";
@@ -89,9 +90,10 @@ var Player = function Player(x,y,dim,density,friction,restitution)
         {
             that.vel.x = (that.speed + that.windForceX)/ 30;
         }
-        if(that.currentAnim != "death")
+        that.dir = "right";
+        if(that.currentAnim != "death" && that.jumpContacts > 0)
         {
-            that.dir = "right";
+            
             that.nb_of_frame = 26;
             that.currentFrameY = 0;
             that.currentAnim = "move";
@@ -121,7 +123,7 @@ var Player = function Player(x,y,dim,density,friction,restitution)
     {
         that.iddle = true;
         that.vel.x = 0;
-        if(that.currentAnim != "death" && that.currentAnim != "spell")
+        if(that.currentAnim != "death" && that.currentAnim != "spell" && that.jumpContacts > 0)
         {
             that.nb_of_frame = 6;
             that.currentFrameY = 576;

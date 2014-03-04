@@ -10,6 +10,7 @@ this.addContactListener = function() {
         if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
             if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {                  
                 game.player.jumpContacts ++; // le joueur entre en contact avec une plate-forme de saut
+                game.player.stopMoving();
             }
             //marche sur des pics
             if (isSpike(obj1) || isSpike(obj2)) {                  

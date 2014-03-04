@@ -68,7 +68,7 @@ function init(id)
         canvas.height              =       canvasHeight;
         game.level                 =       new Level(0,2500,1024);
         game.level.init();
-        game.level.draw();
+        //game.level.draw();
     }
     //instanciation des classes du jeu
 	
@@ -89,6 +89,7 @@ function init(id)
 	document.addEventListener('keydown', handleKeyDown);
 	document.addEventListener('keyup', handleKeyUp);
 	addContactListener();
+    
     //game.tabjoint.push(box2DObjects.createJoint(game.level.levelBlocs[4],game.ball.physicalBody));  
 }
 function gameloop()
@@ -97,6 +98,7 @@ function gameloop()
 	{
         context.clearRect(0,0,canvasWidth,canvasHeight);
         game.world.DrawDebugData();
+
         if(game.pause==false)
         {
             game.world.Step(
@@ -111,6 +113,7 @@ function gameloop()
         handleInteractions();
         context.drawImage(canvasBuffer,0,0);
         game.render();
+
     }
     requestAnimationFrame(gameloop);
 };
@@ -130,6 +133,7 @@ function imageLoader()
             {
                 //$("#loading").fadeOut();
                 readyToPlay = true;
+                game.level.draw();
             }
         }
     }
