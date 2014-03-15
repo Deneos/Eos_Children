@@ -23,6 +23,16 @@ var WindManager = function WindManager(player)
     this.imgJauge                                   =           config.images[13];
     this.imgGlass                                   =           config.images[12];
 
+
+    this.img2                =       config.images[30];
+    this.f                  =       0;
+    this.currentFrameX      =       0;
+    this.currentFrameY      =       0;
+    this.frameWidth         =       736;
+    this.frameHeight        =       128;
+    this.nb_of_frame        =       24;
+    this.currentframenb     =       0;
+
 	
 	this.update = function()
 	{
@@ -56,6 +66,63 @@ var WindManager = function WindManager(player)
 		}
 
 	}
+    this.animate = function()
+    {
+        if(this.windDirection!=null)
+        {
+            this.f++;
+            if(this.f%3==0)
+            {
+                this.currentFrameX+=this.frameWidth;
+                this.currentframenb++;
+                if(this.currentFrameX>=(4*this.frameWidth))
+                {
+                    this.currentFrameY += this.frameHeight;
+                    this.currentFrameX = 0;
+                }
+                if(this.currentframenb >= this.nb_of_frame)
+                {
+                    this.currentFrameX = 0;
+                    this.currentFrameY = 0;
+                    this.currentframenb = 0;
+                }
+            }
+        }
+        else
+        {
+            this.currentFrameX = 0;
+            this.currentFrameY = 0;
+        } 
+    }
+    this.draw = function()
+    {
+        if(this.windDirection=="haut")
+        {
+            context.save();
+            context.translate((game.camera.viewX)+(wrapperWidth/2),(game.camera.viewY)+(wrapperHeight)-(this.frameHeight/2));
+            context.rotate(-90*Math.PI/180);;
+            context.drawImage(this.img2,this.currentFrameX,this.currentFrameY,this.frameWidth,this.frameHeight,0,0,this.frameWidth,this.frameHeight);
+            context.restore();
+        }
+        if(this.windDirection=="bas")
+        {
+            context.save();
+            context.translate((game.camera.viewX)+(wrapperWidth/2)+(this.frameWidth/4),(game.camera.viewY)+(this.frameHeight/4));
+            context.rotate(90*Math.PI/180);;
+            context.drawImage(this.img2,this.currentFrameX,this.currentFrameY,this.frameWidth,this.frameHeight,0,0,this.frameWidth,this.frameHeight);
+            context.restore();
+        }
+        if(this.windDirection=="gauche")
+        {
+            context.save();
+            context.translate((game.camera.viewX)+(wrapperWidth/2)+(this.frameWidth/2),(game.camera.viewY)+(wrapperHeight/2));
+            context.scale(-1,1);
+            context.drawImage(this.img2,this.currentFrameX,this.currentFrameY,this.frameWidth,this.frameHeight,0,0,this.frameWidth,this.frameHeight);
+            context.restore();
+        }
+        if(this.windDirection=="droite")
+            context.drawImage(this.img2,this.currentFrameX,this.currentFrameY,this.frameWidth,this.frameHeight,(game.camera.viewX)+(wrapperWidth/2)-(this.frameWidth/2),(game.camera.viewY)+(wrapperHeight/2),this.frameWidth,this.frameHeight);
+    }
 	this.windAction = function()
 	{
 		switch(this.windDirection)

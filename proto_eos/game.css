@@ -12,9 +12,21 @@ canvas
 	background: url(asset/fond.jpg);
 	background-size: 100% 100%;
 }
+#cadre
+{
+	position: absolute;
+	top: -225px;
+	left: -155px;
+	background: url(asset/Cadre.png);
+	width: 1680px;
+	height: 1050px;
+}
 body
 {
-    background-color: rgb(42,69,222);
+	background: url(asset/Fond.png);
+	background-size :100%;
+	background-repeat: no-repeat;
+	overflow: hidden;
 }
 #logo
 {

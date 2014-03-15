@@ -109,6 +109,7 @@ var Box = function Box(x,y,dim,density,friction,restitution,userData)
         that.frameWidth         =       48;
         that.frameHeight        =       48;
         that.nb_of_frame        =       60;
+        that.GetBody().SetFixedRotation(true);
     }
     
     that.hurt = function()

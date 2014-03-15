@@ -1,15 +1,18 @@
 var Player = function Player(x,y,dim,density,friction,restitution)
 {
+    this.w                                  =           0.5;
+    this.h                                  =           1.5;
     //creation de l'objet box2D
     var bodyDef                             =           new b2BodyDef;
-    var fixDef                              =           new b2FixtureDef;
+    var fixDef                              =           new b2FixtureDef;           
     fixDef.density                          =           density || 2.0;       //lourd
+    fixDef.density *=2;
     fixDef.friction                         =           friction || 0;      //lent
     fixDef.restitution                      =           restitution || 0.00000000000000001;   //rebond
     //create some objects
     bodyDef.type                            =           b2Body.b2_dynamicBody;
     fixDef.shape                            =           new b2PolygonShape;
-    fixDef.shape.SetAsBox(dim.w,dim.h);
+    fixDef.shape.SetAsBox(this.w,this.h);
     bodyDef.position.x                      =           x;
     bodyDef.position.y                      =           y;
     fixDef.userData                         =           'player';
@@ -22,8 +25,8 @@ var Player = function Player(x,y,dim,density,friction,restitution)
     that.footDef.friction                   =           2;
     that.footDef.userData                   =           'foot';
     that.footDef.shape                      =           new b2PolygonShape();
-    that.footDef.shape.SetAsOrientedBox(29 / 30, 3 / 30,
-            new b2Vec2(0, dim.w / 1.8 / 0.37),   // position par rapport centre du body
+    that.footDef.shape.SetAsOrientedBox(15 / 30, 3 / 30,
+            new b2Vec2(0, 1 / 1.8 / 0.37),   // position par rapport centre du body
             0                                           // angle d'orientation
     );
     that.footDef.isSensor                   =           true;
@@ -53,6 +56,17 @@ var Player = function Player(x,y,dim,density,friction,restitution)
     that.animSpeed          =       6;
     that.countParticles     =       0;
 
+    that.spellDecal         =       0;
+
+    //attributs de dessin effet
+    that.imgEffect                 =       config.images[32];
+    that.fEffect                   =       0;
+    that.currentFrameXEffect       =       0;
+    that.currentFrameYEffect       =       0;
+    that.frameWidthEffect          =       128;
+    that.frameHeightEffect         =       128;
+    that.nb_of_frameEffect         =       90;
+
     that.update = function()
     {
         if(that.countParticles%15==0 && that.iddle==false)
@@ -63,6 +77,15 @@ var Player = function Player(x,y,dim,density,friction,restitution)
         that.x = that.GetBody().GetPosition().x*30;
         that.y = that.GetBody().GetPosition().y*30;
         that.countParticles++;
+        if(that.currentAnim=="spell")
+        {
+            if(that.dir=="right")
+                that.spellDecal = 40;
+            else
+                that.spellDecal = -40;
+        }
+        else
+            that.spellDecal = 0;
     }
     that.moveLeft = function()
     {
@@ -149,6 +172,9 @@ var Player = function Player(x,y,dim,density,friction,restitution)
         else
         {
             that.GetBody().SetPosition(new b2Vec2(that.checkpoint.x,that.checkpoint.y));
+            //game.camera.viewX = that.checkpoint.x - (wrapperWidth/2);
+            //game.camera.viewWidth = game.camera.viewX + wrapperWidth;
+            //wrapper.scrollLeft = that.checkpoint.x - (wrapperWidth/2);
         }
         that.userData = "player";
         
@@ -156,15 +182,20 @@ var Player = function Player(x,y,dim,density,friction,restitution)
     that.draw = function()
     {       
         if(that.dir=="right")
-            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/2),that.y-(that.frameHeight/2),that.frameWidth,that.frameHeight);
+        {
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/2)+that.spellDecal,that.y-(that.frameHeight/2),that.frameWidth,that.frameHeight);
+        }    
         if(that.dir=="left")
         {
             context.save();
-            context.translate(that.x+(that.frameWidth/2),that.y-(that.frameHeight/2));
+            context.translate(that.x+(that.frameWidth/2)+that.spellDecal,that.y-(that.frameHeight/2));
             context.scale(-1,1);
             context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,0,0,that.frameWidth,that.frameHeight);
             context.restore();
         }
+        if(game.windManager.windDirection!=null)
+            context.drawImage(that.imgEffect,that.currentFrameXEffect,that.currentFrameYEffect,that.frameWidthEffect,that.frameHeightEffect,that.x-(that.frameWidthEffect/2)+that.spellDecal,that.y-(that.frameHeightEffect/2),that.frameWidthEffect,that.frameHeightEffect);
+
     }
     that.animate = function()
     {
@@ -179,6 +210,7 @@ var Player = function Player(x,y,dim,density,friction,restitution)
                     that.nb_of_frame = 6;
                     that.currentFrameX = 0;
                     that.currentFrameY = 576;
+                    that.spellDecal = 0;
                     that.currentAnim = "iddle";
                     that.animSpeed = 6;
                 }
@@ -186,6 +218,24 @@ var Player = function Player(x,y,dim,density,friction,restitution)
                     that.currentFrameX = 0;
 
             }
+            if(that.currentAnim=="death" && that.currentFrameX > (that.frameWidth * that.nb_of_frame))
+            {
+                that.currentFrameX = that.frameWidth * that.nb_of_frame;
+            }
+            //anim windEffect
+        }
+        if(that.f%2==0)
+        {
+            that.currentFrameXEffect+=that.frameWidthEffect;
+            if(that.currentFrameXEffect>=(10*that.frameWidthEffect))
+            {
+                that.currentFrameXEffect = 0;
+                that.currentFrameYEffect += that.frameHeightEffect;
+            }
+        }
+        if(that.currentFrameYEffect >= (that.frameHeightEffect*8))
+        {
+            that.currentFrameYEffect = 0; 
         } 
     }
     that.calculDistance = function(target)

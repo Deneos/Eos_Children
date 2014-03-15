@@ -109,6 +109,11 @@ var Game = function Game()
             game.level.tabEnnemi[i].animate();
             game.level.tabEnnemi[i].render();
         }
+        for ( var i = 0 ; i < game.level.tabChekpoint.length ; i++)
+        {
+            game.level.tabChekpoint[i].update();
+            game.level.tabChekpoint[i].render();
+        }
         if(this.player!=null)
         {
             this.player.animate();
@@ -119,15 +124,15 @@ var Game = function Game()
             game.level.tabDynamicBlocs[i].animate();
             game.level.tabDynamicBlocs[i].render();
         }
-        for ( var i = 0 ; i < game.level.tabChekpoint.length ; i++)
-        {
-            game.level.tabChekpoint[i].update();
-            game.level.tabChekpoint[i].render();
-        }
         for(var i in this.effectTab)
         {
             this.effectTab[i].effect();
             this.effectTab[i].draw();
+        }
+        if(this.windManager!=null)
+        {
+            this.windManager.animate();
+            this.windManager.draw();
         }
         if(this.camera!=null)
             this.camera.drawInterface();

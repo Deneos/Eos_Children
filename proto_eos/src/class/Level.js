@@ -204,11 +204,12 @@ var Level = function Level(id,width,height)
         canvasHeight = this.sizeY;
         canvas.width  =  canvasWidth;
         canvas.height  = canvasHeight;
-        canvasBuffer.width  =  canvasWidth;
-        canvasBuffer.height  = canvasHeight;
-        this.width = canvasWidth;
-        this.height = canvasHeight;
-        game.camera  =  new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,canvasWidth,canvasHeight);
+        
+        canvasBuffer.width  =  this.sizeX;
+        canvasBuffer.height  = this.sizeY;
+        this.width = this.sizeX;
+        this.height = this.sizeY;
+        game.camera  =  new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,this.sizeX,this.sizeY);
 
 
         for (var i = 0; i < levelData.length ; i++)
@@ -351,9 +352,14 @@ var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
 
     this.draw = function()
     {
+        //contextBuffer.strokeStyle = "green";
+        //contextBuffer.lineWidth = 2;
+        
+        contextBuffer.drawImage(this.tile, this.currentFrameX, this.currentFrameY, this.width, this.height, this.x, this.y, this.width, this.height);
         if(this.secondType > 0)
             contextBuffer.drawImage(this.tile, this.currentFrameX2, this.currentFrameY2, this.width, this.height, this.x, this.y, this.width, this.height);
-        contextBuffer.drawImage(this.tile, this.currentFrameX, this.currentFrameY, this.width, this.height, this.x, this.y, this.width, this.height);
+        //contextBuffer.strokeRect(this.x,this.y,96,96);
+
     }
     return this;
 }

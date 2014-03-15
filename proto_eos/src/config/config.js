@@ -24,6 +24,14 @@ var config = {
                 "asset/fx_step_spritesheet.png",
                 "asset/Sprite_sheet_guardian_death.png",
                 "asset/projectile_spritesheet.png",
-                "asset/colonne_death.png"           //25
+                "asset/colonne_death.png",           //25
+                "asset/projectile_volant_2.png",
+                "asset/SpriteDieux.png",
+                "asset/volant_2_idle.png",
+                "asset/volant_2_attaque.png",
+                "asset/wind_blow.png",              //30
+                "asset/plante_particle.png",
+                "asset/main_chara_jump_V2.png"
+
     ]
 };

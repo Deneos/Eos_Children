@@ -11,10 +11,11 @@
       <script type="text/javascript" src="src/config/config.js"></script>
       <script type="text/javascript" src="src/config/level.js"></script>
    </head>
-   <body>
+   <body onselectstart="return false" ondragstart="return false">
       <div id="wrapper">
         <canvas id="canvas"></canvas>
       </div>
+      <div id="cadre"></div>
       <div id="menu">
         <div id="logo"><img src="asset/logo3.png"/></div>
         <div id="play" onclick="init(0)">Platform sample</div>

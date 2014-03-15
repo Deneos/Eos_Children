@@ -109,7 +109,11 @@ var Ennemi = function Ennemi(x,y,dim,type)
                 break;
             case "guardian" :
                 break;
-            case "shield" :
+            case "r-shield" :
+                this.stopMoving();
+                break;
+            case "l-shield" :
+                this.stopMoving();
                 break;
             case "arms" :
                 break;
@@ -248,7 +252,7 @@ var FlyingEnnemi = function FlyingEnnemi(x,y,dim,type)
 
     that.vel                                =           that.GetBody().GetLinearVelocity();
 
-    that.img                =       config.images[16];
+    that.img                =       config.images[28];
     that.f                  =       0;
     that.currentFrameX      =       0;
     that.currentFrameY      =       0;

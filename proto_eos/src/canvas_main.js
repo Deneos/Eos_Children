@@ -10,7 +10,6 @@ var wrapper;
 var wrapperWidth = 1024, wrapperHeight = 576;  
 var imageLoadedNb = 0 , readyToPlay = false;
 
-
 window.onload = function()
 {
 	//declarer le canvas
@@ -96,8 +95,8 @@ function gameloop()
 {
     if(game.end==false)
 	{
-        context.clearRect(0,0,canvasWidth,canvasHeight);
-        game.world.DrawDebugData();
+        context.clearRect(game.camera.viewX,game.camera.viewY,wrapperWidth,wrapperHeight);
+        //game.world.DrawDebugData();
 
         if(game.pause==false)
         {
@@ -111,7 +110,7 @@ function gameloop()
             game.update();
         }
         handleInteractions();
-        context.drawImage(canvasBuffer,0,0);
+        context.drawImage(canvasBuffer,0/*-game.camera.viewX*/,0/*-game.camera.viewY*/);
         game.render();
 
     }
