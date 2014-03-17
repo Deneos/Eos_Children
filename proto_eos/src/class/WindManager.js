@@ -50,7 +50,7 @@ var WindManager = function WindManager(player)
 		{
 			if(this.timeUse<15 && this.menuOpen==false && this.frame%10==0)
 			{
-				this.timeUse++;
+				this.timeUse+=0.5;
 			}
 			if(this.timeUse==15)
 			{

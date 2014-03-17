@@ -9,6 +9,7 @@ var listener;
 var wrapper;
 var wrapperWidth = 1024, wrapperHeight = 576;  
 var imageLoadedNb = 0 , readyToPlay = false;
+var stats;
 
 window.onload = function()
 {
@@ -38,7 +39,9 @@ function init(id)
 	//instancier le game
 	game                   =           new Game();
 	//initialiser le level
-	
+	stats   = new Stats();
+    stats.setMode(0);
+    document.body.appendChild(stats.domElement);
     if(id==0)
     {   
         game.level             =           new Level(0,2000,2000);
@@ -88,14 +91,13 @@ function init(id)
 	document.addEventListener('keydown', handleKeyDown);
 	document.addEventListener('keyup', handleKeyUp);
 	addContactListener();
-    
-    //game.tabjoint.push(box2DObjects.createJoint(game.level.levelBlocs[4],game.ball.physicalBody));  
 }
 function gameloop()
 {
+    stats.begin();
     if(game.end==false)
 	{
-        context.clearRect(game.camera.viewX,game.camera.viewY,wrapperWidth,wrapperHeight);
+        //context.clearRect(game.camera.viewX,game.camera.viewY,wrapperWidth,wrapperHeight);
         //game.world.DrawDebugData();
 
         if(game.pause==false)
@@ -114,6 +116,7 @@ function gameloop()
         game.render();
 
     }
+    stats.end();
     requestAnimationFrame(gameloop);
 };
 

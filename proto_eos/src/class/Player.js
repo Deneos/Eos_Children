@@ -25,7 +25,7 @@ var Player = function Player(x,y,dim,density,friction,restitution)
     that.footDef.friction                   =           2;
     that.footDef.userData                   =           'foot';
     that.footDef.shape                      =           new b2PolygonShape();
-    that.footDef.shape.SetAsOrientedBox(15 / 30, 3 / 30,
+    that.footDef.shape.SetAsOrientedBox(14 / 30, 3 / 30,
             new b2Vec2(0, 1 / 1.8 / 0.37),   // position par rapport centre du body
             0                                           // angle d'orientation
     );

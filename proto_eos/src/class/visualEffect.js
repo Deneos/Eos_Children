@@ -100,8 +100,7 @@ var FootParticles = function FootParticles(x,y)
     this.currentFrameY      =       0;
     this.frameWidth         =       48;
     this.frameHeight        =       48;
-    this.nb_of_frame        =       60;
-    
+    this.nb_of_frame        =       60;    
 }
 
 FootParticles.prototype.effect = function()

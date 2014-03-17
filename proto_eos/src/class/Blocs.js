@@ -58,14 +58,20 @@ var Platform = function Platform(x,y,w,h,tag,nbtile, density,friction,restitutio
     
     that.x                  =       that.GetBody().GetPosition().x*30;
     that.y                  =       that.GetBody().GetPosition().y*30;
+    that.width              =       w;
+    that.height             =       h;
+    that.initX              =       x;
+    that.initY              =       y;
     that.update = function()
     {
         that.x = that.GetBody().GetPosition().x*30;
         that.y = that.GetBody().GetPosition().y*30;
     }
     that.render = function(){
-        context.fillStyle = "#730000";
+        context.fillStyle = "rgba(255,255,153,0.5)";
+        context.strokeStyle = "black";
         context.fillRect(that.x-w*30,that.y-h*30,w*60,h*60);
+        context.strokeRect(that.x-w*30,that.y-h*30,w*60,h*60);
     }
     that.destroy = function()
     {
@@ -111,6 +117,14 @@ var Box = function Box(x,y,dim,density,friction,restitution,userData)
         that.nb_of_frame        =       60;
         that.GetBody().SetFixedRotation(true);
     }
+    else
+    {    
+        that.img                =       config.images[34];
+        that.currentFrameX      =       0;
+        that.currentFrameY      =       0;
+        that.frameWidth         =       214;
+        that.frameHeight        =       214;
+    }
     
     that.hurt = function()
     {
@@ -134,6 +148,9 @@ var Box = function Box(x,y,dim,density,friction,restitution,userData)
     {
         if(that.w == 0.5)
             context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(that.frameWidth/2),that.y-(that.frameHeight/2),that.frameWidth,that.frameHeight);
+        else
+            context.drawImage(that.img,that.currentFrameX,that.currentFrameY,that.frameWidth,that.frameHeight,that.x-(96/2),that.y-(96/2),96,96);
+  
     }
     that.animate = function()
     {

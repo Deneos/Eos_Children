@@ -20,6 +20,12 @@ var Level = function Level(id,width,height)
     this.nb_of_case             =       0;
     this.readyToDraw            =       false;
 
+    this.backgroundImg          =       config.images[33];
+    this.backgroundWidth        =       7000;
+    this.backgroundHeight       =       3500;
+    this.blocsTable = [];
+    this.finalBlocs = [];
+
     this.sample = function()
     {
         //creer les plateformes
@@ -227,6 +233,8 @@ var Level = function Level(id,width,height)
                 // collider
                 case 2:
                     var p = new Platform(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,1.6,1.6,"ground");
+                    //var p = {x: ((i % width)*3.2)+1.6, y : (Math.floor(i / width)*3.2)+1.6, width : 1.6, height : 1.6, tag : "ground"};
+
                     this.levelBlocs.push(p);
                     break;
                 // checkpoint
@@ -292,13 +300,31 @@ var Level = function Level(id,width,height)
                     var b = new Box(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,{w : 0.5, h : 0.5},5);
                     this.tabDynamicBlocs.push(b);
                     break;
-            }
-            
+            }   
         }
+        /*console.log(this.levelBlocs);
+        var size = 1;
+        var nb   = 0;
+        for(var i = 0; i < this.levelBlocs.length; i++)
+        {
+            if(this.levelBlocs[nb].y === this.levelBlocs[i].y)
+            {
+                size ++;
+            }
+            else
+            {
+                var p = new Platform(this.levelBlocs[nb].x, this.levelBlocs[nb].y,this.levelBlocs[nb].width*size,this.levelBlocs[nb].height,this.levelBlocs[nb].tag);
+                this.finalBlocs.push(p);
+                nb ++;
+                size = 1;
+            }
+        }
+        console.log(this.finalBlocs);*/
         this.mapCase = this.caseTable;
     }
     this.draw = function()
     {
+        contextBuffer.drawImage(this.backgroundImg, 0, 0, this.backgroundWidth, this.backgroundHeight, 0, 0, this.backgroundWidth, this.backgroundHeight);
         for(var i in this.mapCase)
         {
             this.mapCase[i].draw();

@@ -5,7 +5,6 @@ var Game = function Game()
            new b2Vec2(0, 15)    //gravity
         ,  true                 //allow sleep
     );
-    this.ball           =       null;
     this.level          =       null;
     this.end            =       false;
     this.pause          =       false;
@@ -15,13 +14,10 @@ var Game = function Game()
     this.effectTab      =       [];
     this.update = function()
     {
-        if(this.ball!=null)
-        {
-            this.ball.update();
-        }
         if(this.windManager!=null)
         {    
             this.windManager.update();
+            this.windManager.animate();
         }
         if(this.camera!=null)
         {
@@ -30,6 +26,7 @@ var Game = function Game()
         if(this.player!=null)
         {
             this.player.update();
+            this.player.animate();
             if(this.player.userData=="hurting")
             {    
                 this.player.receiveDamage(1);
@@ -52,6 +49,7 @@ var Game = function Game()
         for ( var i = 0 ; i < game.level.tabDynamicBlocs.length ; i++)
         {
             game.level.tabDynamicBlocs[i].update();
+            game.level.tabDynamicBlocs[i].animate();
             if(game.level.tabDynamicBlocs[i].userData=="hurting")
             {    
                 game.level.tabDynamicBlocs[i].destroy();
@@ -62,6 +60,7 @@ var Game = function Game()
         for ( var i = 0 ; i < game.level.tabEnnemi.length ; i++)
         {
             game.level.tabEnnemi[i].update();
+            game.level.tabEnnemi[i].animate();
             if(game.level.tabEnnemi[i].userData=="hurting")
             {    
                 game.level.tabEnnemi[i].destroy();
@@ -71,11 +70,16 @@ var Game = function Game()
         }
         for ( var i = 0 ; i < game.level.tabItem.length ; i++)
         {
+            game.level.tabItem[i].animate();
             if(game.level.tabItem[i].use==true)
             {
                 game.level.tabItem[i].destroy();
                 game.level.tabItem.splice(i,1);
             }
+        }
+        for(var i in this.effectTab)
+        {
+            this.effectTab[i].effect();
         }
     }
     this.render = function()
@@ -87,9 +91,9 @@ var Game = function Game()
                 game.level.blocs[i].render();
             }
         }
-        for ( var i = 0 ; i < game.level.levelBlocs.length ; i++)
+        for ( var i = 0 ; i < game.level.finalBlocs.length ; i++)
         {
-            //game.level.levelBlocs[i].render();
+            game.level.finalBlocs[i].render();
         }
         for ( var i = 0 ; i < game.level.tabTraps.length ; i++)
         {
@@ -101,12 +105,10 @@ var Game = function Game()
         }
         for ( var i = 0 ; i < game.level.tabItem.length ; i++)
         {
-            game.level.tabItem[i].animate();
             game.level.tabItem[i].render();
         }
         for ( var i = 0 ; i < game.level.tabEnnemi.length ; i++)
         {
-            game.level.tabEnnemi[i].animate();
             game.level.tabEnnemi[i].render();
         }
         for ( var i = 0 ; i < game.level.tabChekpoint.length ; i++)
@@ -116,22 +118,18 @@ var Game = function Game()
         }
         if(this.player!=null)
         {
-            this.player.animate();
             this.player.draw();
         }
         for ( var i = 0 ; i < game.level.tabDynamicBlocs.length ; i++)
         {
-            game.level.tabDynamicBlocs[i].animate();
             game.level.tabDynamicBlocs[i].render();
         }
         for(var i in this.effectTab)
         {
-            this.effectTab[i].effect();
             this.effectTab[i].draw();
         }
         if(this.windManager!=null)
         {
-            this.windManager.animate();
             this.windManager.draw();
         }
         if(this.camera!=null)

@@ -367,3 +367,8 @@ var FlyingEnnemi = function FlyingEnnemi(x,y,dim,type)
 
     return that;
 }
+
+var Bullet = function Bullet(x,y)
+{
+    
+}

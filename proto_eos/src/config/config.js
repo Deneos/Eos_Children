@@ -31,7 +31,9 @@ var config = {
                 "asset/volant_2_attaque.png",
                 "asset/wind_blow.png",              //30
                 "asset/plante_particle.png",
-                "asset/main_chara_jump_V2.png"
+                "asset/main_chara_jump_V2.png",
+                "asset/background.jpg",
+                "asset/bloc.png"
 
     ]
 };
