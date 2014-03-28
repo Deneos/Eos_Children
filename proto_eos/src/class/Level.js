@@ -15,37 +15,40 @@ var Level = function Level(id,width,height)
     this.tabEnnemi              =       [];
     this.end                    =       null;
 
-    this.caseTable              =       [];
-    this.mapCase                =       [];
+    this.tileTable              =       [];
     this.nb_of_case             =       0;
     this.readyToDraw            =       false;
 
     this.backgroundImg          =       config.images[33];
     this.backgroundWidth        =       7000;
     this.backgroundHeight       =       3500;
-    this.blocsTable = [];
+
+    this.hColliders = [];
     this.finalBlocs = [];
+    this.tileSize = 96;
 
     this.init = function()
     {
         var id = 0;
         this.file = GetLevel(); 
-        this.mapCase = [];      
         var height = this.file.layers[0].height, 
             width = this.file.layers[0].width,
             sizeCase = this.file.tileheight;
-        var tileCouche1, tileCouche2, tileCouche3, layerObject;
+        this.tileCouche1 = [];
+        this.tileCouche2 = [];
+        this.tileCouche3 = [];
+        this.layerObject = [];
 
         for(var i = 0; i < this.file.layers.length; i++)
         {
             if(this.file.layers[i].name === "couche1")
-                tileCouche1 = this.file.layers[i].data;
+                this.tileCouche1 = this.file.layers[i].data;
             if(this.file.layers[i].name === "couche2")
-                tileCouche2 = this.file.layers[i].data;
+                this.tileCouche2 = this.file.layers[i].data;
             if(this.file.layers[i].name === "couche3")
-                tileCouche3 = this.file.layers[i].data;
+                this.tileCouche3 = this.file.layers[i].data;
             if(this.file.layers[i].name === "object")
-                layerObject = this.file.layers[i].data;
+                this.layerObject = this.file.layers[i].data;
 
         }
         this.sizeX = width * this.file.tileheight;
@@ -56,15 +59,18 @@ var Level = function Level(id,width,height)
         this.width = this.sizeX;
         this.height = this.sizeY;
         game.camera  =  new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,this.sizeX,this.sizeY);
-
-
-        for (var i = 0; i < tileCouche1.length ; i++)
+        this.levelConstructor(width,height,sizeCase);
+    }
+    this.levelConstructor = function(width,height,sizeCase)
+    {
+        //creation des objets
+        for (var i = 0; i < this.tileCouche1.length ; i++)
         {
 
-            this.caseTable.push(new Case(id, i % width, Math.floor(i / width), sizeCase, tileCouche1[i], tileCouche2[i],tileCouche3[i]));
+            this.tileTable.push(new Case(id, i % width, Math.floor(i / width), sizeCase, this.tileCouche1[i], this.tileCouche2[i],this.tileCouche3[i]));
             id++;
 
-            switch(layerObject[i])
+            switch(this.layerObject[i])
             {
                 // spawn
                 case 1:
@@ -142,41 +148,156 @@ var Level = function Level(id,width,height)
                     break;
             }   
         }
-        /*console.log(this.levelBlocs);
-        var size = 1;
-        var tmpColliders = [];
-        for(var nb = 0; nb < this.levelBlocs.length; nb++)
-        {
-            for(var i = 1; i < this.levelBlocs.length; i++)
-            {
-                if(this.levelBlocs[nb].y === this.levelBlocs[i].y 
-                    && (this.levelBlocs[i].x + this.levelBlocs[i].w) === this.levelBlocs[nb].x
-                    && this.levelBlocs[i].check === false)
-                {
-                    size ++;
-                    this.levelBlocs[i].check = true;
-                    tmpColliders.push({ x : this.levelBlocs[nb].x, y : this.levelBlocs[nb].y, w : this.levelBlocs[nb].width, h : this.levelBlocs[nb].height});
+        this.createHorizontalCollider();
+        this.createVerticalCollider();
+    }
+    this.createHorizontalCollider = function()  //Création des colliders horizontaux ("premier assemblage des blocks")
+    {
+        var _checkedBlocks = [];    //Tableau de stockage temporaire des blocks que l'on est en train d'assembler
+        var _toDestroy = [];
+        var _alsoAWall = [];
+        var _alsoUsed = [];
+        var _canBeUsed = true;
+        var _wrong = false;
+        var _nb = 1;
 
-                }
-                else
+        var _x;
+        var _y;
+        var _width;
+        var _height = this.tileSize;
+
+        for(var i = 0; i < this.levelBlocs.length; i++)
+        {
+            if(i == 0)
+            {
+                _checkedBlocks.push(this.levelBlocs[i]);
+            }
+            else if((Math.round((this.levelBlocs[i].GetBody().GetPosition().x - _checkedBlocks[_checkedBlocks.length-1].GetBody().GetPosition().x)*30) == this.tileSize) &&
+                ((Math.round((this.levelBlocs[i].GetBody().GetPosition().y - _checkedBlocks[_checkedBlocks.length-1].GetBody().GetPosition().y)*30) == 0)))
+            {
+                _checkedBlocks.push(this.levelBlocs[i]);
+            }
+            else if(_checkedBlocks.length > 0)
+            {
+                //On crée le collider horizontal
+                _width = (_checkedBlocks.length * this.tileSize)/30/2;
+                _x = (_checkedBlocks[0].GetBody().GetPosition().x) + _width - ((this.tileSize/2)/30);
+                _y = _checkedBlocks[0].GetBody().GetPosition().y;
+
+
+                this.hColliders.push(new Platform(_x,_y,_width,_height/30/2,"ground"));
+
+                
+                this.hColliders[this.hColliders.length-1].width = _width;
+
+                //On détruit les blocks temporaires
+                for(var j = 0; j < _checkedBlocks.length; j++)
                 {
-                    //var p = new Platform(this.levelBlocs[nb].x, this.levelBlocs[nb].y,this.levelBlocs[nb].width*size,this.levelBlocs[nb].height,this.levelBlocs[nb].tag);
-                    //this.finalBlocs.push(p);
-                    //tmpColliders.push({ x : this.levelBlocs[nb].x, y : this.levelBlocs[nb].y, w : this.levelBlocs[nb].width*size, h : this.levelBlocs[nb].height});
-                    size = 1;
+                    game.world.DestroyBody(_checkedBlocks[j].GetBody());
                 }
+                
+                //On vide le tableau de bloque temporaires
+                _checkedBlocks = [];
+
+                _checkedBlocks.push(this.levelBlocs[i]);
             }
         }
-        console.log(tmpColliders);*/
-        
-        this.mapCase = this.caseTable;
+        if(_checkedBlocks.length > 0)
+        {
+            //On crée le collider horizontal
+            _width = (_checkedBlocks.length * this.tileSize)/30/2;
+            _x = (_checkedBlocks[0].GetBody().GetPosition().x) + _width - ((this.tileSize/2)/30);
+            _y = _checkedBlocks[0].GetBody().GetPosition().y;
+
+           
+            this.hColliders.push(new Platform(_x,_y,_width,_height,"ground"));
+
+            
+            this.hColliders[this.hColliders.length-1].width = _width;
+
+            //On détruit les blocks temporaires
+            for(var j = 0; j < _checkedBlocks.length; j++)
+            {
+                game.world.DestroyBody(_checkedBlocks[j].GetBody());
+            }
+        }
+
+        _checkedBlocks = [];
+        this.destroyEveryBodyInTable(this.levelBlocs);
+        console.log(this.hColliders);
     }
+    this.createVerticalCollider = function()
+    {
+        var _alsoDone = [];
+
+        for(var i = 0;  i < this.hColliders.length; i++)
+        {
+            var _toAdd = [];    //Raz du tableau temporaire des colliders à merge
+
+            var _next = {};
+            _next.x = (this.hColliders[i].GetBody().GetWorldCenter().x*30);
+            _next.y = (this.hColliders[i].GetBody().GetWorldCenter().y*30) + (this.tileSize);
+
+            if(!this.checkIfInTable(i, _alsoDone))   //Si le collider n'a pas été traité
+            {
+                _toAdd.push(i); //On push de base les premiers quitte à faire un collider solo
+
+                for(var j = 0; j < this.hColliders.length; j++) //On regarde parmis les autres qui est collé à celui-là
+                {
+                    if((j !== i) && (!this.checkIfInTable(j, _alsoDone)) && ((this.hColliders[j].GetBody().GetWorldCenter().x*30 == _next.x)) && (this.hColliders[j].width == this.hColliders[_toAdd[0]].width))
+                    {
+                        if((Math.round(this.hColliders[j].GetBody().GetWorldCenter().y*30) == Math.round((this.hColliders[i].GetBody().GetWorldCenter().y*30) + (_toAdd.length*this.tileSize))))
+                        {
+                            _toAdd.push(j); //On met dans un tableau tout les colliders qui ont le même x
+                            _alsoDone.push(j);
+                        }
+                    }
+                }
+            }
+
+            if(_toAdd.length > 0)
+            {
+                var _x = this.hColliders[_toAdd[0]].GetBody().GetWorldCenter().x;
+                var _height = (_toAdd.length*this.tileSize)/2/30;
+                var _y = (this.hColliders[_toAdd[0]].GetBody().GetWorldCenter().y) + _height - ((this.tileSize/2)/30);
+                var _width = this.hColliders[_toAdd[0]].width;
+                this.finalBlocs.push(new Platform(_x,_y,_width,_height,"ground"));;
+            }
+
+            _alsoDone.push(i);
+            _toAdd = [];
+        }
+
+         this.destroyEveryBodyInTable(this.hColliders);
+    }
+    this.destroyEveryBodyInTable = function(table)  //Detruit tout les body d'un tableau et le vide
+    {
+        for(var _i = 0; _i < table.length; _i++)
+        {
+            game.world.DestroyBody(table[_i].GetBody());
+        }
+
+        table = [];
+    }
+    this.checkIfInTable = function(id, table)   //Vérifie si une variable se trouve dans un tableau
+    {
+        for(var _i = 0; _i < table.length; _i++)
+        {
+            if(table[_i] === id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     this.draw = function()
     {
         contextBuffer.drawImage(this.backgroundImg, 0, 0, this.backgroundWidth, this.backgroundHeight, 0, 0, this.backgroundWidth, this.backgroundHeight);
-        for(var i in this.mapCase)
+        for(var i in this.tileTable)
         {
-            this.mapCase[i].draw();
+            this.tileTable[i].draw();
         }
     }
 }
@@ -237,8 +358,6 @@ var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
             this.currentFrameY3 += this.width;
         }
     }
-
-
     this.draw = function()
     {
         //contextBuffer.strokeStyle = "green";
@@ -254,7 +373,3 @@ var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
     }
     return this;
 }
-
-
-
-

@@ -93,7 +93,7 @@ var Game = function Game()
         }
         for ( var i = 0 ; i < game.level.finalBlocs.length ; i++)
         {
-            game.level.finalBlocs[i].render();
+            //game.level.finalBlocs[i].render();
         }
         for ( var i = 0 ; i < game.level.tabTraps.length ; i++)
         {
