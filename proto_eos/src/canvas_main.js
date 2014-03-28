@@ -52,8 +52,8 @@ function init(id)
     }
     if(id==1)
     {    
-        canvasWidth = 2500;
-        canvasHeight = 1024; 
+        canvasWidth = 1024;
+        canvasHeight = 576; 
         canvas.width               =       canvasWidth;
         canvas.height              =       canvasHeight;
         game.level             =           new Level(0,2500,1024);
@@ -140,3 +140,17 @@ function imageLoader()
         }
     }
 }
+
+//Fonctions de synchronisation d'affichage
+window.requestAnimFrame =   (
+    function(){
+        return  window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame    ||
+        window.oRequestAnimationFrame      ||
+        window.msRequestAnimationFrame     ||
+        function(callback, element){
+            window.setTimeout(callback, 1000 / 60);
+        };
+    }
+)();

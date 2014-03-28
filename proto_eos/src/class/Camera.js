@@ -36,8 +36,8 @@ var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSi
         {
             if(this.viewX>0)
             {    
-                wrapper.scrollLeft-=this.scrollSpeed;
-                //context.translate(-this.scrollSpeed,0);
+                //wrapper.scrollLeft-=this.scrollSpeed;
+                context.translate(this.scrollSpeed,0);
                 this.viewX -=this.scrollSpeed;    
                 this.viewWidth-=this.scrollSpeed;
                 this.deadZoneX-=this.scrollSpeed;
@@ -48,8 +48,8 @@ var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSi
         {
             if(this.viewWidth<this.mapSizeX)
             {    
-                //context.translate(this.scrollSpeed,0);
-                wrapper.scrollLeft+=this.scrollSpeed;
+                context.translate(-this.scrollSpeed,0);
+                //wrapper.scrollLeft+=this.scrollSpeed;
                 this.viewX+=this.scrollSpeed;
                 this.viewWidth+=this.scrollSpeed;
                 this.deadZoneX+=this.scrollSpeed;
@@ -61,8 +61,8 @@ var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSi
         {
             if(this.viewY>0)
             {
-                //context.translate(0,-this.scrollSpeed);
-                wrapper.scrollTop-=this.scrollSpeed;
+                context.translate(0,this.scrollSpeed);
+                //wrapper.scrollTop-=this.scrollSpeed;
                 this.viewY-=this.scrollSpeed;
                 this.viewHeight-=this.scrollSpeed;
                 this.deadZoneY-=this.scrollSpeed;
@@ -73,8 +73,8 @@ var Camera = function Camera(viewX,viewY,canvasWidth,canvasHeight,mapSizeX,mapSi
         {
             if(this.viewHeight<this.mapSizeY)
             {
-                //context.translate(0,this.scrollSpeed);
-                wrapper.scrollTop+=this.scrollSpeed;
+                context.translate(0,-this.scrollSpeed);
+                //wrapper.scrollTop+=this.scrollSpeed;
                 this.viewY+=this.scrollSpeed;
                 this.viewHeight+=this.scrollSpeed;
                 this.deadZoneY+=this.scrollSpeed;

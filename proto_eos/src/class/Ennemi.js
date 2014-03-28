@@ -148,7 +148,8 @@ var Ennemi = function Ennemi(x,y,dim,type)
             that.currentFrameY = 0;
         }
         that.deadAnim = true;
-        that.img = that.deathImg;
+        if(that.img!= that.deathImg)
+            that.img = that.deathImg;
     }
     that.render = function()
     {

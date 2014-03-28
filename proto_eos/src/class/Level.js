@@ -26,191 +26,31 @@ var Level = function Level(id,width,height)
     this.blocsTable = [];
     this.finalBlocs = [];
 
-    this.sample = function()
-    {
-        //creer les plateformes
-        var b = new Platform(18,22,40,1,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(18,20,2,2,"ground");
-        this.levelBlocs.push(b);
-        //murs
-        var b = new Platform(0,0,1,70,"ground");
-        this.levelBlocs.push(b)
-        var b = new Platform(66,0,1,70,"ground");
-        this.levelBlocs.push(b)
-        var b = new Platform(32,17,2,5,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(46,17,2,5,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(50,32,16,1,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(20,32,6,1,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(18,56,40,1,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(12,66,12,1,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(48,66,18,1,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(16,40,1,8,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(59,51,1,6,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(24,53,2,2,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(26,50,2,2,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(28,53,2,2,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(42,50,2,5,"ground");
-        this.levelBlocs.push(b);
-        
-        //creer les boites dynamiques
-        var b = new Box(25,19,{w : 2, h : 2},50);
-        this.tabDynamicBlocs.push(b);
-
-
-        //elements de gameplay
-        var s = new Spike(4,20,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(36,20,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(38,20,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(44,20,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(50,30,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(4,54,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(32,54,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(34,54,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(36,54,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(38,54,1,1);
-        this.tabTraps.push(s);
-        var s = new Spike(40,54,1,1);
-        this.tabTraps.push(s);
-
-        var h = new Hole(30,34,4,0.2);
-        this.tabFallingBlocs.push(h);
-        var h = new Hole(27,66,3,0.2);
-        this.tabFallingBlocs.push(h);
-
-        var f = new FallingBloc(64,22,6,1);
-        this.tabFallingBlocs.push(f);
-        var f = new FallingBloc(7,32,7,1);
-        this.tabFallingBlocs.push(f);
-        var f = new FallingBloc(7,40,7,1);
-        this.tabFallingBlocs.push(f);
-        var f = new FallingBloc(7,50,7,1);
-        this.tabFallingBlocs.push(f);
-
-        var c = new Checkpoint(52,20,2,2);
-        this.tabChekpoint.push(c);
-        var c = new Checkpoint(20,30,2,2);
-        this.tabChekpoint.push(c);
-        var c = new Checkpoint(50,53,2,2);
-        this.tabChekpoint.push(c);
-    }
-    this.sample2 = function()
-    {
-        //creer les plateformes
-        var b = new Platform(18,22,50,1,"ground");
-        this.levelBlocs.push(b);
-        var b = new Platform(0,0,1,70,"ground");
-        this.levelBlocs.push(b)
-        var b = new Platform(0,0,1,70,"ground");
-        this.levelBlocs.push(b)
-        //murs
-        var s = new Platform(15,20,2,1,"ground");
-        this.levelBlocs.push(s);
-        var s = new Platform(21,19,4,2,"ground");
-        this.levelBlocs.push(s);
-        var s = new Platform(28,17,3,4,"ground");
-        this.levelBlocs.push(s);
-        var s = new Platform(32,19,4,2,"ground");
-        this.levelBlocs.push(s);
-        var s = new Platform(38,17,3,4,"ground");
-        this.levelBlocs.push(s);
-        var s = new Platform(42,19,3,2,"ground");
-        this.levelBlocs.push(s);
-        var s = new Platform(65,19,3,2,"ground");
-        this.levelBlocs.push(s);
-        var s = new Platform(81,19,5,30,"ground");
-        this.levelBlocs.push(s);
-        var c = new Checkpoint(38,11,2,2);
-        this.tabChekpoint.push(c);
-        var i = new LifeUp(43,11.5,1);
-        this.tabItem.push(i);
-        var b = new Box(48,19,{w : 0.5, h : 0.5},5);
-        this.tabDynamicBlocs.push(b);
-        var f = new FallingBloc(72,22,4,1);
-        this.tabFallingBlocs.push(f);
-        var b = new Box(66,14,{w : 0.5, h : 0.5},5);
-        this.tabDynamicBlocs.push(b);
-
-        var c = new Checkpoint(60,31,2,2);
-        this.tabChekpoint.push(c);
-        var i = new LifeUp(73,26,1);
-        this.tabItem.push(i);
-
-        var b = new Platform(40,34,50,1,"ground");
-        this.levelBlocs.push(b);
-
-        var b = new SwitchButton(10,21);
-        this.tabChekpoint.push(b);
-        var b = new Box(4,19,{w : 0.5, h : 0.5},5);
-        this.tabDynamicBlocs.push(b);
-        //creer les boites dynamiques
-        /*var b = new Box(15,12,{w : 0.5, h : 0.5},5,10,0);
-        this.tabDynamicBlocs.push(b);
-        var b = new Box(15,12,{w : 0.5, h : 0.5},5,10,0);
-        this.tabDynamicBlocs.push(b);
-        var b = new Box(15,12,{w : 0.5, h : 0.5},5,10,0);
-        this.tabDynamicBlocs.push(b);
-        var b = new Box(15,12,{w : 0.5, h : 0.5},5,10,0);
-        this.tabDynamicBlocs.push(b);*/
-
-
-        var s = new Spike(33,16.5,2,0.5);
-        this.tabTraps.push(s);
-
-        //ennemis
-        var e = new Ennemi(60,18,{w : 1, h : 1.5},"l-shield");
-        this.tabEnnemi.push(e);
-
-        var e = new Ennemi(28,15,{w : 1, h : 1.5},"column");
-        this.tabEnnemi.push(e);
-
-        var e = new FlyingEnnemi(18,12,{w : 1, h : 1},"weak");
-        this.tabEnnemi.push(e);
-        var e = new FlyingEnnemi(72,12,{w : 1, h : 1},"weak");
-        this.tabEnnemi.push(e);
-        this.end = new EndPoint(10,65,4,0.2);
-    }
     this.init = function()
     {
         var id = 0;
         this.file = GetLevel(); 
         this.mapCase = [];      
-        var levelData = this.file.layers[0].data , 
-            height = this.file.layers[0].height, 
+        var height = this.file.layers[0].height, 
             width = this.file.layers[0].width,
-            layer2 = this.file.layers[1].data,
-            layer3 = this.file.layers[2].data,
             sizeCase = this.file.tileheight;
+        var tileCouche1, tileCouche2, tileCouche3, layerObject;
 
+        for(var i = 0; i < this.file.layers.length; i++)
+        {
+            if(this.file.layers[i].name === "couche1")
+                tileCouche1 = this.file.layers[i].data;
+            if(this.file.layers[i].name === "couche2")
+                tileCouche2 = this.file.layers[i].data;
+            if(this.file.layers[i].name === "couche3")
+                tileCouche3 = this.file.layers[i].data;
+            if(this.file.layers[i].name === "object")
+                layerObject = this.file.layers[i].data;
+
+        }
         this.sizeX = width * this.file.tileheight;
         this.sizeY = height * this.file.tileheight;
 
-        canvasWidth = this.sizeX;
-        canvasHeight = this.sizeY;
-        canvas.width  =  canvasWidth;
-        canvas.height  = canvasHeight;
-        
         canvasBuffer.width  =  this.sizeX;
         canvasBuffer.height  = this.sizeY;
         this.width = this.sizeX;
@@ -218,13 +58,13 @@ var Level = function Level(id,width,height)
         game.camera  =  new Camera(0,0,document.getElementById("wrapper").width,document.getElementById("wrapper").height,this.sizeX,this.sizeY);
 
 
-        for (var i = 0; i < levelData.length ; i++)
+        for (var i = 0; i < tileCouche1.length ; i++)
         {
 
-            this.caseTable.push(new Case(id, i % width, Math.floor(i / width), sizeCase, levelData[i], layer2[i]));
+            this.caseTable.push(new Case(id, i % width, Math.floor(i / width), sizeCase, tileCouche1[i], tileCouche2[i],tileCouche3[i]));
             id++;
 
-            switch(layer3[i])
+            switch(layerObject[i])
             {
                 // spawn
                 case 1:
@@ -233,7 +73,7 @@ var Level = function Level(id,width,height)
                 // collider
                 case 2:
                     var p = new Platform(((i % width)*3.2)+1.6, (Math.floor(i / width)*3.2)+1.6,1.6,1.6,"ground");
-                    //var p = {x: ((i % width)*3.2)+1.6, y : (Math.floor(i / width)*3.2)+1.6, width : 1.6, height : 1.6, tag : "ground"};
+                    //var p = {x: ((i % width)*3.2)+1.6, y : (Math.floor(i / width)*3.2)+1.6, w : 1.6, h : 1.6, tag : "ground", check : false};
 
                     this.levelBlocs.push(p);
                     break;
@@ -304,22 +144,31 @@ var Level = function Level(id,width,height)
         }
         /*console.log(this.levelBlocs);
         var size = 1;
-        var nb   = 0;
-        for(var i = 0; i < this.levelBlocs.length; i++)
+        var tmpColliders = [];
+        for(var nb = 0; nb < this.levelBlocs.length; nb++)
         {
-            if(this.levelBlocs[nb].y === this.levelBlocs[i].y)
+            for(var i = 1; i < this.levelBlocs.length; i++)
             {
-                size ++;
-            }
-            else
-            {
-                var p = new Platform(this.levelBlocs[nb].x, this.levelBlocs[nb].y,this.levelBlocs[nb].width*size,this.levelBlocs[nb].height,this.levelBlocs[nb].tag);
-                this.finalBlocs.push(p);
-                nb ++;
-                size = 1;
+                if(this.levelBlocs[nb].y === this.levelBlocs[i].y 
+                    && (this.levelBlocs[i].x + this.levelBlocs[i].w) === this.levelBlocs[nb].x
+                    && this.levelBlocs[i].check === false)
+                {
+                    size ++;
+                    this.levelBlocs[i].check = true;
+                    tmpColliders.push({ x : this.levelBlocs[nb].x, y : this.levelBlocs[nb].y, w : this.levelBlocs[nb].width, h : this.levelBlocs[nb].height});
+
+                }
+                else
+                {
+                    //var p = new Platform(this.levelBlocs[nb].x, this.levelBlocs[nb].y,this.levelBlocs[nb].width*size,this.levelBlocs[nb].height,this.levelBlocs[nb].tag);
+                    //this.finalBlocs.push(p);
+                    //tmpColliders.push({ x : this.levelBlocs[nb].x, y : this.levelBlocs[nb].y, w : this.levelBlocs[nb].width*size, h : this.levelBlocs[nb].height});
+                    size = 1;
+                }
             }
         }
-        console.log(this.finalBlocs);*/
+        console.log(tmpColliders);*/
+        
         this.mapCase = this.caseTable;
     }
     this.draw = function()
@@ -343,15 +192,19 @@ var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
     this.bottomleftAngle = this.y + this.height;
     this.firstType = firstType - origin;
     this.secondType = secondType- origin;
+    this.thirdType = thirdType - origin;
     this.colide = false;
     this.containPlayer = false;
     this.tile = config.images[18];
-
+    //this.tile = config.images[35];
     this.currentFrameX  = 0;
     this.currentFrameY  = 0;
 
     this.currentFrameX2 = 0;
     this.currentFrameY2 = 0;
+
+    this.currentFrameX3 = 0;
+    this.currentFrameY3 = 0;
 
     //assigner les coordonnees de l'image
 
@@ -375,6 +228,16 @@ var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
         }
     }
 
+    for(var i = 1; i < this.thirdType; i++)
+    {
+        this.currentFrameX3 += this.width;
+        if(i % 52 == 0)
+        {
+            this.currentFrameX3 = 0;
+            this.currentFrameY3 += this.width;
+        }
+    }
+
 
     this.draw = function()
     {
@@ -384,6 +247,8 @@ var Case = function Case(id,x,y,size,firstType,secondType,thirdType)
         contextBuffer.drawImage(this.tile, this.currentFrameX, this.currentFrameY, this.width, this.height, this.x, this.y, this.width, this.height);
         if(this.secondType > 0)
             contextBuffer.drawImage(this.tile, this.currentFrameX2, this.currentFrameY2, this.width, this.height, this.x, this.y, this.width, this.height);
+        if(this.thirdType > 0)
+            contextBuffer.drawImage(this.tile, this.currentFrameX3, this.currentFrameY3, this.width, this.height, this.x, this.y, this.width, this.height);
         //contextBuffer.strokeRect(this.x,this.y,96,96);
 
     }

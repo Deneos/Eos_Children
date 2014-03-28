@@ -33,7 +33,8 @@ var config = {
                 "asset/plante_particle.png",
                 "asset/main_chara_jump_V2.png",
                 "asset/background.jpg",
-                "asset/bloc.png"
+                "asset/bloc.png",
+                "asset/Tileset_Decor2.png"
 
     ]
 };
